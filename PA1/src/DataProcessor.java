@@ -9,6 +9,8 @@ import edu.stanford.nlp.util.CoreMap;
 /**
  * Created with IntelliJ IDEA.
  * User: vesha
+ * @todo Add ability to output to file
+ * @todo Add ability to read from file
  */
 public class DataProcessor {
 
@@ -16,8 +18,8 @@ public class DataProcessor {
     public static final Unigram end_tag = new Unigram("</s>", "</s>", "");
     public static String model = "lib/stanford-postagger-2015-01-30/models/english-left3words-distsim.tagger";
     public static String test = "data/smalltest.txt";
-    public static String train = "data/training.txt";
-    public static String validate = "data/validation.txt";
+    public static String train = "data/training_small.txt";
+    public static String validate = "data/validation_small.txt";
 
     public static TreeMap<String, ArrayList<ArrayList<Unigram>>> data_set = new TreeMap<>();
 
@@ -35,10 +37,10 @@ public class DataProcessor {
         data_set.put("down_validation", new ArrayList<>());
 
         // What I'm using to test my code as I go. Comment this out and uncomment the next two lines to run this properly.
-        process(test, "train");
+//        process(test, "train");
 
-        // process(train, "train");
-        // process(validate, "validation");
+        process(train, "train");
+        process(validate, "validation");
     }
 
     /**
@@ -72,9 +74,10 @@ public class DataProcessor {
         while (sc.hasNext()) {
             String str = sc.next().replaceAll("\\s+", "");
             speak_type = str.equalsIgnoreCase("DOWNSPEAK") ? UnsmoothedNGram.DOWN : UnsmoothedNGram.UP;
-            email_content = sc.next();
-
-            processEmailContent(makeKey(speak_type, data_type), email_content);
+            if (sc.hasNext()) {
+                email_content = sc.next();
+                processEmailContent(makeKey(speak_type, data_type), email_content);
+            }
         }
 
     }

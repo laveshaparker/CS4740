@@ -1,0 +1,180 @@
+
+DOWNSPEAK
+**START**
+In order to prepare a paper for my graduate class on Leadership, I would like to interview you as a leader. Some questions that would be of interest would be what events conspired to bring you to Enron, what developmental process you knowingly (or unknowingly) went through in your early years and what challenges have you encountered that made a significant change in your career.
+
+If you would be amenable and have the time, I would like to interview you sometime next week for about 30-40 minutes. If you wish, I could provide you questions in advance to maximize your time.
+
+Thank you for considering this request.
+**EOM**
+DOWNSPEAK
+**START**
+Tai Woo,
+
+Here are the c-codes for the CrudeAPO.  'Sig' is the spot
+volatility meaning the price volatility within the delivery period.
+You should consult  with Pavel for the definition of this "extra" parameters.   We
+would like to see the Position Monitor once you get it running.
+We might have some additional suggestions.
+**EOM**
+DOWNSPEAK
+**START**
+Paulo,
+
+Why don't we have a documentation on CrudeAPO you worked on ?
+I can not find it in Exotica help file.   Please supply that to Tai, thanks.
+**EOM**
+DOWNSPEAK
+**START**
+--------------------------------------
+**EOM**
+DOWNSPEAK
+**START**
+The staff meeting that is scheduled for tomorrow, May 11 has been rescheduled
+to next Friday, May 18th.  The meeting is scheduled to start at 2:30 pm
+central time and will be in EB30C1.  If you are not able to attend, please
+make sure that you send an email to Kim Hillis with an explanation.
+
+Currently, the meeting will have Portland, Calgary, Sao Paulo, San Fran and
+Monterrey video conferenced. Orlando, please call 713-646-3062 when you are
+not in the Sao Paulo office.  If anyone else is required to call in, then a
+conference bridge line will need to be set up.  Please let Kim know this
+information as well so that this can be done.
+
+The staff meeting is monthly and I will alert you when the June meeting will
+happen.  Please make all efforts to be at the meetings.
+
+If you have a response to the previous email of where you would like for the
+management meeting to take place, please send them to myself or Kim.  I have
+not received many responses!
+
+If you have any questions, please let me know.
+**EOM**
+DOWNSPEAK
+**START**
+Tom,
+Thank you for your cooperation.  Let me follow up with Corporate Benefits and see what I can do.
+
+
+-----
+**EOM**
+DOWNSPEAK
+**START**
+Organization Announcement (Correction)
+
+I apologize for the confusion and inconvenience my mistake caused.  I had indicated that Kenneth Lovejoy would be supporting EES, but this is not correct.  Ken will be supporting  OEC.  Corrected announcement is provided below.
+
+It is my pleasure to announce that Kenneth Lovejoy has joined Enron Corp. EH&S Asset Operations.  He will be reporting directly to Donnie Willmann and  will support Central America, Caribbean and OEC.  Ken has over 25 year experience in environmental, health and safety for the oil and gas industry.   He has been working for Enron since 1996 and has extensive international experience.    We are excited to have Ken in our team so, please welcome Ken in his new role.
+
+Henry  Van
+**EOM**
+UPSPEAK
+**START**
+As they say, "All good things must come to an end."
+
+Unfortunately, this is hardly ever more true than in the IT consulting realm.  I have been informed that as of this Friday (11/30/2001), my assignment here at Enron comes to an end.  Obviously, Enron's current economic uncertainty predicated the need to alleviate any and all "excess baggage" (read: consultant/contractor costs).
+
+I truly have enjoyed my time here in the Gas Fundamentals group.  I have definitely learned a great deal from everyone, and hopefully have helped others to do the same.  I leave my contact information below, in hopes that if there is anything I can do for you in the future, you will not hesitate to get in touch with me (especially to let me know what time to be at Front Porch! ;-).
+
+All kidding aside, this has been a great overall experience for me.  From now until Friday, I will be involved in handing off all projects/initiatives that I have been a part of (or directly responsible for).  If there is anything needed of me (between now and then), feel free to give me a call (x5-8885) or stop by (ECS 06836) prior to Friday.
+
+Thanks for everything, and I wish everyone the best of luck in their future endeavors.
+
+Sincerely,
+Chris Hyde
+
+
+Contact Info:
+Office:  713-787-0887
+Cell:  832-545-3315
+Home:  281-648-3408
+
+email:  chyde@sark.com
+**EOM**
+UPSPEAK
+**START**
+Please find attached the Global Markets Monitor for the week ending 9 November 2001.
+**EOM**
+UPSPEAK
+**START**
+On behalf of Maureen Raymond and Gwyn Koepke
+**EOM**
+UPSPEAK
+**START**
+Chris,
+
+Here is our explanation of the 5 Day loss violation.  Let me know if you need
+any more information.
+
+Due to a forecast for mild November weather, futures prices have fallen
+sharply over the last five days.   Nymex futures prices have fallen a total
+of $0.68 over the last five days.  The Gas desk's loss is primarily driven by
+a long price position held by the Financial desk, which averaged 7, 295
+contracts over the same period.
+
+Robin
+**EOM**
+UPSPEAK
+**START**
+If anyone needs help with any of Randy's desk, please let either Robert, Joe or myself know -- thanks.
+
+-----
+**EOM**
+UPSPEAK
+**START**
+Here are the EOL slides
+
+-----
+**EOM**
+UPSPEAK
+**START**
+FYI - In working to load rates for the FERC California reporting requirements, it appears that for the last four months Duke Energy T & M contract #27291 has not been billed the incremental fee of $0.06/dth for alternate deliveries to the Cal Border (over and above the base discount negotiated for the contracted primary points).
+
+Please let me know if you have any questions.
+
+
+Thanks,
+Elizabeth
+x3-6928
+**EOM**
+UPSPEAK
+**START**
+Lynn, I have scheduled the Flowing Gas documents mtg. with Rick and Larry for today at 10:30am to meet in your office.
+
+Thanks,
+Ava
+**EOM**
+UPSPEAK
+**START**
+Good Afternoon,
+Any GCP Adjustments will be highlighted in blue.  Please fee free to give me a call, if you have any questions.
+
+
+-----
+**EOM**
+UPSPEAK
+**START**
+Please note the following product types will be visible in your work queue
+today.
+
+US East Power Phy Call
+US East Power Phy Put
+
+Please do not update counterparties to Read or Trade these product types.  We
+will not be updating counterparties for these product types until June 18th.
+
+Other Product Types visible in your work queue today for Monday's Product
+Type release:
+
+US Gas Secondary Firm
+US Tanker Freight Swap
+US East Power Spread
+US Crude Fin Spread
+
+Please let me know if you have any questions.
+Thank you,
+
+Stephanie Sever
+EnronOnline
+713-853-3465
+**EOM**
