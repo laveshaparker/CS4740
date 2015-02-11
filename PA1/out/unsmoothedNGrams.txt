@@ -1,533 +1,665 @@
-' 1
+# 1
 '' 1
-, 7
--lrb- 1
--rrb- 1
-. 12
-30-40 1
-</s> 13
-<s> 13
-? 1
-` 1
+, 2
+-lrb- 2
+-rrb- 5
+. 3
+0011 1
+0364 1
+1 3
+10 1
+11 1
+12 1
+12/01/2001 1
+13 1
+14 1
+15 1
+16 1
+167117 1
+17 1
+2 2
+25th 1
+3 2
+4 1
+5 1
+6 1
+7 1
+7001 1
+713-646-8876 1
+8 1
+9 1
+: 12
+</s> 36
+<s> 36
 `` 1
-a 4
-about 1
-additional 1
-advance 1
-amenable 1
-and 2
-are 1
+accept 1
+address 2
+all 3
+and 1
+any 19
+are 3
 as 1
-be 3
-bring 1
-c-codes 1
-can 1
-career 1
-challenges 1
-change 1
-class 1
-considering 1
-conspired 1
-consult 1
-could 1
-crudeapo 2
-definition 1
-delivery 1
-developmental 1
-do 1
-documentation 1
-early 1
-encountered 1
-enron 1
-events 1
-exotica 1
-extra 1
-file 1
-find 1
-for 5
-get 1
-graduate 1
-have 4
-help 1
-here 1
-i 4
-if 2
-in 5
-interest 1
-interview 2
-is 1
-it 2
-knowingly 1
-leader 1
-leadership 1
-like 3
-made 1
-maximize 1
-meaning 1
-might 1
-minutes 1
-monitor 1
-my 1
-n't 1
-next 1
-not 1
-of 2
-on 3
-once 1
+at 1
+available 1
+bank 2
+be 2
+by 1
+category 18
+company 1
+completed 1
+confirm 2
+confirmation 8
+contact 3
+corresp 1
+correspondence 3
+counterparty 1
+cp 1
+credit 1
+customer 1
+data 1
+date 1
+deal 1
+documentation 3
+effective 1
+erms 1
+executed 1
+expense 1
+external 1
+fax 2
+financial 14
+flags 1
+floor 1
+follows 1
+from 1
+fs 4
+gas 2
+gas/power 1
+good 1
+group 1
+groups 1
+have 1
+i 1
+id 1
+in 1
+information 1
+instances 1
+invoice 10
+legacy 2
+master 1
+mkt 1
+name 2
+nat.gas 5
+nature 1
+netco 5
+netcoextgas 1
+new 1
+no 1
+note 3
+notice 4
+notify 1
+number 2
+numbers 1
+of 1
+on 1
+one 1
+operation 1
 or 1
-order 1
-paper 1
-parameters 1
-paulo 1
-pavel 1
-period 1
-please 1
-position 1
-prepare 1
-price 1
-process 1
-provide 1
-questions 2
-request 1
-running 1
-see 1
-should 1
-sig 1
-significant 1
-some 2
-sometime 1
-spot 1
-suggestions 1
-supply 1
-tai 2
-thank 1
-thanks 1
-that 3
-the 8
-this 2
-through 1
-time 2
-to 8
-unknowingly 1
-volatility 2
-we 3
-week 1
-went 1
-what 3
-why 1
-wish 1
+partner 1
+payment 11
+payments 1
+person 3
+physical 12
+power 16
+power-houston 1
+primary 1
+product 1
+ready 1
+reg 1
+roles 2
+sales 1
+sap 3
+service 2
+set 1
+settle 2
+setup 1
+shared 1
+short 1
+sundar 1
+test 2
+the 2
+they 1
+this 1
+time 1
+to 3
+transportation 1
+transportatrevenue 1
+type 2
+vendor 1
+when 1
+will 3
+wire 1
 with 1
-within 1
-woo 1
-worked 1
-would 6
-years 1
-you 12
-your 3
-' is 1
-'' parameters 1
-, here 1
-, i 3
-, thanks 1
-, what 1
-, why 1
--lrb- or 1
--rrb- went 1
-. </s> 12
-30-40 minutes 1
-<s> ` 1
+yes 2
+# 167117 1
+'' are 1
+, no 1
+, partner 1
+-lrb- fax 1
+-lrb- with 1
+-rrb- </s> 2
+-rrb- all 1
+-rrb- new 1
+-rrb- sap 1
+. </s> 3
+0011 </s> 1
+0364 to 1
+1 -lrb- 1
+1 -rrb- 1
+1 power 1
+10 nat.gas 1
+11 nat.gas 1
+12 nat.gas 1
+12/01/2001 </s> 1
+13 nat.gas 1
+14 any 1
+15 any 1
+16 service 1
+167117 </s> 1
+17 service 1
+2 -rrb- 1
+2 power 1
+25th floor 1
+3 -rrb- 1
+3 power 1
+4 power 1
+5 power 1
+6 power 1
+7 power 1
+7001 </s> 1
+713-646-8876 -lrb- 1
+8 power 1
+9 nat.gas 1
+: 12/01/2001 1
+: 713-646-8876 1
+: </s> 2
+: financial 1
+: netco 3
+: netcoextgas 1
+: one 1
+: set 1
+: test 1
+<s> 10 1
+<s> 11 1
+<s> 12 1
+<s> 13 1
+<s> 14 1
+<s> 15 1
+<s> 16 1
+<s> 17 1
+<s> 2 1
+<s> 3 1
+<s> 4 1
+<s> 5 1
+<s> 6 1
+<s> 7 1
+<s> 8 1
+<s> 9 1
+<s> address 1
+<s> bank 1
+<s> cp 1
+<s> erms 1
+<s> fax 1
+<s> groups 1
 <s> i 1
-<s> if 2
-<s> in 1
-<s> paulo 1
-<s> please 1
-<s> some 1
-<s> tai 1
-<s> thank 1
-<s> we 2
-<s> you 1
-? </s> 1
-` sig 1
-`` extra 1
-a documentation 1
-a leader 1
-a paper 1
-a significant 1
-about 30-40 1
-additional suggestions 1
-advance to 1
-amenable and 1
-and have 1
-and what 1
-are the 1
-as a 1
-be amenable 1
-be of 1
-be what 1
-bring you 1
-c-codes for 1
-can not 1
-career . 1
-challenges have 1
-change in 1
-class on 1
-considering this 1
-conspired to 1
-consult with 1
-could provide 1
-crudeapo . 1
-crudeapo you 1
-definition of 1
-delivery period 1
-developmental process 1
-do n't 1
-documentation on 1
-early years 1
-encountered that 1
-enron , 1
-events conspired 1
-exotica help 1
-extra '' 1
-file . 1
-find it 1
-for about 1
-for considering 1
-for my 1
-for the 2
-get it 1
-graduate class 1
-have a 1
-have some 1
-have the 1
-have you 1
-help file 1
-here are 1
-i can 1
-i could 1
-i would 2
-if you 2
-in advance 1
-in exotica 1
-in order 1
-in your 2
-interest would 1
-interview you 2
-is the 1
-it in 1
-it running 1
-knowingly -lrb- 1
-leader . 1
-leadership , 1
-like to 3
-made a 1
-maximize your 1
-meaning the 1
-might have 1
-minutes . 1
-monitor once 1
-my graduate 1
-n't we 1
-next week 1
-not find 1
-of interest 1
-of this 1
-on ? 1
-on crudeapo 1
-on leadership 1
-once you 1
-or unknowingly 1
-order to 1
-paper for 1
-parameters . 1
-paulo , 1
-pavel for 1
-period . 1
-please supply 1
-position monitor 1
-prepare a 1
-price volatility 1
-process you 1
-provide you 1
-questions in 1
-questions that 1
-request . 1
-running . 1
-see the 1
-should consult 1
-sig ' 1
-significant change 1
-some additional 1
-some questions 1
-sometime next 1
-spot volatility 1
-suggestions . 1
-supply that 1
-tai , 1
-tai woo 1
-thank you 1
-thanks . 1
-that made 1
-that to 1
-that would 1
-the c-codes 1
-the crudeapo 1
-the definition 1
-the delivery 1
-the position 1
-the price 1
-the spot 1
-the time 1
-this `` 1
-this request 1
-through in 1
-time , 1
+<s> legacy 1
+<s> master 1
+<s> name 1
+<s> note 3
+<s> operation 1
+<s> person 3
+<s> power-houston 1
+<s> product 1
+<s> reg 1
+`` primary 1
+accept data 1
+address roles 2
+all `` 1
+all instances 1
+all payments 1
+and address 1
+any category 2
+any documentation 3
+any financial 2
+any gas 2
+any power 8
+any transportation 1
+any transportatrevenue 1
+are available 1
+are ready 1
+are yes 1
+as follows 1
+at this 1
+available at 1
+bank information 1
+bank will 1
+be 0011 1
+be shared 1
+by all 1
+category deal 1
+category financial 7
+category physical 10
+company number 1
+completed the 1
+confirm </s> 2
+confirmation </s> 3
+confirmation any 5
+contact : 1
+contact type 2
+corresp : 1
+correspondence </s> 2
+correspondence any 1
+counterparty and 1
+cp id 1
+credit -rrb- 1
+customer or 1
+data , 1
+date : 1
+deal nature 1
+documentation financial 2
+documentation physical 1
+effective date 1
+erms short 1
+executed : 1
+expense payment 1
+external gas/power 1
+fax number 1
+fax on 1
+financial </s> 1
+financial confirm 1
+financial confirmation 5
+financial executed 1
+financial invoice 2
+financial payment 2
+financial settle 2
+flags '' 1
+floor -rrb- 1
+follows : 1
+from 0364 1
+fs invoice 2
+fs payment 2
+gas payment 1
+gas sales 1
+gas/power 1 1
+good credit 1
+group legacy 1
+groups : 1
+have completed 1
+i have 1
+id # 1
+in all 1
+information : 1
+instances </s> 1
+invoice </s> 5
+invoice any 5
+legacy contact 1
+legacy group 1
+master financial 1
+mkt . 1
+name : 2
+nat.gas category 5
+nature contact 1
+netco </s> 1
+netco correspondence 1
+netco counterparty 1
+netco external 1
+netco notice 1
+netcoextgas </s> 1
+new sap 1
+no sap 1
+note 1 1
+note 2 1
+note 3 1
+notice : 1
+notice </s> 2
+notice any 1
+notify sundar 1
+number : 1
+number from 1
+numbers are 1
+of the 1
+on 25th 1
+one wire 1
+operation effective 1
+or vendor 1
+partner bank 1
+payment </s> 5
+payment any 5
+payment payment 1
+payments , 1
+person contact 1
+person corresp 1
+person notice 1
+physical confirm 1
+physical confirmation 3
+physical correspondence 1
+physical invoice 3
+physical notice 1
+physical payment 3
+power category 8
+power correspondence 1
+power financial 1
+power fs 2
+power invoice 1
+power notice 1
+power payment 1
+power physical 1
+power-houston </s> 1
+primary flags 1
+product category 1
+ready to 1
+reg . 1
+roles : 1
+roles as 1
+sales invoice 1
+sap company 1
+sap customer 1
+sap will 1
+service category 2
+set to 1
+settle fs 2
+setup of 1
+shared by 1
+short name 1
+sundar when 1
+test netco 2
+the setup 1
+the test 1
+they are 1
+this time 1
 time . 1
-to bring 1
-to enron 1
-to interview 2
-to maximize 1
-to prepare 1
-to see 1
-to tai 1
-unknowingly -rrb- 1
-volatility meaning 1
-volatility within 1
-we have 1
-we might 1
-we would 1
-week for 1
-went through 1
-what challenges 1
-what developmental 1
-what events 1
-why do 1
-wish , 1
-with pavel 1
-within the 1
-woo , 1
-worked on 1
-would be 3
-would like 3
-years and 1
-you as 1
-you encountered 1
-you for 1
-you get 1
-you knowingly 1
-you questions 1
-you should 1
-you sometime 1
-you to 1
-you wish 1
-you worked 1
-you would 1
-your career 1
-your early 1
-your time 1
-' is the 1
-'' parameters . 1
-, here are 1
-, i could 1
-, i would 2
-, thanks . 1
-, what developmental 1
-, why do 1
--lrb- or unknowingly 1
--rrb- went through 1
-30-40 minutes . 1
-<s> ` sig 1
-<s> i can 1
-<s> if you 2
-<s> in order 1
-<s> paulo , 1
-<s> please supply 1
-<s> some questions 1
-<s> tai woo 1
-<s> thank you 1
-<s> we might 1
-<s> we would 1
-<s> you should 1
-` sig ' 1
-`` extra '' 1
-a documentation on 1
-a leader . 1
-a paper for 1
-a significant change 1
-about 30-40 minutes 1
-additional suggestions . 1
-advance to maximize 1
-amenable and have 1
-and have the 1
-and what challenges 1
-are the c-codes 1
-as a leader 1
-be amenable and 1
-be of interest 1
-be what events 1
-bring you to 1
-c-codes for the 1
-can not find 1
-career . </s> 1
-challenges have you 1
-change in your 1
-class on leadership 1
-considering this request 1
-conspired to bring 1
-consult with pavel 1
-could provide you 1
-crudeapo . </s> 1
-crudeapo you worked 1
-definition of this 1
-delivery period . 1
-developmental process you 1
-do n't we 1
-documentation on crudeapo 1
-early years and 1
-encountered that made 1
-enron , what 1
-events conspired to 1
-exotica help file 1
-extra '' parameters 1
-file . </s> 1
-find it in 1
-for about 30-40 1
-for considering this 1
-for my graduate 1
-for the crudeapo 1
-for the definition 1
-get it running 1
-graduate class on 1
-have a documentation 1
-have some additional 1
-have the time 1
-have you encountered 1
-help file . 1
-here are the 1
-i can not 1
-i could provide 1
-i would like 2
-if you wish 1
-if you would 1
-in advance to 1
-in exotica help 1
-in order to 1
-in your career 1
-in your early 1
-interest would be 1
-interview you as 1
-interview you sometime 1
-is the spot 1
-it in exotica 1
-it running . 1
-knowingly -lrb- or 1
-leader . </s> 1
-leadership , i 1
-like to interview 2
-like to see 1
-made a significant 1
-maximize your time 1
-meaning the price 1
-might have some 1
-minutes . </s> 1
-monitor once you 1
-my graduate class 1
-n't we have 1
-next week for 1
-not find it 1
-of interest would 1
-of this `` 1
-on ? </s> 1
-on crudeapo you 1
-on leadership , 1
-once you get 1
-or unknowingly -rrb- 1
-order to prepare 1
-paper for my 1
-parameters . </s> 1
-paulo , why 1
-pavel for the 1
-period . </s> 1
-please supply that 1
-position monitor once 1
-prepare a paper 1
-price volatility within 1
-process you knowingly 1
-provide you questions 1
-questions in advance 1
-questions that would 1
-request . </s> 1
-running . </s> 1
-see the position 1
-should consult with 1
-sig ' is 1
-significant change in 1
-some additional suggestions 1
-some questions that 1
-sometime next week 1
-spot volatility meaning 1
-suggestions . </s> 1
-supply that to 1
-tai , thanks 1
-tai woo , 1
-thank you for 1
-thanks . </s> 1
-that made a 1
-that to tai 1
-that would be 1
-the c-codes for 1
-the crudeapo . 1
-the definition of 1
-the delivery period 1
-the position monitor 1
-the price volatility 1
-the spot volatility 1
-the time , 1
-this `` extra 1
-this request . 1
-through in your 1
-time , i 1
+to 7001 1
+to accept 1
+to yes 1
+transportation expense 1
+transportatrevenue invoice 1
+type 1 1
+type mkt 1
+vendor numbers 1
+when they 1
+will be 2
+will notify 1
+wire will 1
+with good 1
+yes </s> 1
+yes in 1
+# 167117 </s> 1
+'' are yes 1
+, no sap 1
+, partner bank 1
+-lrb- fax on 1
+-lrb- with good 1
+-rrb- all `` 1
+-rrb- new sap 1
+-rrb- sap will 1
+0364 to 7001 1
+1 -lrb- with 1
+1 -rrb- new 1
+1 power category 1
+10 nat.gas category 1
+11 nat.gas category 1
+12 nat.gas category 1
+13 nat.gas category 1
+14 any category 1
+15 any category 1
+16 service category 1
+17 service category 1
+2 -rrb- sap 1
+2 power category 1
+25th floor -rrb- 1
+3 -rrb- all 1
+3 power category 1
+4 power category 1
+5 power category 1
+6 power category 1
+7 power category 1
+713-646-8876 -lrb- fax 1
+8 power category 1
+9 nat.gas category 1
+: 12/01/2001 </s> 1
+: 713-646-8876 -lrb- 1
+: financial </s> 1
+: netco correspondence 1
+: netco external 1
+: netco notice 1
+: netcoextgas </s> 1
+: one wire 1
+: set to 1
+: test netco 1
+<s> 10 nat.gas 1
+<s> 11 nat.gas 1
+<s> 12 nat.gas 1
+<s> 13 nat.gas 1
+<s> 14 any 1
+<s> 15 any 1
+<s> 16 service 1
+<s> 17 service 1
+<s> 2 power 1
+<s> 3 power 1
+<s> 4 power 1
+<s> 5 power 1
+<s> 6 power 1
+<s> 7 power 1
+<s> 8 power 1
+<s> 9 nat.gas 1
+<s> address roles 1
+<s> bank information 1
+<s> cp id 1
+<s> erms short 1
+<s> fax number 1
+<s> groups : 1
+<s> i have 1
+<s> legacy group 1
+<s> master financial 1
+<s> name : 1
+<s> note 1 1
+<s> note 2 1
+<s> note 3 1
+<s> operation effective 1
+<s> person contact 1
+<s> person corresp 1
+<s> person notice 1
+<s> power-houston </s> 1
+<s> product category 1
+<s> reg . 1
+`` primary flags 1
+accept data , 1
+address roles : 1
+address roles as 1
+all `` primary 1
+all instances </s> 1
+all payments , 1
+and address roles 1
+any category financial 2
+any documentation financial 2
+any documentation physical 1
+any financial settle 2
+any gas payment 1
+any gas sales 1
+any power correspondence 1
+any power financial 1
+any power fs 2
+any power invoice 1
+any power notice 1
+any power payment 1
+any power physical 1
+any transportation expense 1
+any transportatrevenue invoice 1
+are available at 1
+are ready to 1
+are yes in 1
+as follows : 1
+at this time 1
+available at this 1
+bank information : 1
+bank will be 1
+be 0011 </s> 1
+be shared by 1
+by all payments 1
+category deal nature 1
+category financial confirmation 3
+category financial invoice 2
+category financial payment 2
+category physical confirmation 2
+category physical correspondence 1
+category physical invoice 3
+category physical notice 1
+category physical payment 3
+company number from 1
+completed the setup 1
+confirmation any documentation 3
+confirmation any power 2
+contact : test 1
+contact type 1 1
+contact type mkt 1
+corresp : netco 1
+correspondence any power 1
+counterparty and address 1
+cp id # 1
+credit -rrb- </s> 1
+customer or vendor 1
+data , no 1
+date : 12/01/2001 1
+deal nature contact 1
+documentation financial confirmation 2
+documentation physical confirmation 1
+effective date : 1
+erms short name 1
+executed : set 1
+expense payment </s> 1
+external gas/power 1 1
+fax number : 1
+fax on 25th 1
+financial confirm </s> 1
+financial confirmation </s> 2
+financial confirmation any 3
+financial executed : 1
+financial invoice any 2
+financial payment any 2
+financial settle fs 2
+flags '' are 1
+floor -rrb- </s> 1
+follows : </s> 1
+from 0364 to 1
+fs invoice </s> 2
+fs payment </s> 2
+gas payment payment 1
+gas sales invoice 1
+gas/power 1 -lrb- 1
+good credit -rrb- 1
+group legacy contact 1
+groups : financial 1
+have completed the 1
+i have completed 1
+id # 167117 1
+in all instances 1
+information : one 1
+invoice any financial 1
+invoice any gas 1
+invoice any power 2
+invoice any transportatrevenue 1
+legacy contact type 1
+legacy group legacy 1
+master financial executed 1
+mkt . </s> 1
+name : netco 1
+name : netcoextgas 1
+nat.gas category financial 2
+nat.gas category physical 3
+nature contact type 1
+netco correspondence </s> 1
+netco counterparty and 1
+netco external gas/power 1
+netco notice </s> 1
+new sap company 1
+no sap customer 1
+note 1 -rrb- 1
+note 2 -rrb- 1
+note 3 -rrb- 1
+notice : netco 1
+notice any power 1
+notify sundar when 1
+number : 713-646-8876 1
+number from 0364 1
+numbers are available 1
+of the test 1
+on 25th floor 1
+one wire will 1
+operation effective date 1
+or vendor numbers 1
+partner bank will 1
+payment any financial 1
+payment any gas 1
+payment any power 2
+payment any transportation 1
+payment payment </s> 1
+payments , partner 1
+person contact : 1
+person corresp : 1
+person notice : 1
+physical confirm </s> 1
+physical confirmation </s> 1
+physical confirmation any 2
+physical correspondence any 1
+physical invoice any 3
+physical notice any 1
+physical payment any 3
+power category financial 3
+power category physical 5
+power correspondence </s> 1
+power financial confirm 1
+power fs invoice 1
+power fs payment 1
+power invoice </s> 1
+power notice </s> 1
+power payment </s> 1
+power physical confirm 1
+primary flags '' 1
+product category deal 1
+ready to accept 1
+reg . </s> 1
+roles : </s> 1
+roles as follows 1
+sales invoice </s> 1
+sap company number 1
+sap customer or 1
+sap will notify 1
+service category physical 2
+set to yes 1
+settle fs invoice 1
+settle fs payment 1
+setup of the 1
+shared by all 1
+short name : 1
+sundar when they 1
+test netco </s> 1
+test netco counterparty 1
+the setup of 1
+the test netco 1
+they are ready 1
+this time . 1
 time . </s> 1
-to bring you 1
-to enron , 1
-to interview you 2
-to maximize your 1
-to prepare a 1
-to see the 1
-to tai , 1
-unknowingly -rrb- went 1
-volatility meaning the 1
-volatility within the 1
-we have a 1
-we might have 1
-we would like 1
-week for about 1
-went through in 1
-what challenges have 1
-what developmental process 1
-what events conspired 1
-why do n't 1
-wish , i 1
-with pavel for 1
-within the delivery 1
-woo , here 1
-worked on ? 1
-would be amenable 1
-would be of 1
-would be what 1
-would like to 3
-years and what 1
-you as a 1
-you encountered that 1
-you for considering 1
-you get it 1
-you knowingly -lrb- 1
-you questions in 1
-you should consult 1
-you sometime next 1
-you to enron 1
-you wish , 1
-you worked on 1
-you would be 1
-your career . 1
-your early years 1
-your time . 1
+to 7001 </s> 1
+to accept data 1
+to yes </s> 1
+transportation expense payment 1
+transportatrevenue invoice </s> 1
+type 1 power 1
+type mkt . 1
+vendor numbers are 1
+when they are 1
+will be 0011 1
+will be shared 1
+will notify sundar 1
+wire will be 1
+with good credit 1
+yes in all 1

@@ -18,8 +18,10 @@ public class DataProcessor {
     public static final Unigram end_tag = new Unigram("</s>", "</s>", "");
     public static String model = "lib/stanford-postagger-2015-01-30/models/english-left3words-distsim.tagger";
     public static String test = "data/smalltest.txt";
-    public static String train = "data/training_small.txt";
-    public static String validate = "data/validation_small.txt";
+    public static String train = "data/training.txt";
+    public static String validate = "data/validation.txt";
+
+
 
     public static TreeMap<String, ArrayList<ArrayList<Unigram>>> data_set = new TreeMap<>();
 
@@ -29,6 +31,9 @@ public class DataProcessor {
         // creates a StanfordCoreNLP object, with POS tagging, tokenization, named entity recognition and parsing
         Properties props = new Properties();
         props.setProperty("annotators", "tokenize, ssplit, pos, lemma, ner, parse");
+        // Splits along newlines
+        props.put("ssplit.newlineIsSentenceBreak", "always");
+
         pipeline = new StanfordCoreNLP(props);
 
         data_set.put("up_train", new ArrayList<>());
@@ -99,6 +104,7 @@ public class DataProcessor {
         int idx;
 
         for(CoreMap sentence: sentences) {
+            System.out.println(sentence.toString());
             // Add sentence to appropriate data set, including start and end tags.
             data_set.get(key).add(new ArrayList<>());
             idx = data_set.get(key).size() - 1;
@@ -117,7 +123,7 @@ public class DataProcessor {
             data_set.get(key).get(idx).add(end_tag);
 
             // Uncomment if you want to see how the sentence is constructed.
-            // System.out.println(data_set.get(key).get(idx).toString());
+            System.out.println(data_set.get(key).get(idx).toString());
         }
     }
 }
