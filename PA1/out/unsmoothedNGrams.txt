@@ -1,0 +1,533 @@
+' 1
+'' 1
+, 7
+-lrb- 1
+-rrb- 1
+. 12
+30-40 1
+</s> 13
+<s> 13
+? 1
+` 1
+`` 1
+a 4
+about 1
+additional 1
+advance 1
+amenable 1
+and 2
+are 1
+as 1
+be 3
+bring 1
+c-codes 1
+can 1
+career 1
+challenges 1
+change 1
+class 1
+considering 1
+conspired 1
+consult 1
+could 1
+crudeapo 2
+definition 1
+delivery 1
+developmental 1
+do 1
+documentation 1
+early 1
+encountered 1
+enron 1
+events 1
+exotica 1
+extra 1
+file 1
+find 1
+for 5
+get 1
+graduate 1
+have 4
+help 1
+here 1
+i 4
+if 2
+in 5
+interest 1
+interview 2
+is 1
+it 2
+knowingly 1
+leader 1
+leadership 1
+like 3
+made 1
+maximize 1
+meaning 1
+might 1
+minutes 1
+monitor 1
+my 1
+n't 1
+next 1
+not 1
+of 2
+on 3
+once 1
+or 1
+order 1
+paper 1
+parameters 1
+paulo 1
+pavel 1
+period 1
+please 1
+position 1
+prepare 1
+price 1
+process 1
+provide 1
+questions 2
+request 1
+running 1
+see 1
+should 1
+sig 1
+significant 1
+some 2
+sometime 1
+spot 1
+suggestions 1
+supply 1
+tai 2
+thank 1
+thanks 1
+that 3
+the 8
+this 2
+through 1
+time 2
+to 8
+unknowingly 1
+volatility 2
+we 3
+week 1
+went 1
+what 3
+why 1
+wish 1
+with 1
+within 1
+woo 1
+worked 1
+would 6
+years 1
+you 12
+your 3
+' is 1
+'' parameters 1
+, here 1
+, i 3
+, thanks 1
+, what 1
+, why 1
+-lrb- or 1
+-rrb- went 1
+. </s> 12
+30-40 minutes 1
+<s> ` 1
+<s> i 1
+<s> if 2
+<s> in 1
+<s> paulo 1
+<s> please 1
+<s> some 1
+<s> tai 1
+<s> thank 1
+<s> we 2
+<s> you 1
+? </s> 1
+` sig 1
+`` extra 1
+a documentation 1
+a leader 1
+a paper 1
+a significant 1
+about 30-40 1
+additional suggestions 1
+advance to 1
+amenable and 1
+and have 1
+and what 1
+are the 1
+as a 1
+be amenable 1
+be of 1
+be what 1
+bring you 1
+c-codes for 1
+can not 1
+career . 1
+challenges have 1
+change in 1
+class on 1
+considering this 1
+conspired to 1
+consult with 1
+could provide 1
+crudeapo . 1
+crudeapo you 1
+definition of 1
+delivery period 1
+developmental process 1
+do n't 1
+documentation on 1
+early years 1
+encountered that 1
+enron , 1
+events conspired 1
+exotica help 1
+extra '' 1
+file . 1
+find it 1
+for about 1
+for considering 1
+for my 1
+for the 2
+get it 1
+graduate class 1
+have a 1
+have some 1
+have the 1
+have you 1
+help file 1
+here are 1
+i can 1
+i could 1
+i would 2
+if you 2
+in advance 1
+in exotica 1
+in order 1
+in your 2
+interest would 1
+interview you 2
+is the 1
+it in 1
+it running 1
+knowingly -lrb- 1
+leader . 1
+leadership , 1
+like to 3
+made a 1
+maximize your 1
+meaning the 1
+might have 1
+minutes . 1
+monitor once 1
+my graduate 1
+n't we 1
+next week 1
+not find 1
+of interest 1
+of this 1
+on ? 1
+on crudeapo 1
+on leadership 1
+once you 1
+or unknowingly 1
+order to 1
+paper for 1
+parameters . 1
+paulo , 1
+pavel for 1
+period . 1
+please supply 1
+position monitor 1
+prepare a 1
+price volatility 1
+process you 1
+provide you 1
+questions in 1
+questions that 1
+request . 1
+running . 1
+see the 1
+should consult 1
+sig ' 1
+significant change 1
+some additional 1
+some questions 1
+sometime next 1
+spot volatility 1
+suggestions . 1
+supply that 1
+tai , 1
+tai woo 1
+thank you 1
+thanks . 1
+that made 1
+that to 1
+that would 1
+the c-codes 1
+the crudeapo 1
+the definition 1
+the delivery 1
+the position 1
+the price 1
+the spot 1
+the time 1
+this `` 1
+this request 1
+through in 1
+time , 1
+time . 1
+to bring 1
+to enron 1
+to interview 2
+to maximize 1
+to prepare 1
+to see 1
+to tai 1
+unknowingly -rrb- 1
+volatility meaning 1
+volatility within 1
+we have 1
+we might 1
+we would 1
+week for 1
+went through 1
+what challenges 1
+what developmental 1
+what events 1
+why do 1
+wish , 1
+with pavel 1
+within the 1
+woo , 1
+worked on 1
+would be 3
+would like 3
+years and 1
+you as 1
+you encountered 1
+you for 1
+you get 1
+you knowingly 1
+you questions 1
+you should 1
+you sometime 1
+you to 1
+you wish 1
+you worked 1
+you would 1
+your career 1
+your early 1
+your time 1
+' is the 1
+'' parameters . 1
+, here are 1
+, i could 1
+, i would 2
+, thanks . 1
+, what developmental 1
+, why do 1
+-lrb- or unknowingly 1
+-rrb- went through 1
+30-40 minutes . 1
+<s> ` sig 1
+<s> i can 1
+<s> if you 2
+<s> in order 1
+<s> paulo , 1
+<s> please supply 1
+<s> some questions 1
+<s> tai woo 1
+<s> thank you 1
+<s> we might 1
+<s> we would 1
+<s> you should 1
+` sig ' 1
+`` extra '' 1
+a documentation on 1
+a leader . 1
+a paper for 1
+a significant change 1
+about 30-40 minutes 1
+additional suggestions . 1
+advance to maximize 1
+amenable and have 1
+and have the 1
+and what challenges 1
+are the c-codes 1
+as a leader 1
+be amenable and 1
+be of interest 1
+be what events 1
+bring you to 1
+c-codes for the 1
+can not find 1
+career . </s> 1
+challenges have you 1
+change in your 1
+class on leadership 1
+considering this request 1
+conspired to bring 1
+consult with pavel 1
+could provide you 1
+crudeapo . </s> 1
+crudeapo you worked 1
+definition of this 1
+delivery period . 1
+developmental process you 1
+do n't we 1
+documentation on crudeapo 1
+early years and 1
+encountered that made 1
+enron , what 1
+events conspired to 1
+exotica help file 1
+extra '' parameters 1
+file . </s> 1
+find it in 1
+for about 30-40 1
+for considering this 1
+for my graduate 1
+for the crudeapo 1
+for the definition 1
+get it running 1
+graduate class on 1
+have a documentation 1
+have some additional 1
+have the time 1
+have you encountered 1
+help file . 1
+here are the 1
+i can not 1
+i could provide 1
+i would like 2
+if you wish 1
+if you would 1
+in advance to 1
+in exotica help 1
+in order to 1
+in your career 1
+in your early 1
+interest would be 1
+interview you as 1
+interview you sometime 1
+is the spot 1
+it in exotica 1
+it running . 1
+knowingly -lrb- or 1
+leader . </s> 1
+leadership , i 1
+like to interview 2
+like to see 1
+made a significant 1
+maximize your time 1
+meaning the price 1
+might have some 1
+minutes . </s> 1
+monitor once you 1
+my graduate class 1
+n't we have 1
+next week for 1
+not find it 1
+of interest would 1
+of this `` 1
+on ? </s> 1
+on crudeapo you 1
+on leadership , 1
+once you get 1
+or unknowingly -rrb- 1
+order to prepare 1
+paper for my 1
+parameters . </s> 1
+paulo , why 1
+pavel for the 1
+period . </s> 1
+please supply that 1
+position monitor once 1
+prepare a paper 1
+price volatility within 1
+process you knowingly 1
+provide you questions 1
+questions in advance 1
+questions that would 1
+request . </s> 1
+running . </s> 1
+see the position 1
+should consult with 1
+sig ' is 1
+significant change in 1
+some additional suggestions 1
+some questions that 1
+sometime next week 1
+spot volatility meaning 1
+suggestions . </s> 1
+supply that to 1
+tai , thanks 1
+tai woo , 1
+thank you for 1
+thanks . </s> 1
+that made a 1
+that to tai 1
+that would be 1
+the c-codes for 1
+the crudeapo . 1
+the definition of 1
+the delivery period 1
+the position monitor 1
+the price volatility 1
+the spot volatility 1
+the time , 1
+this `` extra 1
+this request . 1
+through in your 1
+time , i 1
+time . </s> 1
+to bring you 1
+to enron , 1
+to interview you 2
+to maximize your 1
+to prepare a 1
+to see the 1
+to tai , 1
+unknowingly -rrb- went 1
+volatility meaning the 1
+volatility within the 1
+we have a 1
+we might have 1
+we would like 1
+week for about 1
+went through in 1
+what challenges have 1
+what developmental process 1
+what events conspired 1
+why do n't 1
+wish , i 1
+with pavel for 1
+within the delivery 1
+woo , here 1
+worked on ? 1
+would be amenable 1
+would be of 1
+would be what 1
+would like to 3
+years and what 1
+you as a 1
+you encountered that 1
+you for considering 1
+you get it 1
+you knowingly -lrb- 1
+you questions in 1
+you should consult 1
+you sometime next 1
+you to enron 1
+you wish , 1
+you worked on 1
+you would be 1
+your career . 1
+your early years 1
+your time . 1

@@ -24,7 +24,7 @@ public class DataProcessor {
     private static StanfordCoreNLP pipeline;
 
     DataProcessor() throws FileNotFoundException {
-        // creates a StanfordCoreNLP object, with POS tagging, tokenization, and parsing
+        // creates a StanfordCoreNLP object, with POS tagging, tokenization, named entity recognition and parsing
         Properties props = new Properties();
         props.setProperty("annotators", "tokenize, ssplit, pos, lemma, ner, parse");
         pipeline = new StanfordCoreNLP(props);
@@ -34,9 +34,11 @@ public class DataProcessor {
         data_set.put("up_validation", new ArrayList<>());
         data_set.put("down_validation", new ArrayList<>());
 
+        // What I'm using to test my code as I go. Comment this out and uncomment the next two lines to run this properly.
         process(test, "train");
-//        process(train, "train");
-//        process(validate, "validation");
+
+        // process(train, "train");
+        // process(validate, "validation");
     }
 
     /**
@@ -59,17 +61,17 @@ public class DataProcessor {
      * @param source_file, the file from which to read emails.
      * @param data_type, acceptable input: "validation", "train"
      * @todo Add support for data_type = "test"
+     * @todo Add some sort of handling for extremely long sentences. Currently getting OOM warnings from the parser.
      * @throws FileNotFoundException
      */
     private void process(String source_file, String data_type) throws FileNotFoundException {
         Scanner sc = new Scanner(new File(source_file)).useDelimiter("\\*\\*.*?\\*\\*");
 
-        String speak_type; // "down" or "up"
-        String email_content;
+        String speak_type, email_content;
 
         while (sc.hasNext()) {
             String str = sc.next().replaceAll("\\s+", "");
-            speak_type = str.equalsIgnoreCase("DOWNSPEAK") ? "down" : "up";
+            speak_type = str.equalsIgnoreCase("DOWNSPEAK") ? UnsmoothedNGram.DOWN : UnsmoothedNGram.UP;
             email_content = sc.next();
 
             processEmailContent(makeKey(speak_type, data_type), email_content);
@@ -90,9 +92,7 @@ public class DataProcessor {
         pipeline.annotate(document);
 
         List<CoreMap> sentences = document.get(CoreAnnotations.SentencesAnnotation.class);
-
         String word, pos, ne;
-
         int idx;
 
         for(CoreMap sentence: sentences) {
@@ -111,7 +111,6 @@ public class DataProcessor {
 
                 data_set.get(key).get(idx).add(new Unigram(word, pos, ne));
             }
-
             data_set.get(key).get(idx).add(end_tag);
 
             // Uncomment if you want to see how the sentence is constructed.

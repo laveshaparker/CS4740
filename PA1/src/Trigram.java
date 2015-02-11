@@ -16,6 +16,10 @@ public class Trigram {
         token1 = word1;
         token2 = word2;
         token3 = word3;
-        key = token1.token + "_" + token2.token + "_" + token3.token;
+        key = token1.token + " " + token2.token + " " + token3.token;
+    }
+
+    @Override public String toString() {
+        return token1.token + " " + token2.token + " "  + token3.token + " " + count;
     }
 }

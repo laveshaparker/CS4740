@@ -14,6 +14,10 @@ public class Bigram {
     Bigram (Unigram word1, Unigram word2) {
         token1 = word1;
         token2 = word2;
-        key = token1.token + "_" + token2.token;
+        key = token1.token + " " + token2.token;
+    }
+
+    @Override public String toString() {
+        return token1.token + " " + token2.token + " " + count;
     }
 }

@@ -10,7 +10,7 @@ public class Unigram {
     public int count;
     public String pos;
     public String token;
-    public String ner; // Named Entity Recognition tag. Empty string ("") if not an NER.
+    public String ner; // Named Entity Recognition tag.
 
     Unigram (String word, String part_of_speech, String named_entity_recognition) {
         pos = part_of_speech;
@@ -21,6 +21,6 @@ public class Unigram {
     }
 
     @Override public String toString() {
-        return pos + " " + token + " " + count;
+        return token + " " + count;
     }
 }
