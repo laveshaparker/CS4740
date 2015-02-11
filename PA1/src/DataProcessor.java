@@ -12,12 +12,14 @@ import edu.stanford.nlp.util.CoreMap;
  */
 public class DataProcessor {
 
+    public static final Unigram start_tag = new Unigram("<s>", "<s>", "");
+    public static final Unigram end_tag = new Unigram("</s>", "</s>", "");
     public static String model = "lib/stanford-postagger-2015-01-30/models/english-left3words-distsim.tagger";
     public static String test = "data/smalltest.txt";
     public static String train = "data/training.txt";
     public static String validate = "data/validation.txt";
 
-    public static TreeMap<String, TreeSet<String>> data_set = new TreeMap<String, TreeSet<String>>();
+    public static TreeMap<String, ArrayList<ArrayList<Unigram>>> data_set = new TreeMap<>();
 
     private static StanfordCoreNLP pipeline;
 
@@ -27,13 +29,12 @@ public class DataProcessor {
         props.setProperty("annotators", "tokenize, ssplit, pos, lemma, ner, parse");
         pipeline = new StanfordCoreNLP(props);
 
-        data_set.put("up_train", new TreeSet<String>());
-        data_set.put("down_train", new TreeSet<String>());
-        data_set.put("up_validation", new TreeSet<String>());
-        data_set.put("down_validation", new TreeSet<String>());
+        data_set.put("up_train", new ArrayList<>());
+        data_set.put("down_train", new ArrayList<>());
+        data_set.put("up_validation", new ArrayList<>());
+        data_set.put("down_validation", new ArrayList<>());
 
         process(test, "train");
-
 //        process(train, "train");
 //        process(validate, "validation");
     }
@@ -44,7 +45,11 @@ public class DataProcessor {
      * @throws UnsupportedEncodingException
      */
     public static void main(String[] args) throws UnsupportedEncodingException, FileNotFoundException {
-        DataProcessor dp = new DataProcessor();
+        new DataProcessor();
+    }
+
+    public String makeKey(String speak_type, String data_type) {
+        return speak_type + "_" + data_type;
     }
 
 
@@ -54,8 +59,6 @@ public class DataProcessor {
      * @param source_file, the file from which to read emails.
      * @param data_type, acceptable input: "validation", "train"
      * @todo Add support for data_type = "test"
-     * @todo Figure out why DOWNSPEAK isn't matching
-     * @todo Ignore any interior punctuation
      * @throws FileNotFoundException
      */
     private void process(String source_file, String data_type) throws FileNotFoundException {
@@ -66,38 +69,53 @@ public class DataProcessor {
 
         while (sc.hasNext()) {
             String str = sc.next().replaceAll("\\s+", "");
-//            System.out.println(str);
-//            System.out.println("Length of string literal: " + "DOWNSPEAK".length() + " length of str: " + str.length());
             speak_type = str.equalsIgnoreCase("DOWNSPEAK") ? "down" : "up";
             email_content = sc.next();
 
-            processEmailContent(speak_type + "_" + data_type, email_content);
+            processEmailContent(makeKey(speak_type, data_type), email_content);
         }
 
     }
 
     /**
      * @todo Add newlines to sentence end delimiters so that the salutation and greetings are not considered part of the email.
-     * @todo Ignore newlines in sentences.
-     * @todo Get rid of the ending hyphens.
+     * @todo Process all proper nouns as <PRN>
+     * @todo Save part of speech for each <UNK>
      * @param key, the key used to index into the data_set map. Corresponds to the set that needs to be updated
      * @param email_content, The content of a given email
      */
     private void processEmailContent(String key, String email_content) {
-
-//        System.out.println(key);
 
         Annotation document = new Annotation(email_content);
         pipeline.annotate(document);
 
         List<CoreMap> sentences = document.get(CoreAnnotations.SentencesAnnotation.class);
 
-        for(CoreMap sentence: sentences) {
-            // Add sentence to appropriate data set, adding start and end tags.
-            data_set.get(key).add("<s> " + sentence.toString() + " </s>");
+        String word, pos, ne;
 
-            // Uncomment if you want to see how the sentences are stored
-            // System.out.println("<s> " + sentence.toString() + " </s>");
+        int idx;
+
+        for(CoreMap sentence: sentences) {
+            // Add sentence to appropriate data set, including start and end tags.
+            data_set.get(key).add(new ArrayList<>());
+            idx = data_set.get(key).size() - 1;
+            data_set.get(key).get(idx).add(start_tag);
+
+            for (CoreLabel token: sentence.get(CoreAnnotations.TokensAnnotation.class)) {
+                // this is the text of the token
+                word = token.get(CoreAnnotations.TextAnnotation.class).toLowerCase();
+                // this is the POS tag of the token
+                pos = token.get(CoreAnnotations.PartOfSpeechAnnotation.class);
+                // this is the NER label of the token
+                ne = token.get(CoreAnnotations.NamedEntityTagAnnotation.class);
+
+                data_set.get(key).get(idx).add(new Unigram(word, pos, ne));
+            }
+
+            data_set.get(key).get(idx).add(end_tag);
+
+            // Uncomment if you want to see how the sentence is constructed.
+            // System.out.println(data_set.get(key).get(idx).toString());
         }
     }
 }

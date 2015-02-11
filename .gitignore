@@ -1,2 +1,12 @@
-#Ignore everything in general/
+# Ignore everything in general/
 general/*
+
+# intelliJ project files
+PA1/.idea/*
+PA1/.settings/*
+PA1/.metadata/*
+PA1/PA1.iml
+PA1/out/*
+
+# Ignore because this file is too large.
+PA1/lib/stanford-corenlp-full-2015-01-30/stanford-corenlp-3.5.1-models.jar

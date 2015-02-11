@@ -1,10 +1,12 @@
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
 /**
  * Created with IntelliJ IDEA.
  * User: vesha
+ * @todo Output to file ngram count pairs
  */
 public class UnsmoothedNGram {
 
@@ -12,63 +14,63 @@ public class UnsmoothedNGram {
     public static final String BIGRAM = "bigram";
     public static final String TRIGRAM = "trigram";
 
-    public static TreeMap<String, SortedMap<String, Integer>> models = new TreeMap<String, SortedMap<String, Integer>>();
+    public static final String DOWN = "down";
+    public static final String UP = "up";
+
+    public static TreeMap<String, SortedMap<String, Unigram>> unigram_models = new TreeMap<>();
+    public static TreeMap<String, SortedMap<String, Bigram>> bigram_models = new TreeMap<>();
+    public static TreeMap<String, SortedMap<String, Trigram>> trigram_models = new TreeMap<>();
 
     UnsmoothedNGram() throws FileNotFoundException {
-        models.put("unigram_up", new TreeMap<String, Integer>());
-        models.put("unigram_down", new TreeMap<String, Integer>());
-        models.put("bigram_up", new TreeMap<String, Integer>());
-        models.put("bigram_down", new TreeMap<String, Integer>());
-        models.put("trigram_up", new TreeMap<String, Integer>());
-        models.put("trigram_down", new TreeMap<String, Integer>());
+        unigram_models.put(UP, new TreeMap<>());
+        unigram_models.put(DOWN, new TreeMap<>());
+        bigram_models.put(UP, new TreeMap<>());
+        bigram_models.put(DOWN, new TreeMap<>());
+        trigram_models.put(UP, new TreeMap<>());
+        trigram_models.put(DOWN, new TreeMap<>());
 
         new DataProcessor();
-        getUnigrams();
+        getNgrams();
     }
 
     public static void main(String[] args) throws FileNotFoundException {
         new UnsmoothedNGram();
+        System.out.println(unigram_models.get(DOWN).toString());
     }
 
     /**
      * Iterates through all of the data in DataProcessor.data_set and calculates the unigram,
      * bigram, and trigram counts of each of those sentences.
-     * @todo for each sentence, add to unigram, bigram, and trigram counts
-     * @todo Figure out how to count certain punctuation as a separate token
      */
-    private void getUnigrams() {
+    private void getNgrams() {
 
-        String[] tokens;
-        String unigram, bigram, trigram, up_down, key;
-        int count;
+        Unigram unigram;
+        Bigram bigram;
+        Trigram trigram;
+        String key;
 
         for (String k : DataProcessor.data_set.keySet()) {
 
-            up_down = k.charAt(0) == 'd' ? "_down" : "_up";
+            key = k.charAt(0) == 'd' ? DOWN : UP;
 
-            for (String sentence : DataProcessor.data_set.get(k)) {
-                tokens = sentence.split("\\s+");
+            for (ArrayList<Unigram> sentence : DataProcessor.data_set.get(k)) {
+                for (int idx = 0; idx < sentence.size(); idx++) {
+                    unigram = sentence.get(idx);
+                    unigram.count = unigram_models.get(key).containsKey(unigram.key) ? unigram_models.get(key).get(unigram.key).count + 1 : 1;
+                    unigram_models.get(key).put(unigram.key, unigram);
 
-                for (int idx = 0; idx < tokens.length; idx++) {
-                    unigram = tokens[idx];
-                    key = UnsmoothedNGram.UNIGRAM + up_down;
-                    count = models.get(key).containsKey(unigram) ? models.get(key).get(unigram) + 1 : 1;
-                    models.get(key).put(unigram, count);
-
-                    if (idx + 1 < tokens.length) {
+                    if (idx + 1 < sentence.size()) {
                         // Update bigrams
-                        bigram = tokens[idx] + " " + tokens[idx + 1];
-                        key = UnsmoothedNGram.BIGRAM + up_down;
-                        count = models.get(key).containsKey(bigram) ? models.get(key).get(bigram) + 1 : 1;
-                        models.get(key).put(bigram, count);
+                        bigram = new Bigram(sentence.get(idx), sentence.get(idx + 1));
+                        bigram.count = bigram_models.get(key).containsKey(bigram.key) ? bigram_models.get(key).get(bigram.key).count + 1 : 1;
+                        bigram_models.get(key).put(bigram.key, bigram);
                     }
 
-                    if (idx + 2 < tokens.length) {
+                    if (idx + 2 < sentence.size()) {
                         // Update trigrams
-                        trigram = tokens[idx] + " " + tokens[idx + 1] + " " + tokens[idx + 2];
-                        key = UnsmoothedNGram.TRIGRAM + up_down;
-                        count = models.get(key).containsKey(trigram) ? models.get(key).get(trigram) + 1 : 1;
-                        models.get(key).put(trigram, count);
+                       trigram = new Trigram(sentence.get(idx), sentence.get(idx + 1), sentence.get(idx + 2));
+                        trigram.count = trigram_models.get(key).containsKey(trigram.key) ? trigram_models.get(key).get(trigram.key).count + 1 : 1;
+                        trigram_models.get(key).put(trigram.key, trigram);
                     }
                 }
             }
@@ -81,27 +83,25 @@ public class UnsmoothedNGram {
      * @param N, "unigram", "bigram", or "trigram"
      * @return
      */
-    public Double findConditionalProbability(String NGram, String N) throws Exception {
+    public Double findConditionalProbability(String NGram, String N, String up_down) throws Exception {
         Double prob = 0.0;
         Integer count;
         switch (N) {
-            case UnsmoothedNGram.UNIGRAM:
-                count  = models.get(UnsmoothedNGram.UNIGRAM + "_down").get(NGram);
-                count += models.get(UnsmoothedNGram.UNIGRAM + "_up").get(NGram);
+            case UNIGRAM:
+                count  = unigram_models.get(DOWN).get(NGram).count;
+                count += unigram_models.get(UP).get(NGram).count;
                 break;
-            case UnsmoothedNGram.BIGRAM:
-                count  = models.get(UnsmoothedNGram.BIGRAM + "_down").get(NGram);
-                count += models.get(UnsmoothedNGram.BIGRAM + "_up").get(NGram);
+            case BIGRAM:
+                count  = bigram_models.get(DOWN).get(NGram).count;
+                count += bigram_models.get(UP).get(NGram).count;
                 break;
-            case UnsmoothedNGram.TRIGRAM:
-                count  = models.get(UnsmoothedNGram.TRIGRAM + "_down").get(NGram);
-                count += models.get(UnsmoothedNGram.TRIGRAM + "_up").get(NGram);
+            case TRIGRAM:
+                count  = trigram_models.get(DOWN).get(NGram).count;
+                count += trigram_models.get(UP).get(NGram).count;
                 break;
             default:
                 throw new Exception("Invalid value for N.");
         }
         return 1.0;   // Just a stub for now so it'll compile
     }
-
 }
-
