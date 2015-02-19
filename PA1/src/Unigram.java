@@ -18,8 +18,8 @@ public class Unigram {
         token = word;
         ner = named_entity_recognition;
         count = 1;
-        key = token;
         lemma = lem;
+        key = lemma;
     }
 
     @Override public String toString() {

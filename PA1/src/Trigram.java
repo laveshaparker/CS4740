@@ -16,10 +16,10 @@ public class Trigram {
         token1 = word1;
         token2 = word2;
         token3 = word3;
-        key = token1.token + " " + token2.token + " " + token3.token;
+        key = token1.lemma + " " + token2.lemma + " " + token3.lemma;
     }
 
     @Override public String toString() {
-        return token1.token + " " + token2.token + " "  + token3.token + " " + count;
+        return token1.lemma + " " + token2.lemma + " "  + token3.lemma + " " + count;
     }
 }

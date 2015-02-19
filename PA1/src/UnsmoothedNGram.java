@@ -1,6 +1,7 @@
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -18,9 +19,19 @@ public class UnsmoothedNGram {
     public static final String DOWN = "down";
     public static final String UP = "up";
 
+    // Each TreeMap maps up/down speak to another map of a unique unigram key to the unigram itself (which holds count)
     public static TreeMap<String, SortedMap<String, Unigram>> unigram_models = new TreeMap<>();
     public static TreeMap<String, SortedMap<String, Bigram>> bigram_models = new TreeMap<>();
     public static TreeMap<String, SortedMap<String, Trigram>> trigram_models = new TreeMap<>();
+
+    // Files to write to
+    public static String unigram_down = "out/unigram_down.txt";
+    public static String unigram_up = "out/unigram_up.txt";
+    public static String bigram_down = "out/bigram_down.txt";
+    public static String bigram_up = "out/bigram_up.txt";
+    public static String trigram_down = "out/trigram_down.txt";
+    public static String trigram_up = "out/trigram_up.txt";
+
 
     UnsmoothedNGram() throws FileNotFoundException {
         unigram_models.put(UP, new TreeMap<>());
@@ -36,7 +47,7 @@ public class UnsmoothedNGram {
 
     public static void main(String[] args) throws Exception {
         new UnsmoothedNGram();
-        outputToFile("out/unsmoothedNGrams.txt");
+        outputToFiles();
     }
 
     /**
@@ -80,7 +91,7 @@ public class UnsmoothedNGram {
 
     /**
      * Computes the conditional probability of an N-gram as (# N-gram/#(N-1)-gram)
-     * @param NGram, the phrase in question. Delimited by spaces (punctuation counts!).
+     * @param NGram, the phrase in question. Delimited by spaces (punctuation counts!). Must be lemmatized.
      * @param N, UnsmoothedNGram.UNIGRAM, UnsmoothedNGram.BIGRAM, or UnsmoothedNGram.TRIGRAM
      * @param up_down, UnsmoothedNGram.DOWN or UnsmoothedNGram.UP
      * @return conditional probability of NGram
@@ -145,16 +156,13 @@ public class UnsmoothedNGram {
 
     /**
      * Writes the contents of each of the N-grams in this class to a file.
-     * @param filename, the file that is to be written to. Note that any existing file of the same name will be overwritten.
      * @return true if the file was successfully written to, false otherwise.
      */
-    public static Boolean outputToFile(String filename) {
+    public static Boolean outputToFiles() {
         try {
-            PrintWriter writer = new PrintWriter(filename, "UTF-8");
-            unigramsToFile(writer);
-            bigramsToFile(writer);
-            trigramsToFile(writer);
-            writer.close();
+            unigramsToFile();
+            bigramsToFile();
+            trigramsToFile();
             return true;
         } catch (Exception e) {
             System.out.println("Failed to output to file. Error: " + e.getMessage());
@@ -162,27 +170,42 @@ public class UnsmoothedNGram {
         }
     }
 
-    private static void unigramsToFile(PrintWriter writer) {
+    private static void unigramsToFile() throws FileNotFoundException, UnsupportedEncodingException {
+        PrintWriter writer = new PrintWriter(unigram_down, "UTF-8");
+
         for (String key : unigram_models.keySet())  {
+            writer = key.equalsIgnoreCase(DOWN) ? new PrintWriter(unigram_down, "UTF-8") : new PrintWriter(unigram_up, "UTF-8");
             for (Unigram unigram : unigram_models.get(key).values()) {
                 writer.println(unigram.toString());
             }
         }
+
+        writer.close();
     }
 
-    private static void bigramsToFile(PrintWriter writer) {
+    private static void bigramsToFile() throws FileNotFoundException, UnsupportedEncodingException {
+        PrintWriter writer = new PrintWriter(bigram_down, "UTF-8");
+
         for (String key : bigram_models.keySet())  {
+            writer = key.equalsIgnoreCase(DOWN) ? new PrintWriter(bigram_down, "UTF-8") : new PrintWriter(bigram_up, "UTF-8");
             for (Bigram bigram : bigram_models.get(key).values()) {
                 writer.println(bigram.toString());
             }
         }
+
+        writer.close();
     }
 
-    private static void trigramsToFile(PrintWriter writer) {
+    private static void trigramsToFile() throws FileNotFoundException, UnsupportedEncodingException {
+        PrintWriter writer = new PrintWriter(trigram_down, "UTF-8");
+
         for (String key : trigram_models.keySet())  {
+            writer = key.equalsIgnoreCase(DOWN) ? new PrintWriter(trigram_down, "UTF-8") : new PrintWriter(trigram_up, "UTF-8");
             for (Trigram trigram : trigram_models.get(key).values()) {
                 writer.println(trigram.toString());
             }
         }
+
+        writer.close();
     }
 }

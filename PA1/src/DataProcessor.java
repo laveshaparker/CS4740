@@ -11,6 +11,7 @@ import edu.stanford.nlp.util.CoreMap;
  * User: vesha
  * @todo Try to interpret numbers as type, order of magnitude, percentage, numerical value
  * @todo Add all numbers as a number tag
+ * @todo Ignore all hyphens in emails.
  */
 public class DataProcessor {
 
@@ -43,10 +44,10 @@ public class DataProcessor {
         data_set.put("down_validation", new ArrayList<>());
 
         // What I'm using to test my code as I go. Comment this out and uncomment the next two lines to run this properly.
-        process("data/smalltest.txt", "train", true);
+//        process("data/smalltest.txt", "train", true);
 
-        // process(train, "train", false);
-        // process(validate, "validation", false);
+        process(train, "train", false);
+        process(validate, "validation", false);
         // process(test, "test", true);
     }
 
@@ -108,8 +109,6 @@ public class DataProcessor {
         if (is_test_file) {test_set.put(key, new ArrayList<>());}
 
         ArrayList<ArrayList<Unigram>> to_add_to = is_test_file ? test_set.get(key) : data_set.get(key);
-
-        System.out.println(is_test_file);
 
         List<CoreMap> sentences = document.get(CoreAnnotations.SentencesAnnotation.class);
         String word, pos, ne;

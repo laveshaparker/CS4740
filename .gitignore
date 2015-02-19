@@ -1,8 +1,8 @@
 # Ignore everything in general/
 general/*
 
-# Don't need files output by intelliJ
-PA1/out/*
+# compilation files
+PA1/out/production/*
 
 # intelliJ project files
 PA1/.idea/*
