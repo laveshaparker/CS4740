@@ -11,16 +11,18 @@ public class Unigram {
     public String pos;
     public String token;
     public String ner; // Named Entity Recognition tag.
+    public String lemma;
 
-    Unigram (String word, String part_of_speech, String named_entity_recognition) {
+    Unigram (String word, String part_of_speech, String named_entity_recognition, String lem) {
         pos = part_of_speech;
         token = word;
         ner = named_entity_recognition;
         count = 1;
         key = token;
+        lemma = lem;
     }
 
     @Override public String toString() {
-        return token + " " + count;
+        return lemma + " " + count;
     }
 }

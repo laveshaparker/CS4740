@@ -1,25 +1,46 @@
-DOWNSPEAK
+1
 **START**
-In order to prepare a paper for my graduate class on Leadership, I would like to interview you as a leader. Some questions that would be of interest would be what events conspired to bring you to Enron, what developmental process you knowingly (or unknowingly) went through in your early years and what challenges have you encountered that made a significant change in your career.
+Hello All,
 
-If you would be amenable and have the time, I would like to interview you sometime next week for about 30-40 minutes. If you wish, I could provide you questions in advance to maximize your time.
+FYI - Just a friendly reminder that when turning in travel receipts, please
+indicated what meeting was attended, as well as, the names/company name of
+all guests written on the meal receipts.
 
-Thank you for considering this request.
+Thanks,
 **EOM**
-DOWNSPEAK
+2
 **START**
-Tai Woo,
+Larry and Raetta, please work with Randy to ensure we get the anaylsis done
+and that we are all comfortable with the results.  Thanks. Lynn
 
-Here are the c-codes for the CrudeAPO.  'Sig' is the spot
-volatility meaning the price volatility within the delivery period.
-You should consult  with Pavel for the definition of this "extra" parameters.   We
-would like to see the Position Monitor once you get it running.
-We might have some additional suggestions.
+-----
 **EOM**
-DOWNSPEAK
+3
 **START**
-Paulo,
+Ava, no problem.  Thanks. Lynn
 
-Why don't we have a documentation on CrudeAPO you worked on ?
-I can not find it in Exotica help file.   Please supply that to Tai, thanks.
+-----
 **EOM**
+4
+**START**
+Good morning all.
+Attached is the info that Esther helped me pull together for Rod last Wednesday. Rod told me over the weekend that he needs commodity volumes for these contracts for the years 1997-2000.  Help?  Can someone pull this together quickly for me?
+
+-----
+**EOM**
+5
+**START**
+Great! I will review them on Monday no need to send to FL.
+**EOM**
+6
+**START**
+Here are my thoughts
+
+-----
+**EOM**
+7
+**START**
+Ava, I had vacation December 6 and December 10 and planning on the 14th, depending on
+how Thursday goes.  Thanks. Lynn
+
+-----
