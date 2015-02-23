@@ -13,11 +13,11 @@ public class Perplexity {
         findPerplexitiesWithLaplace(t);
     }
 
-    private static double getUnigramProbabilityWithLaplace(Unigram u, SortedMap<String, Unigram> model, double totalTokens) {
+    public static double getUnigramProbabilityWithLaplace(Unigram u, SortedMap<String, Unigram> model, double totalTokens) {
         return (model.containsKey(u.key) ? (double)model.get(u.key).count  + 1.0 : 1.0) / (totalTokens + (double)model.size());
     }
 
-    private static double getBigramProbabilityWithLaplace(Unigram u1, Unigram u2, SortedMap<String, Unigram> unigramModel, SortedMap<String, Bigram> bigramModel) {
+    public static double getBigramProbabilityWithLaplace(Unigram u1, Unigram u2, SortedMap<String, Unigram> unigramModel, SortedMap<String, Bigram> bigramModel) {
         Bigram b = new Bigram(u1, u2);
         return (
                     bigramModel.containsKey(b.key) ? (double)bigramModel.get(b.key).count + 1.0 : 1.0
@@ -26,7 +26,7 @@ public class Perplexity {
                 );
     }
 
-    private static double getTrigramProbabilityWithLaplace(Unigram u1, Unigram u2, Unigram u3, SortedMap<String, Unigram> unigramModel, SortedMap<String, Bigram> bigramModel, SortedMap<String, Trigram> trigramModel) {
+    public static double getTrigramProbabilityWithLaplace(Unigram u1, Unigram u2, Unigram u3, SortedMap<String, Unigram> unigramModel, SortedMap<String, Bigram> bigramModel, SortedMap<String, Trigram> trigramModel) {
         Trigram t = new Trigram(u1, u2, u3);
         Bigram b = new Bigram(u1, u2);
         return (
