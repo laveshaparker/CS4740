@@ -1,3 +1,6 @@
+import javax.json.Json;
+import javax.json.JsonObjectBuilder;
+
 /**
  * Created with IntelliJ IDEA.
  * User: vesha
@@ -19,5 +22,13 @@ public class Bigram {
 
     @Override public String toString() {
         return token1.lemma + " " + token2.lemma + " " + count;
+    }
+
+    public JsonObjectBuilder asJson() {
+        return Json.createObjectBuilder()
+                .add("key", key)
+                .add("count", count)
+                .add("token1", token1.key)
+                .add("token2", token2.key);
     }
 }

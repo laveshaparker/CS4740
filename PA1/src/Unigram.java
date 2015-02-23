@@ -1,3 +1,6 @@
+import javax.json.Json;
+import javax.json.JsonObjectBuilder;
+
 /**
  * Created with IntelliJ IDEA.
  * User: vesha
@@ -24,5 +27,15 @@ public class Unigram {
 
     @Override public String toString() {
         return lemma + " " + count;
+    }
+
+    public JsonObjectBuilder asJson() {
+        return Json.createObjectBuilder()
+                .add("key", key)
+                .add("count", count)
+                .add("pos", pos)
+                .add("token", token)
+                .add("ner", ner)
+                .add("lemma", lemma);
     }
 }
