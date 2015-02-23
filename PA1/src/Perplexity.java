@@ -1,4 +1,5 @@
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.SortedMap;
@@ -6,47 +7,36 @@ import java.util.TreeMap;
 
 public class Perplexity {
 
-    public static final String UNIGRAM = "unigram";
-    public static final String BIGRAM = "bigram";
-    public static final String TRIGRAM = "trigram";
-
-    public static final String DOWN = "down";
-    public static final String UP = "up";
-
-    TrainingModel trainingModel;
-
     public static void main(String[] args) throws Exception {
-        new Perplexity();
+        TrainingModel t = new TrainingModel(TrainingModel.DIRECTORY);
+        new DataProcessor(false, true, true);
+        findPerplexitiesWithLaplace(t);
     }
 
-    Perplexity() throws FileNotFoundException {
-        try {
-            trainingModel = new TrainingModel(TrainingModel.DIRECTORY);
-            new DataProcessor(false, true, false);
-        }
-        catch (FileNotFoundException e) {
-            new DataProcessor();
-            trainingModel = new TrainingModel();
-        }
-
-        computePerplexitiesWithLaplace();
+    private static double getUnigramProbabilityWithLaplace(Unigram u, SortedMap<String, Unigram> model, double totalTokens) {
+        return (model.containsKey(u.key) ? (double)model.get(u.key).count  + 1.0 : 1.0) / (totalTokens + (double)model.size());
     }
 
-    private double getUnigramProbabilityWithLaplace(String key, SortedMap<String, Unigram> model, double totalTokens) {
-        return (model.containsKey(key) ? (double)model.get(key).count  + 1.0 : 1.0) / (totalTokens + (double)model.size());
+    private static double getBigramProbabilityWithLaplace(Unigram u1, Unigram u2, SortedMap<String, Unigram> unigramModel, SortedMap<String, Bigram> bigramModel) {
+        Bigram b = new Bigram(u1, u2);
+        return (
+                    bigramModel.containsKey(b.key) ? (double)bigramModel.get(b.key).count + 1.0 : 1.0
+                ) / (
+                    (double)unigramModel.size() + (unigramModel.containsKey(u1.key) ? unigramModel.get(u1.key).count: 0)
+                );
     }
 
-    private double getBigramProbabilityWithLaplace(String key1, String key2, SortedMap<String, Bigram> model, double totalTokens) {
-        String key = key1 + " " + key2;
-        return (model.containsKey(key) ? (double)model.get(key).count + 1.0 : 1.0) / (totalTokens + (double)model.size());
+    private static double getTrigramProbabilityWithLaplace(Unigram u1, Unigram u2, Unigram u3, SortedMap<String, Unigram> unigramModel, SortedMap<String, Bigram> bigramModel, SortedMap<String, Trigram> trigramModel) {
+        Trigram t = new Trigram(u1, u2, u3);
+        Bigram b = new Bigram(u1, u2);
+        return (
+                trigramModel.containsKey(t.key) ? (double)trigramModel.get(t.key).count + 1.0 : 1.0
+                ) / (
+                    (double)unigramModel.size() + (bigramModel.containsKey(b.key) ? bigramModel.get(b.key).count: 0)
+                );
     }
 
-    private double getTrigramProbabilityWithLaplace(String key1, String key2, String key3, SortedMap<String, Trigram> model, double totalTokens) {
-        String key = key1 + " " + key2 + " " + key3;
-        return (model.containsKey(key) ? (double)model.get(key).count + 1.0 : 1.0) / (totalTokens + (double)model.size());
-    }
-
-    private void computePerplexitiesWithLaplace() {
+    public static void findPerplexitiesWithLaplace(TrainingModel trainingModel) {
 
         double upNumberTokens = 0;
         double upUnigramPerplexity = 0.0;
@@ -64,17 +54,30 @@ public class Perplexity {
             /* Start at index one because index 0 always contains <s>, which we are given to assume has probability = 1 */
             for (int idx = 1; idx < sentence.size(); idx++) {
                 /* Compute Unigram perplexity */
-                tmpU = Math.log(getUnigramProbabilityWithLaplace(sentence.get(idx).key, trainingModel.upUnigramModel, trainingModel.upUnigramTokens));
-                upUnigramPerplexity -= tmpU;
+                upUnigramPerplexity -= Math.log(getUnigramProbabilityWithLaplace(sentence.get(idx), trainingModel.upUnigramModel, trainingModel.upUnigramTokens));
 
                 /* Compute bigram perplexity (idx starts at one)*/
-                tmpB = Math.log(getBigramProbabilityWithLaplace(sentence.get(idx - 1).key, sentence.get(idx).key, trainingModel.upBigramModel, trainingModel.upBigramTokens));
-                upBigramPerplexity -= (tmpU + tmpB);
+                upBigramPerplexity -= Math.log(
+                        getBigramProbabilityWithLaplace(
+                                sentence.get(idx - 1),
+                                sentence.get(idx),
+                                trainingModel.upUnigramModel,
+                                trainingModel.upBigramModel
+                        )
+                );
 
                 /* Compute trigram perplexity */
                 if (idx >= 2 ) {
-                    tmpT = Math.log(getTrigramProbabilityWithLaplace(sentence.get(idx - 2).key, sentence.get(idx - 1).key, sentence.get(idx).key, trainingModel.upTrigramModel, trainingModel.upTrigramTokens));
-                    upTrigramPerplexity -= (tmpU + tmpB + tmpT);
+                    upTrigramPerplexity -= Math.log(
+                            getTrigramProbabilityWithLaplace(
+                                    sentence.get(idx - 2),
+                                    sentence.get(idx - 1),
+                                    sentence.get(idx),
+                                    trainingModel.upUnigramModel,
+                                    trainingModel.upBigramModel,
+                                    trainingModel.upTrigramModel
+                            )
+                    );
                 }
             }
         }
@@ -95,17 +98,30 @@ public class Perplexity {
             /* Start at index one because index 0 always contains <s>, which we are given to assume has probability = 1 */
             for (int idx = 1; idx < sentence.size(); idx++) {
                 /* Compute Unigram perplexity */
-                tmpU = Math.log(getUnigramProbabilityWithLaplace(sentence.get(idx).key, trainingModel.downUnigramModel, trainingModel.downUnigramTokens));
-                downUnigramPerplexity -= tmpU;
+                downUnigramPerplexity -= Math.log(getUnigramProbabilityWithLaplace(sentence.get(idx), trainingModel.downUnigramModel, trainingModel.downUnigramTokens));
 
                 /* Compute bigram perplexity (idx starts at one)*/
-                tmpB = Math.log(getBigramProbabilityWithLaplace(sentence.get(idx - 1).key, sentence.get(idx).key, trainingModel.downBigramModel, trainingModel.downBigramTokens));
-                downBigramPerplexity -= (tmpU + tmpB);
+                downBigramPerplexity -= Math.log(
+                        getBigramProbabilityWithLaplace(
+                                sentence.get(idx - 1),
+                                sentence.get(idx),
+                                trainingModel.downUnigramModel,
+                                trainingModel.downBigramModel
+                        )
+                );
 
                 /* Compute trigram perplexity */
                 if (idx >= 2 ) {
-                    tmpT = Math.log(getTrigramProbabilityWithLaplace(sentence.get(idx - 2).key, sentence.get(idx - 1).key, sentence.get(idx).key, trainingModel.downTrigramModel, trainingModel.downTrigramTokens));
-                    downTrigramPerplexity -= (tmpU + tmpB + tmpT);
+                    downTrigramPerplexity -= Math.log(
+                            getTrigramProbabilityWithLaplace(
+                                    sentence.get(idx - 2),
+                                    sentence.get(idx - 1),
+                                    sentence.get(idx),
+                                    trainingModel.downUnigramModel,
+                                    trainingModel.downBigramModel,
+                                    trainingModel.downTrigramModel
+                            )
+                    );
                 }
             }
         }

@@ -26,10 +26,17 @@ public class TrainingModel {
 
     public static String DIRECTORY = "models";
 
+    public static void main(String[] args) throws IOException {
+        TrainingModel t = new TrainingModel();
+        t.serialize(DIRECTORY);
+    }
+
     /**
      * Creates all new models from the emails by DataProcessor. It requires DataProcessor to have been initialized beforehand
      */
-    public TrainingModel() throws FileNotFoundException{
+    public TrainingModel() throws IOException{
+        if (!DataProcessor.data_set.containsKey("up_train") || !DataProcessor.data_set.containsKey("down_train"))
+            new DataProcessor(true, false, false);
         createNewNGramModels();
     }
 
@@ -210,7 +217,4 @@ public class TrainingModel {
             }
         }
     }
-
-
-
 }

@@ -29,7 +29,11 @@ public class DataProcessor {
 
     private static StanfordCoreNLP pipeline;
 
-    DataProcessor() throws FileNotFoundException, IOException {
+    /**
+     * Initalizes and loads all datasets
+     * @throws IOException
+     */
+    DataProcessor() throws IOException {
         if (pipeline == null) {
             // creates a StanfordCoreNLP object, with POS tagging, tokenization, named entity recognition and parsing
             Properties props = new Properties();
@@ -40,29 +44,26 @@ public class DataProcessor {
             pipeline = new StanfordCoreNLP(props);
         }
 
-        if (!data_set.containsKey("up_train")) data_set.put("up_train", new ArrayList<>());
-        if (!data_set.containsKey("down_train")) data_set.put("down_train", new ArrayList<>());
-        if (!data_set.containsKey("up_validation")) data_set.put("up_validation", new ArrayList<>());
-        if (!data_set.containsKey("down_validation")) data_set.put("down_validation", new ArrayList<>());
+        // Should always reset the data sets because new data is loaded each time DataProcessor is instanciated
+        data_set.put("up_train", new ArrayList<>());
+        data_set.put("down_train", new ArrayList<>());
+        data_set.put("up_validation", new ArrayList<>());
+        data_set.put("down_validation", new ArrayList<>());
 
         // What I'm using to test my code as I go. Comment this out and uncomment the next two lines to run this properly.
-        try {
-            process(train, "train", false);
-            process(validate, "validation", false);
-            process(test, "test", true);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        process(train, "train", false);
+        process(validate, "validation", false);
+        process(test, "test", true);
     }
 
     /**
-     * Initlizies DataProduces but
+     * Initlizies and loads only the specified data sets
      * @param processTrain
      * @param processValidation
      * @param processTest
      * @throws FileNotFoundException
      */
-    DataProcessor(boolean processTrain, boolean processValidation, boolean processTest) throws FileNotFoundException, IOException {
+    DataProcessor(boolean processTrain, boolean processValidation, boolean processTest) throws IOException {
         if (pipeline == null) {
             // creates a StanfordCoreNLP object, with POS tagging, tokenization, named entity recognition and parsing
             Properties props = new Properties();
@@ -74,22 +75,22 @@ public class DataProcessor {
         }
 
         if (processTrain) {
-            if (!data_set.containsKey("up_train")) data_set.put("up_train", new ArrayList<>());
-            if (!data_set.containsKey("down_train")) data_set.put("down_train", new ArrayList<>());
+            data_set.put("up_train", new ArrayList<>());
+            data_set.put("down_train", new ArrayList<>());
 
             process(train, "train", false);
         }
 
         if (processValidation) {
-            if (!data_set.containsKey("up_validation")) data_set.put("up_validation", new ArrayList<>());
-            if (!data_set.containsKey("down_validation")) data_set.put("down_validation", new ArrayList<>());
+            data_set.put("up_validation", new ArrayList<>());
+            data_set.put("down_validation", new ArrayList<>());
 
             process(validate, "validation", false);
         }
 
-        if (processValidation) {
-            if (!data_set.containsKey("up_validation")) data_set.put("up_validation", new ArrayList<>());
-            if (!data_set.containsKey("down_validation")) data_set.put("down_validation", new ArrayList<>());
+        if (processTest) {
+            data_set.put("up_validation", new ArrayList<>());
+            data_set.put("down_validation", new ArrayList<>());
 
             process(validate, "validation", false);
         }
@@ -101,7 +102,7 @@ public class DataProcessor {
      * @throws FileNotFoundException
      * @throws UnsupportedEncodingException
      */
-    public static void main(String[] args) throws UnsupportedEncodingException, FileNotFoundException, IOException {
+    public static void main(String[] args) throws IOException {
         new DataProcessor();
     }
 

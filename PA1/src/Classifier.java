@@ -30,40 +30,25 @@ public class Classifier {
 
     Classifier() throws FileNotFoundException, UnsupportedEncodingException {
         //used for access to unsmoothed models
-        new UnsmoothedNGram();
-        unigram_models = UnsmoothedNGram.unigram_models;
-        bigram_models = UnsmoothedNGram.bigram_models;
-        trigram_models = UnsmoothedNGram.trigram_models;
+        TrainingModel t = new TrainingModel(TrainingModel.DIRECTORY);
+        unigram_models.put(DOWN, t.downUnigramModel);
+        unigram_models.put(UP, t.upUnigramModel);
+        bigram_models.put(DOWN, t.downBigramModel);
+        bigram_models.put(UP, t.upBigramModel);
+        trigram_models.put(DOWN, t.downTrigramModel);
+        trigram_models.put(UP, t.upTrigramModel);
 
-        //get total token counts for each model
-        for (String k : unigram_models.get(DOWN).keySet()) {
-            unigram_tokens_down += unigram_models.get(DOWN).get(k).count;
-            System.out.println("unigrams down: " + unigram_tokens_down);
-        }
-        for (String k : bigram_models.get(DOWN).keySet()) {
-            bigram_tokens_down += bigram_models.get(DOWN).get(k).count;
-            System.out.println("bigrams down: " + bigram_tokens_down);
-        }
-        for (String k : trigram_models.get(DOWN).keySet()) {
-            trigram_tokens_down += trigram_models.get(DOWN).get(k).count;
-            System.out.println("trigrams down: " + trigram_tokens_down);
-        }
-        for (String k : unigram_models.get(UP).keySet()) {
-            unigram_tokens_up += unigram_models.get(UP).get(k).count;
-            System.out.println("unigrams up: " + unigram_tokens_up);
-        }
-        for (String k : bigram_models.get(UP).keySet()) {
-            bigram_tokens_up += bigram_models.get(UP).get(k).count;
-            System.out.println("bigrams up: " + bigram_tokens_up);
-        }
-        for (String k : trigram_models.get(UP).keySet()) {
-            trigram_tokens_up += trigram_models.get(UP).get(k).count;
-            System.out.println("trigrams up: " + trigram_tokens_up);
-        }
+        unigram_tokens_down = t.downUnigramTokens;
+        bigram_tokens_down = t.downBigramTokens;
+        trigram_tokens_down = t.downTrigramTokens;
+        unigram_tokens_up = t.upUnigramTokens;
+        bigram_tokens_up = t.upBigramTokens;
+        trigram_tokens_up = t.upTrigramTokens;
+
         System.out.println("Starting classify");
         classify(DataProcessor.test_set);
         System.out.println("Hurray this worked");
-        
+
     }
 
     /**
@@ -267,7 +252,7 @@ public class Classifier {
     /**
      * Returns the occurrences in an array list of the form:
      * [down unigram, up unigram, down bigram, up bigram, down trigram, up trigram]
-     * 
+     *
      * Add one smoothing is implemented for all three N-gram models, unlike
      * other smoothing methods.
      */
