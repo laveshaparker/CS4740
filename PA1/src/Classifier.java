@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
 
@@ -27,7 +28,7 @@ public class Classifier {
         new Classifier();
     }
 
-    Classifier() throws FileNotFoundException {
+    Classifier() throws FileNotFoundException, UnsupportedEncodingException {
         //used for access to unsmoothed models
         new UnsmoothedNGram();
         unigram_models = UnsmoothedNGram.unigram_models;
@@ -37,24 +38,30 @@ public class Classifier {
         //get total token counts for each model
         for (String k : unigram_models.get(DOWN).keySet()) {
             unigram_tokens_down += unigram_models.get(DOWN).get(k).count;
+            System.out.println("unigrams down: " + unigram_tokens_down);
         }
         for (String k : bigram_models.get(DOWN).keySet()) {
             bigram_tokens_down += bigram_models.get(DOWN).get(k).count;
+            System.out.println("bigrams down: " + bigram_tokens_down);
         }
         for (String k : trigram_models.get(DOWN).keySet()) {
             trigram_tokens_down += trigram_models.get(DOWN).get(k).count;
+            System.out.println("trigrams down: " + trigram_tokens_down);
         }
         for (String k : unigram_models.get(UP).keySet()) {
-            unigram_tokens_down += unigram_models.get(UP).get(k).count;
+            unigram_tokens_up += unigram_models.get(UP).get(k).count;
+            System.out.println("unigrams up: " + unigram_tokens_up);
         }
         for (String k : bigram_models.get(UP).keySet()) {
-            bigram_tokens_down += bigram_models.get(UP).get(k).count;
+            bigram_tokens_up += bigram_models.get(UP).get(k).count;
+            System.out.println("bigrams up: " + bigram_tokens_up);
         }
         for (String k : trigram_models.get(UP).keySet()) {
-            trigram_tokens_down += trigram_models.get(UP).get(k).count;
+            trigram_tokens_up += trigram_models.get(UP).get(k).count;
+            System.out.println("trigrams up: " + trigram_tokens_up);
         }
-
-        classify("training.txt");
+        System.out.println("Starting classify");
+        classify(DataProcessor.test_set);
         System.out.println("Hurray this worked");
         
     }
@@ -68,17 +75,59 @@ public class Classifier {
      * @todo compute/compare logs of probabilities instead of actual
      * @todo more testing
      */
-    private void classify(String source_file) throws FileNotFoundException {
+    private void classify(TreeMap<String, ArrayList<ArrayList<Unigram>>> parsed_file) throws FileNotFoundException, UnsupportedEncodingException {
+        //create output file
+        PrintWriter writer = new PrintWriter("out/test_classified.txt", "UTF-8");
+        writer.println("Id,Prediction");
+
         //process emails into ArrayList<ArrayList<N-Gram>>
-        ArrayList<ArrayList<Unigram>> data_to_classify_uni = new ArrayList<ArrayList<Unigram>>();
-        ArrayList<ArrayList<Bigram>>  data_to_classify_bi  = new ArrayList<ArrayList<Bigram>>();
-        ArrayList<ArrayList<Trigram>> data_to_classify_tri = new ArrayList<ArrayList<Trigram>>();
+        for (String k : parsed_file.keySet()) {
+            //System.out.println("this is: " + k);
+            Unigram unigram;
+            Bigram bigram;
+            Trigram trigram;
+            String key;
 
-        //pre-calculate the good-turing data of the training set
-        ArrayList<HashMap<Integer, Integer>> gt_down = getGoodTuringData(unigram_models.get(DOWN), bigram_models.get(DOWN), trigram_models.get(DOWN));
-        ArrayList<HashMap<Integer, Integer>> gt_up   = getGoodTuringData(unigram_models.get(UP), bigram_models.get(UP), trigram_models.get(UP));
+            ArrayList<ArrayList<Unigram>> data_to_classify_uni = new ArrayList<ArrayList<Unigram>>();
+            ArrayList<ArrayList<Bigram>>  data_to_classify_bi  = new ArrayList<ArrayList<Bigram>>();
+            ArrayList<ArrayList<Trigram>> data_to_classify_tri = new ArrayList<ArrayList<Trigram>>();
 
-        for (ArrayList<Unigram> email : data_to_classify_uni){
+            for (ArrayList<Unigram> sentence : parsed_file.get(k)) {
+                ArrayList<Unigram> next_sentence_unigram = new ArrayList<Unigram>();
+                ArrayList<Bigram>  next_sentence_bigram  = new ArrayList<Bigram>();
+                ArrayList<Trigram> next_sentence_trigram = new ArrayList<Trigram>();
+
+                for (int idx = 0; idx < sentence.size(); idx++) {
+                    unigram = sentence.get(idx);
+                    unigram.count = 1;
+                    next_sentence_unigram.add(unigram);
+
+                    if (idx + 1 < sentence.size()) {
+                        bigram = new Bigram(sentence.get(idx), sentence.get(idx + 1));
+                        bigram.count = 1;
+                        next_sentence_bigram.add(bigram);
+                    }
+
+                    if (idx + 2 < sentence.size()) {
+                        trigram = new Trigram(sentence.get(idx), sentence.get(idx + 1), sentence.get(idx + 2));
+                        trigram.count = 1;
+                        next_sentence_trigram.add(trigram);
+                    }
+                }
+
+                data_to_classify_uni.add(next_sentence_unigram);
+                data_to_classify_bi.add(next_sentence_bigram);
+                data_to_classify_tri.add(next_sentence_trigram);
+            }
+
+            //now there are uni/bi/trigram models of the email
+            //although these models are not complete, each
+            //has count of 1, and just appears n times
+
+            //pre-calculate the good-turing data of the training set
+            ArrayList<HashMap<Integer, Integer>> gt_down = getGoodTuringData(unigram_models.get(DOWN), bigram_models.get(DOWN), trigram_models.get(DOWN));
+            ArrayList<HashMap<Integer, Integer>> gt_up   = getGoodTuringData(unigram_models.get(UP), bigram_models.get(UP), trigram_models.get(UP));
+
             //add-one smoothing probabilities
             double addu_email_down = 1;
             double addu_email_up   = 1;
@@ -86,26 +135,27 @@ public class Classifier {
             double gtu_email_down = 1;
             double gtu_email_up   = 1;
 
-            for (Unigram word : email) {
-                //calculate add-one
-                addu_email_down *= addOne(word.key, "", "").get(0);
-                addu_email_up   *= addOne(word.key, "", "").get(1);
+            for (ArrayList<Unigram> email : data_to_classify_uni){
 
-                //calculate good-turing
-                double count_down  = (unigram_models.get(DOWN).containsKey(word.key) ? (unigram_models.get(DOWN).get(word.key).count + 1) : 1);
-                double gt_down_n   = (gt_down.get(0).containsKey(count_down - 1) ? (gt_down.get(0).get(count_down - 1)) : 1);
-                double gt_down_n1  = (gt_down.get(0).containsKey(count_down) ? (gt_down.get(0).get(count_down)) : 1);
-                gtu_email_down    *= Math.pow(count_down * gt_down_n1 / gt_down_n / unigram_tokens_down, word.count);
+                for (Unigram word : email) {
+                    //calculate add-one
+                    addu_email_down *= addOne(word.key, "", "").get(0);
+                    addu_email_up   *= addOne(word.key, "", "").get(1);
 
-                double count_up    = (unigram_models.get(UP).containsKey(word.key) ? (unigram_models.get(UP).get(word.key).count + 1) : 1);
-                double gt_up_n     = (gt_up.get(0).containsKey(count_up - 1) ? (gt_up.get(0).get(count_up - 1)) : 1);
-                double gt_up_n1    = (gt_up.get(0).containsKey(count_up) ? (gt_up.get(0).get(count_up)) : 1);
-                gtu_email_up      *= Math.pow(count_up * gt_up_n1 / gt_up_n / unigram_tokens_up, word.count);
+                    //calculate good-turing
+                    double count_down  = (unigram_models.get(DOWN).containsKey(word.key) ? (unigram_models.get(DOWN).get(word.key).count + 1) : 1);
+                    double gt_down_n   = (gt_down.get(0).containsKey(count_down - 1) ? (gt_down.get(0).get(count_down - 1)) : 1);
+                    double gt_down_n1  = (gt_down.get(0).containsKey(count_down) ? (gt_down.get(0).get(count_down)) : 1);
+                    gtu_email_down    *= Math.pow(count_down * gt_down_n1 / gt_down_n / unigram_tokens_down, word.count);
+
+                    double count_up    = (unigram_models.get(UP).containsKey(word.key) ? (unigram_models.get(UP).get(word.key).count + 1) : 1);
+                    double gt_up_n     = (gt_up.get(0).containsKey(count_up - 1) ? (gt_up.get(0).get(count_up - 1)) : 1);
+                    double gt_up_n1    = (gt_up.get(0).containsKey(count_up) ? (gt_up.get(0).get(count_up)) : 1);
+                    gtu_email_up      *= Math.pow(count_up * gt_up_n1 / gt_up_n / unigram_tokens_up, word.count);
+                }
+
             }
 
-        }
-
-        for (ArrayList<Bigram> email : data_to_classify_bi) {
             //add-one smoothing probabilities
             double addb_email_down = 1;
             double addb_email_up   = 1;
@@ -113,26 +163,27 @@ public class Classifier {
             double gtb_email_down = 1;
             double gtb_email_up   = 1;
 
-            for (Bigram word : email) {
-                //calculate add-one
-                addb_email_down *= addOne(word.token1.token, word.token2.token, "").get(2);
-                addb_email_up   *= addOne(word.token1.token, word.token2.token, "").get(3);
+            for (ArrayList<Bigram> email : data_to_classify_bi) {
 
-                //calculate good-turing
-                double count_down  = (bigram_models.get(DOWN).containsKey(word.key) ? (bigram_models.get(DOWN).get(word.key).count + 1) : 1);
-                double gt_down_n   = (gt_down.get(1).containsKey(count_down - 1) ? (gt_down.get(1).get(count_down - 1)) : 1);
-                double gt_down_n1  = (gt_down.get(1).containsKey(count_down) ? (gt_down.get(1).get(count_down)) : 1);
-                gtb_email_down    *= Math.pow(count_down * gt_down_n1 / gt_down_n / bigram_tokens_down, word.count);
+                for (Bigram word : email) {
+                    //calculate add-one
+                    addb_email_down *= addOne(word.token1.token, word.token2.token, "").get(2);
+                    addb_email_up   *= addOne(word.token1.token, word.token2.token, "").get(3);
 
-                double count_up    = (bigram_models.get(UP).containsKey(word.key) ? (bigram_models.get(UP).get(word.key).count + 1) : 1);
-                double gt_up_n     = (gt_up.get(1).containsKey(count_up - 1) ? (gt_up.get(1).get(count_up - 1)) : 1);
-                double gt_up_n1    = (gt_up.get(1).containsKey(count_up) ? (gt_up.get(1).get(count_up)) : 1);
-                gtb_email_up      *= Math.pow(count_up * gt_up_n1 / gt_up_n / bigram_tokens_up, word.count);
+                    //calculate good-turing
+                    double count_down  = (bigram_models.get(DOWN).containsKey(word.key) ? (bigram_models.get(DOWN).get(word.key).count + 1) : 1);
+                    double gt_down_n   = (gt_down.get(1).containsKey(count_down - 1) ? (gt_down.get(1).get(count_down - 1)) : 1);
+                    double gt_down_n1  = (gt_down.get(1).containsKey(count_down) ? (gt_down.get(1).get(count_down)) : 1);
+                    gtb_email_down    *= Math.pow(count_down * gt_down_n1 / gt_down_n / bigram_tokens_down, word.count);
+
+                    double count_up    = (bigram_models.get(UP).containsKey(word.key) ? (bigram_models.get(UP).get(word.key).count + 1) : 1);
+                    double gt_up_n     = (gt_up.get(1).containsKey(count_up - 1) ? (gt_up.get(1).get(count_up - 1)) : 1);
+                    double gt_up_n1    = (gt_up.get(1).containsKey(count_up) ? (gt_up.get(1).get(count_up)) : 1);
+                    gtb_email_up      *= Math.pow(count_up * gt_up_n1 / gt_up_n / bigram_tokens_up, word.count);
+                }
+
             }
 
-        }
-
-        for (ArrayList<Trigram> email : data_to_classify_tri) {
             //add-one smoothing probabilities
             double addt_email_down = 1;
             double addt_email_up   = 1;
@@ -140,29 +191,38 @@ public class Classifier {
             double gtt_email_down = 1;
             double gtt_email_up   = 1;
 
-            for (Trigram word : email) {
-                //calculate add-one
-                addt_email_down *= addOne(word.token1.token, word.token2.token, word.token3.token).get(4);
-                addt_email_up   *= addOne(word.token1.token, word.token2.token, word.token3.token).get(5);
+            for (ArrayList<Trigram> email : data_to_classify_tri) {
 
-                //calculate good-turing
-                double count_down  = (trigram_models.get(DOWN).containsKey(word.key) ? (trigram_models.get(DOWN).get(word.key).count + 1) : 1);
-                double gt_down_n   = (gt_down.get(2).containsKey(count_down - 1) ? (gt_down.get(2).get(count_down - 1)) : 1);
-                double gt_down_n1  = (gt_down.get(2).containsKey(count_down) ? (gt_down.get(2).get(count_down)) : 1);
-                gtt_email_down    *= Math.pow(count_down * gt_down_n1 / gt_down_n / trigram_tokens_down, word.count);
+                for (Trigram word : email) {
+                    //calculate add-one
+                    addt_email_down *= addOne(word.token1.token, word.token2.token, word.token3.token).get(4);
+                    addt_email_up   *= addOne(word.token1.token, word.token2.token, word.token3.token).get(5);
 
-                double count_up    = (trigram_models.get(UP).containsKey(word.key) ? (trigram_models.get(UP).get(word.key).count + 1) : 1);
-                double gt_up_n     = (gt_up.get(2).containsKey(count_up - 1) ? (gt_up.get(2).get(count_up - 1)) : 1);
-                double gt_up_n1    = (gt_up.get(2).containsKey(count_up) ? (gt_up.get(2).get(count_up)) : 1);
-                gtt_email_up      *= Math.pow(count_up * gt_up_n1 / gt_up_n / trigram_tokens_up, word.count);
+                    //calculate good-turing
+                    double count_down  = (trigram_models.get(DOWN).containsKey(word.key) ? (trigram_models.get(DOWN).get(word.key).count + 1) : 1);
+                    double gt_down_n   = (gt_down.get(2).containsKey(count_down - 1) ? (gt_down.get(2).get(count_down - 1)) : 1);
+                    double gt_down_n1  = (gt_down.get(2).containsKey(count_down) ? (gt_down.get(2).get(count_down)) : 1);
+                    gtt_email_down    *= Math.pow(count_down * gt_down_n1 / gt_down_n / trigram_tokens_down, word.count);
+
+                    double count_up    = (trigram_models.get(UP).containsKey(word.key) ? (trigram_models.get(UP).get(word.key).count + 1) : 1);
+                    double gt_up_n     = (gt_up.get(2).containsKey(count_up - 1) ? (gt_up.get(2).get(count_up - 1)) : 1);
+                    double gt_up_n1    = (gt_up.get(2).containsKey(count_up) ? (gt_up.get(2).get(count_up)) : 1);
+                    gtt_email_up      *= Math.pow(count_up * gt_up_n1 / gt_up_n / trigram_tokens_up, word.count);
+                }
+
             }
 
+            //determine up or down
+            int score = 0;
+            System.out.println(gtb_email_up + " vs " + gtb_email_down);
+            if (gtb_email_up > gtb_email_down) score += 1;
+            if (gtt_email_up > gtt_email_down) score += 1;
+            if (addt_email_up > addt_email_down) score += 1;
+            if (score > 1) writer.println(k + ",1");
+            else writer.println(k + ",0");
+
         }
-
-        //determine up or down by comparing the
-        //various probabilities across N-grams and smoothing methods
-
-        //write to file in format specified in 2.6
+        writer.close();
 
     }
 

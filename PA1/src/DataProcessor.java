@@ -48,7 +48,7 @@ public class DataProcessor {
 
         process(train, "train", false);
         process(validate, "validation", false);
-        // process(test, "test", true);
+        process(test, "test", true);
     }
 
     /**
