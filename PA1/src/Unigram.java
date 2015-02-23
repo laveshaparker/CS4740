@@ -1,4 +1,5 @@
 import javax.json.Json;
+import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 
 /**
@@ -23,6 +24,15 @@ public class Unigram {
         count = 1;
         lemma = lem;
         key = lemma;
+    }
+
+    Unigram (JsonObject obj) {
+        key = obj.getString("key");
+        count = obj.getInt("count");
+        pos = obj.getString("pos");
+        token = obj.getString("token");
+        ner = obj.getString("ner");
+        lemma = obj.getString("lemma");
     }
 
     @Override public String toString() {

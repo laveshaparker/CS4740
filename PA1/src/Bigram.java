@@ -1,5 +1,7 @@
 import javax.json.Json;
+import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+import java.util.TreeMap;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,6 +20,13 @@ public class Bigram {
         token1 = word1;
         token2 = word2;
         key = token1.lemma + " " + token2.lemma;
+    }
+
+    Bigram (JsonObject obj, TreeMap<String, Unigram> unigrams) {
+        key = obj.getString("key");
+        count = obj.getInt("count");
+        token1 = unigrams.get(obj.getString("token1"));
+        token2 = unigrams.get(obj.getString("token2"));
     }
 
     @Override public String toString() {

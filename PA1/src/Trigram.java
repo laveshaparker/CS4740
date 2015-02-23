@@ -1,5 +1,7 @@
 import javax.json.Json;
+import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+import java.util.TreeMap;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,6 +22,14 @@ public class Trigram {
         token2 = word2;
         token3 = word3;
         key = token1.lemma + " " + token2.lemma + " " + token3.lemma;
+    }
+
+    Trigram (JsonObject obj, TreeMap<String, Unigram> unigrams) {
+        key = obj.getString("key");
+        count = obj.getInt("count");
+        token1 = unigrams.get(obj.getString("token1"));
+        token2 = unigrams.get(obj.getString("token2"));
+        token3 = unigrams.get(obj.getString("token3"));
     }
 
     @Override public String toString() {

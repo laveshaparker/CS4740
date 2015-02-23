@@ -22,39 +22,7 @@ public class TrainingModel {
     public int upTrigramTokens = 0;
     public int downTrigramTokens = 0;
 
-    public static String dir = "models";
-
-    public static void main(String args[]) throws java.io.FileNotFoundException {
-//        Unigram u1 = new Unigram("Sofonias", "Pro", "uehh", "Sofo");
-//        Unigram u2 = new Unigram("Alec", "Ver", "uhh", "Alexander the ");
-//        Unigram u3 = new Unigram("La", "Adj", "um", "Lavish - a");
-//
-//        Bigram b1 = new Bigram(u1, u2);
-//        Bigram b2 = new Bigram(u2, u3);
-//
-//        Trigram t1 = new Trigram(u1, u2, u3);
-//
-//        JsonArrayBuilder arrBuilder = Json.createArrayBuilder();
-//        arrBuilder
-//                .add(u1.asJson())
-//                .add(u2.asJson())
-//                .add(u3.asJson())
-//                .add(b1.asJson())
-//                .add(b2.asJson())
-//                .add(t1.asJson());
-//
-//        JsonArray arr = arrBuilder.build();
-//
-//        System.out.println(arr.toString());
-//
-//        arr = Json.createReader(new StringReader(arr.toString())).readArray();
-//        System.out.print("df");
-//        TrainingModel m = new TrainingModel();
-//        m.serialize(dir);
-
-        TrainingModel m2 = new TrainingModel(dir);
-
-    }
+    public static String DIRECTORY = "models";
 
     /**
      * Creates all new models from the emails by DataProcessor
@@ -68,7 +36,49 @@ public class TrainingModel {
      * Parses a set of models from a json file saved by the serialize method above
      */
     public TrainingModel(String directory) throws FileNotFoundException {
-        System.out.println(readStringFromFile(directory + "/upUnigrams.json"));
+        JsonArray arr;
+
+        arr = Json.createReader(new StringReader(readStringFromFile(directory + "/upUnigram.json"))).readArray();
+        for (int i = 0; i < arr.size(); i++) {
+            Unigram u = new Unigram(arr.getJsonObject(i));
+            upUnigramTokens += u.count;
+            upUnigramModel.put(u.key, u);
+        }
+
+        arr = Json.createReader(new StringReader(readStringFromFile(directory + "/downUnigram.json"))).readArray();
+        for (int i = 0; i < arr.size(); i++) {
+            Unigram u = new Unigram(arr.getJsonObject(i));
+            upUnigramTokens += u.count;
+            upUnigramModel.put(u.key, u);
+        }
+
+        arr = Json.createReader(new StringReader(readStringFromFile(directory + "/upBigram.json"))).readArray();
+        for (int i = 0; i < arr.size(); i++) {
+            Bigram b = new Bigram(arr.getJsonObject(i), upUnigramModel);
+            upBigramTokens += b.count;
+            upBigramModel.put(b.key, b);
+        }
+
+        arr = Json.createReader(new StringReader(readStringFromFile(directory + "/downBigram.json"))).readArray();
+        for (int i = 0; i < arr.size(); i++) {
+            Bigram b = new Bigram(arr.getJsonObject(i), downUnigramModel);
+            downBigramTokens += b.count;
+            downBigramModel.put(b.key, b);
+        }
+
+        arr = Json.createReader(new StringReader(readStringFromFile(directory + "/upTrigram.json"))).readArray();
+        for (int i = 0; i < arr.size(); i++) {
+            Trigram t = new Trigram(arr.getJsonObject(i), upUnigramModel);
+            upTrigramTokens += t.count;
+            upTrigramModel.put(t.key, t);
+        }
+
+        arr = Json.createReader(new StringReader(readStringFromFile(directory + "/downTrigram.json"))).readArray();
+        for (int i = 0; i < arr.size(); i++) {
+            Trigram t = new Trigram(arr.getJsonObject(i), downUnigramModel);
+            downTrigramTokens += t.count;
+            downTrigramModel.put(t.key, t);
+        }
     }
 
     public String readStringFromFile(String fileName) throws FileNotFoundException {
@@ -89,7 +99,7 @@ public class TrainingModel {
      * Serializes a representation of this set of models to a json file for later use
      */
     public void serialize(String directory) throws FileNotFoundException {
-        writeStringToFile(directory + "/upUnigrams.json", getUnigramJsonString(upUnigramModel));
+        writeStringToFile(directory + "/upUnigram.json", getUnigramJsonString(upUnigramModel));
         writeStringToFile(directory + "/downUnigram.json", getUnigramJsonString(downUnigramModel));
         writeStringToFile(directory + "/upBigram.json", getBigramJsonString(upBigramModel));
         writeStringToFile(directory + "/downBigram.json", getBigramJsonString(downBigramModel));
