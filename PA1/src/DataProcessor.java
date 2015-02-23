@@ -1,5 +1,9 @@
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import edu.stanford.nlp.ling.*;
 import edu.stanford.nlp.pipeline.Annotation;
@@ -25,7 +29,7 @@ public class DataProcessor {
 
     private static StanfordCoreNLP pipeline;
 
-    DataProcessor() throws FileNotFoundException {
+    DataProcessor() throws FileNotFoundException, IOException {
         if (pipeline == null) {
             // creates a StanfordCoreNLP object, with POS tagging, tokenization, named entity recognition and parsing
             Properties props = new Properties();
@@ -42,11 +46,13 @@ public class DataProcessor {
         if (!data_set.containsKey("down_validation")) data_set.put("down_validation", new ArrayList<>());
 
         // What I'm using to test my code as I go. Comment this out and uncomment the next two lines to run this properly.
-        // process("data/smalltest.txt", "train", true);
-
-        process(train, "train", false);
-        process(validate, "validation", false);
-        process(test, "test", true);
+        try {
+            process(train, "train", false);
+            process(validate, "validation", false);
+            process(test, "test", true);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     /**
@@ -56,7 +62,7 @@ public class DataProcessor {
      * @param processTest
      * @throws FileNotFoundException
      */
-    DataProcessor(boolean processTrain, boolean processValidation, boolean processTest) throws FileNotFoundException {
+    DataProcessor(boolean processTrain, boolean processValidation, boolean processTest) throws FileNotFoundException, IOException {
         if (pipeline == null) {
             // creates a StanfordCoreNLP object, with POS tagging, tokenization, named entity recognition and parsing
             Properties props = new Properties();
@@ -95,7 +101,7 @@ public class DataProcessor {
      * @throws FileNotFoundException
      * @throws UnsupportedEncodingException
      */
-    public static void main(String[] args) throws UnsupportedEncodingException, FileNotFoundException {
+    public static void main(String[] args) throws UnsupportedEncodingException, FileNotFoundException, IOException {
         new DataProcessor();
     }
 
@@ -112,23 +118,27 @@ public class DataProcessor {
      * @param is_test_file, true if run with test file, false otherwise.
      * @throws FileNotFoundException
      */
-    private void process(String source_file, String data_type, Boolean is_test_file) throws FileNotFoundException {
-        Scanner sc = new Scanner(new File(source_file)).useDelimiter("\\*\\*.*?\\*\\*");
+    private void process(String source_file, String data_type, Boolean is_test_file) throws IOException {
+        String regexString =  "(.*?)" + Pattern.quote("**START**") + "(.*?)" + Pattern.quote("**EOM**") ;
+        Pattern pattern = Pattern.compile(regexString, Pattern.DOTALL | Pattern.MULTILINE);
+
+        byte[] encoded = Files.readAllBytes(Paths.get(source_file));
+
+        // Get all text from source_file and pattern match on that.
+        Matcher matcher = pattern.matcher(new String(encoded, "UTF-8"));
 
         String speak_type, email_content;
 
-        while (sc.hasNext()) {
-            String str = sc.next().replaceAll("\\s+", "");
+        while (matcher.find()) {
+            String str = matcher.group(1).replaceAll("\\s+", "");
 
-            if (sc.hasNext()) {
-                email_content = sc.next();
+            email_content = matcher.group(2);
 
-                if (is_test_file) {
-                    processEmailContent(str, email_content, is_test_file);
-                } else {
-                    speak_type = str.equalsIgnoreCase("DOWNSPEAK") ? UnsmoothedNGram.DOWN : UnsmoothedNGram.UP;
-                    processEmailContent(makeKey(speak_type, data_type), email_content, is_test_file);
-                }
+            if (is_test_file) {
+                processEmailContent(str, email_content, is_test_file);
+            } else {
+                speak_type = str.equalsIgnoreCase("DOWNSPEAK") ? UnsmoothedNGram.DOWN : UnsmoothedNGram.UP;
+                processEmailContent(makeKey(speak_type, data_type), email_content, is_test_file);
             }
         }
     }
@@ -177,4 +187,5 @@ public class DataProcessor {
             // System.out.println(to_add_to.get(idx).toString());
         }
     }
+
 }

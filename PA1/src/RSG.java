@@ -11,37 +11,37 @@ public class RSG {
     System.out.println("\n***************UNIGRAM DOWNSPEAK***************");
     for (int i = 1; i <= 50; i++){
       System.out.print(i);
-      RSG.genUnigram("../out/unigram_down.txt");
+      RSG.genUnigram("out/unigram_down.txt");
     }
     
     System.out.println("\n***************UNIGRAM UPSPEAK***************");
     for (int i = 1; i <= 50; i++){
       System.out.print(i);
-      RSG.genUnigram("../out/unigram_up.txt");
+      RSG.genUnigram("out/unigram_up.txt");
     }
     
     System.out.println("\n***************BIGRAM DOWNSPEAK***************");
     for (int i = 1; i <= 50; i++){
       System.out.print(i);
-      RSG.genBigram("../out/bigram_down.txt");
+      RSG.genBigram("out/bigram_down.txt");
     }
     
     System.out.println("\n***************BIGRAM UPSPEAK***************");
     for (int i = 1; i <= 50; i++){
       System.out.print(i);
-      RSG.genBigram("../out/bigram_up.txt");
+      RSG.genBigram("out/bigram_up.txt");
     }
     
     System.out.println("\n***************TRIGRAMS DOWNSPEAK***************");
     for (int i = 1; i <= 50; i++){
       System.out.print(i);
-      RSG.genTrigram("../out/bigram_down.txt", "../out/trigram_down.txt");
+      RSG.genTrigram("out/bigram_down.txt", "out/trigram_down.txt");
     }
     
     System.out.println("\n***************TRIGRAMS UPSPEAK***************");
     for (int i = 1; i <= 50; i++){
       System.out.print(i);
-      RSG.genTrigram("../out/bigram_up.txt", "../out/trigram_up.txt");
+      RSG.genTrigram("out/bigram_up.txt", "out/trigram_up.txt");
     }
   }
   

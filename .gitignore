@@ -1,6 +1,9 @@
 # Ignore everything in general/
 general/*
 
+# Ignore generated models
+PA1/models/*
+
 # compilation files
 PA1/out/production/*
 
