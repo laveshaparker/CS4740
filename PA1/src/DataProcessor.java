@@ -89,10 +89,7 @@ public class DataProcessor {
         }
 
         if (processTest) {
-            data_set.put("up_validation", new ArrayList<>());
-            data_set.put("down_validation", new ArrayList<>());
-
-            process(validate, "validation", false);
+            process(test, "test", true);
         }
 
     }
