@@ -30,7 +30,7 @@ public class Bigram {
     }
 
     @Override public String toString() {
-        return token1.lemma + " " + token2.lemma + " " + count;
+        return token1.lemma + " " + token2.lemma;
     }
 
     public JsonObjectBuilder asJson() {

@@ -33,7 +33,7 @@ public class Trigram {
     }
 
     @Override public String toString() {
-        return token1.lemma + " " + token2.lemma + " "  + token3.lemma + " " + count;
+        return token1.lemma + " " + token2.lemma + " "  + token3.lemma;
     }
 
     public JsonObjectBuilder asJson() {

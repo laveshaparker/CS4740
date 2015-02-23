@@ -36,7 +36,7 @@ public class Unigram {
     }
 
     @Override public String toString() {
-        return lemma + " " + count;
+        return lemma;
     }
 
     public JsonObjectBuilder asJson() {
