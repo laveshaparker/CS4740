@@ -5,6 +5,8 @@ import javax.json.*;
 
 /**
  * Created by Sofonias on 2/22/2015.
+ * This class contains full models for all upspeak/downpeak n-grams
+ * These models contain all n-gram data (lemma, pos,...) and can be fully serialized and parsed from files
  */
 public class TrainingModel {
 
@@ -48,8 +50,8 @@ public class TrainingModel {
         arr = Json.createReader(new StringReader(readStringFromFile(directory + "/downUnigram.json"))).readArray();
         for (int i = 0; i < arr.size(); i++) {
             Unigram u = new Unigram(arr.getJsonObject(i));
-            upUnigramTokens += u.count;
-            upUnigramModel.put(u.key, u);
+            downUnigramTokens += u.count;
+            downUnigramModel.put(u.key, u);
         }
 
         arr = Json.createReader(new StringReader(readStringFromFile(directory + "/upBigram.json"))).readArray();
@@ -106,6 +108,7 @@ public class TrainingModel {
         writeStringToFile(directory + "/upTrigram.json", getTrigramJsonString(upTrigramModel));
         writeStringToFile(directory + "/downTrigram.json", getTrigramJsonString(downTrigramModel));
     }
+
 
     public void writeStringToFile(String fileName, String str) throws java.io.FileNotFoundException {
         PrintWriter writer = new PrintWriter(fileName);
