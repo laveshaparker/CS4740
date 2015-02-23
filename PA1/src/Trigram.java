@@ -21,7 +21,7 @@ public class Trigram {
         token1 = word1;
         token2 = word2;
         token3 = word3;
-        key = token1.lemma + " " + token2.lemma + " " + token3.lemma;
+        key = token1.key + " " + token2.key + " " + token3.key;
     }
 
     Trigram (JsonObject obj, TreeMap<String, Unigram> unigrams) {

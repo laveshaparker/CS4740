@@ -23,7 +23,7 @@ public class Unigram {
         ner = named_entity_recognition;
         count = 1;
         lemma = lem;
-        key = lemma;
+        key = lemma + " " + pos;
     }
 
     Unigram (JsonObject obj) {

@@ -1,9 +1,5 @@
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.SortedMap;
-import java.util.TreeMap;
 
 public class Perplexity {
 
@@ -13,11 +9,11 @@ public class Perplexity {
         findPerplexitiesWithLaplace(t);
     }
 
-    public static double getUnigramProbabilityWithLaplace(Unigram u, SortedMap<String, Unigram> model, double totalTokens) {
+    public static double getUnigramConditionalProbabilityWithLaplace(Unigram u, SortedMap<String, Unigram> model, double totalTokens) {
         return (model.containsKey(u.key) ? (double)model.get(u.key).count  + 1.0 : 1.0) / (totalTokens + (double)model.size());
     }
 
-    public static double getBigramProbabilityWithLaplace(Unigram u1, Unigram u2, SortedMap<String, Unigram> unigramModel, SortedMap<String, Bigram> bigramModel) {
+    public static double getBigramConditionalProbabilityWithLaplace(Unigram u1, Unigram u2, SortedMap<String, Unigram> unigramModel, SortedMap<String, Bigram> bigramModel) {
         Bigram b = new Bigram(u1, u2);
         return (
                     bigramModel.containsKey(b.key) ? (double)bigramModel.get(b.key).count + 1.0 : 1.0
@@ -26,7 +22,7 @@ public class Perplexity {
                 );
     }
 
-    public static double getTrigramProbabilityWithLaplace(Unigram u1, Unigram u2, Unigram u3, SortedMap<String, Unigram> unigramModel, SortedMap<String, Bigram> bigramModel, SortedMap<String, Trigram> trigramModel) {
+    public static double getTrigramConditionalProbabilityWithLaplace(Unigram u1, Unigram u2, Unigram u3, SortedMap<String, Unigram> unigramModel, SortedMap<String, Bigram> bigramModel, SortedMap<String, Trigram> trigramModel) {
         Trigram t = new Trigram(u1, u2, u3);
         Bigram b = new Bigram(u1, u2);
         return (
@@ -54,11 +50,11 @@ public class Perplexity {
             /* Start at index one because index 0 always contains <s>, which we are given to assume has probability = 1 */
             for (int idx = 1; idx < sentence.size(); idx++) {
                 /* Compute Unigram perplexity */
-                upUnigramPerplexity -= Math.log(getUnigramProbabilityWithLaplace(sentence.get(idx), trainingModel.upUnigramModel, trainingModel.upUnigramTokens));
+                upUnigramPerplexity -= Math.log(getUnigramConditionalProbabilityWithLaplace(sentence.get(idx), trainingModel.upUnigramModel, trainingModel.upUnigramTokens));
 
                 /* Compute bigram perplexity (idx starts at one)*/
                 upBigramPerplexity -= Math.log(
-                        getBigramProbabilityWithLaplace(
+                        getBigramConditionalProbabilityWithLaplace(
                                 sentence.get(idx - 1),
                                 sentence.get(idx),
                                 trainingModel.upUnigramModel,
@@ -69,7 +65,7 @@ public class Perplexity {
                 /* Compute trigram perplexity */
                 if (idx >= 2 ) {
                     upTrigramPerplexity -= Math.log(
-                            getTrigramProbabilityWithLaplace(
+                            getTrigramConditionalProbabilityWithLaplace(
                                     sentence.get(idx - 2),
                                     sentence.get(idx - 1),
                                     sentence.get(idx),
@@ -98,11 +94,11 @@ public class Perplexity {
             /* Start at index one because index 0 always contains <s>, which we are given to assume has probability = 1 */
             for (int idx = 1; idx < sentence.size(); idx++) {
                 /* Compute Unigram perplexity */
-                downUnigramPerplexity -= Math.log(getUnigramProbabilityWithLaplace(sentence.get(idx), trainingModel.downUnigramModel, trainingModel.downUnigramTokens));
+                downUnigramPerplexity -= Math.log(getUnigramConditionalProbabilityWithLaplace(sentence.get(idx), trainingModel.downUnigramModel, trainingModel.downUnigramTokens));
 
                 /* Compute bigram perplexity (idx starts at one)*/
                 downBigramPerplexity -= Math.log(
-                        getBigramProbabilityWithLaplace(
+                        getBigramConditionalProbabilityWithLaplace(
                                 sentence.get(idx - 1),
                                 sentence.get(idx),
                                 trainingModel.downUnigramModel,
@@ -113,7 +109,7 @@ public class Perplexity {
                 /* Compute trigram perplexity */
                 if (idx >= 2 ) {
                     downTrigramPerplexity -= Math.log(
-                            getTrigramProbabilityWithLaplace(
+                            getTrigramConditionalProbabilityWithLaplace(
                                     sentence.get(idx - 2),
                                     sentence.get(idx - 1),
                                     sentence.get(idx),

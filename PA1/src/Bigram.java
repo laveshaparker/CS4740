@@ -19,7 +19,7 @@ public class Bigram {
     Bigram (Unigram word1, Unigram word2) {
         token1 = word1;
         token2 = word2;
-        key = token1.lemma + " " + token2.lemma;
+        key = token1.key + " " + token2.key;
     }
 
     Bigram (JsonObject obj, TreeMap<String, Unigram> unigrams) {
