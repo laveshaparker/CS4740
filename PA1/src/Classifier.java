@@ -1,7 +1,4 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.util.*;
 
 public class Classifier {
@@ -28,9 +25,11 @@ public class Classifier {
         new Classifier();
     }
 
-    Classifier() throws FileNotFoundException, UnsupportedEncodingException {
+    Classifier() throws IOException {
         //used for access to unsmoothed models
         TrainingModel t = new TrainingModel(TrainingModel.DIRECTORY);
+        new DataProcessor(false, false, true);
+
         unigram_models.put(DOWN, t.downUnigramModel);
         unigram_models.put(UP, t.upUnigramModel);
         bigram_models.put(DOWN, t.downBigramModel);

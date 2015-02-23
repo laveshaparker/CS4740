@@ -20,8 +20,8 @@ import edu.stanford.nlp.util.CoreMap;
 public class DataProcessor {
     public static String model = "lib/stanford-postagger-2015-01-30/models/english-left3words-distsim.tagger";
     public static String test = "data/test.txt";
-    public static String train = "data/training_small.txt";
-    public static String validate = "data/validation_small.txt";
+    public static String train = "data/training.txt";
+    public static String validate = "data/validation.txt";
 
     public static TreeMap<String, ArrayList<ArrayList<Unigram>>> data_set = new TreeMap<>();
 

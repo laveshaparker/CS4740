@@ -21,3 +21,9 @@ PA1/PA1.iml
 
 # Ignore because this file is too large.
 PA1/lib/stanford-corenlp-full-2015-01-30/stanford-corenlp-3.5.1-models.jar
+PA1/models/downBigram.json
+PA1/models/upUnigram.json
+PA1/models/upTrigram.json
+PA1/models/upBigram.json
+PA1/models/downUnigram.json
+PA1/models/downTrigram.json
