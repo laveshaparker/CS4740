@@ -260,26 +260,26 @@ public class Classifier {
 
         //adds unigram probabilities
         double downu_count = (unigram_models.get(DOWN).containsKey(word1) ? (unigram_models.get(DOWN).get(word1).count + 1) : 1);
-        double downu_chance = downu_count / (unigram_models.get(DOWN).size() + unigram_tokens_down);
+        double downu_chance = downu_count / (unigram_models.get(DOWN).size() + unigram_tokens_down + 1);
         return_vals.add(downu_chance);
         double upu_count = (unigram_models.get(UP).containsKey(word1) ? (unigram_models.get(UP).get(word1).count + 1) : 1);
-        double upu_chance = upu_count / (unigram_models.get(UP).size() + unigram_tokens_up);
+        double upu_chance = upu_count / (unigram_models.get(UP).size() + unigram_tokens_up + 1);
         return_vals.add(upu_chance);
 
         //adds bigram probabilities
         double downb_count = (bigram_models.get(DOWN).containsKey(word1 + " " + word2) ? (bigram_models.get(DOWN).get(word1 + " " + word2).count + 1) : 1);
-        double downb_chance = downb_count / (downu_count + unigram_tokens_down);
+        double downb_chance = downb_count / (bigram_models.get(DOWN).size() + bigram_tokens_down + 1);
         return_vals.add(downb_chance);
         double upb_count = (bigram_models.get(UP).containsKey(word1 + " " + word2) ? (bigram_models.get(UP).get(word1 + " " + word2).count + 1) : 1);
-        double upb_chance = upb_count / (upu_count + unigram_tokens_up);
+        double upb_chance = upb_count / (bigram_models.get(UP).size() + bigram_tokens_up + 1);
         return_vals.add(upb_chance);
 
         //adds trigram probabilities
         double downt_count = (trigram_models.get(DOWN).containsKey(word1 + " " + word2 + " " + word3) ? (trigram_models.get(DOWN).get(word1 + " " + word2 + " " + word3).count + 1) : 1);
-        double downt_chance = downt_count / (downb_count + unigram_tokens_down);
+        double downt_chance = downt_count / (trigram_models.get(DOWN).size() + trigram_tokens_down + 1);
         return_vals.add(downt_chance);
         double upt_count = (trigram_models.get(UP).containsKey(word1 + " " + word2 + " " + word3) ? (trigram_models.get(UP).get(word1 + " " + word2 + " " + word3).count + 1) : 1);
-        double upt_chance = upt_count / (upb_count + unigram_tokens_up);
+        double upt_chance = upt_count / (trigram_models.get(UP).size() + trigram_tokens_up + 1);
         return_vals.add(upt_chance);
 
         return return_vals;
