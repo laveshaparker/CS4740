@@ -13,167 +13,105 @@ public class Perplexity {
     public static final String DOWN = "down";
     public static final String UP = "up";
 
-    public static TreeMap<String, SortedMap<String, Unigram>> unigram_models = new TreeMap<>();
-    public static TreeMap<String, SortedMap<String, Bigram>> bigram_models = new TreeMap<>();
-    public static TreeMap<String, SortedMap<String, Trigram>> trigram_models = new TreeMap<>();
-
-    public static String[] trainingSets = new String[]{"up_train", "down_train"};
-    public static String[] validationSets = new String[]{"up_validation", "down_validation"};
-
-    public static int unigram_tokens = 0;
-    public static int bigram_tokens = 0;
-    public static int trigram_tokens = 0;
-
-    public static double up_unigram_perplexity = 1;
-    public static double down_unigram_perplexity = 1;
-    public static double up_bigram_perplexity = 1;
-    public static double down_bigram_perplexity = 1;
-    public static double up_trigram_perplexity = 1;
-    public static double down_trigram_perplexity = 1;
+    TrainingModel trainingModel;
 
     public static void main(String[] args) throws Exception {
         new Perplexity();
     }
 
     Perplexity() throws FileNotFoundException {
-        unigram_models.put(UP, new TreeMap<>());
-        unigram_models.put(DOWN, new TreeMap<>());
-        bigram_models.put(UP, new TreeMap<>());
-        bigram_models.put(DOWN, new TreeMap<>());
-        trigram_models.put(UP, new TreeMap<>());
-        trigram_models.put(DOWN, new TreeMap<>());
+        try {
+            trainingModel = new TrainingModel(TrainingModel.DIRECTORY);
+            new DataProcessor(false, true, false);
+        }
+        catch (FileNotFoundException e) {
+            new DataProcessor();
+            trainingModel = new TrainingModel();
+        }
 
-        new DataProcessor();
-        getNGrams();
-        computePerplexities();
-        System.out.println(up_unigram_perplexity);
-        System.out.println(down_unigram_perplexity);
-        System.out.println(up_bigram_perplexity);
-        System.out.println(down_bigram_perplexity);
-        System.out.println(up_trigram_perplexity);
-        System.out.println(down_trigram_perplexity);
+        computePerplexitiesWithLaplace();
     }
 
-    /**
-     * Iterates through all of the data in DataProcessor.data_set and calculates the unigram,
-     * bigram, and trigram counts of each of those sentences.
-     */
-    private void getNGrams() {
+    private double getUnigramProbabilityWithLaplace(String key, SortedMap<String, Unigram> model, double totalTokens) {
+        return (model.containsKey(key) ? (double)model.get(key).count  + 1.0 : 1.0) / (totalTokens + (double)model.size());
+    }
 
-        Unigram unigram;
-        Bigram bigram;
-        Trigram trigram;
-        String key;
+    private double getBigramProbabilityWithLaplace(String key1, String key2, SortedMap<String, Bigram> model, double totalTokens) {
+        String key = key1 + " " + key2;
+        return (model.containsKey(key) ? (double)model.get(key).count + 1.0 : 1.0) / (totalTokens + (double)model.size());
+    }
 
-        for (String k : trainingSets) {
+    private double getTrigramProbabilityWithLaplace(String key1, String key2, String key3, SortedMap<String, Trigram> model, double totalTokens) {
+        String key = key1 + " " + key2 + " " + key3;
+        return (model.containsKey(key) ? (double)model.get(key).count + 1.0 : 1.0) / (totalTokens + (double)model.size());
+    }
 
-            key = k.charAt(0) == 'd' ? DOWN : UP;
+    private void computePerplexitiesWithLaplace() {
 
-            for (ArrayList<Unigram> sentence : DataProcessor.data_set.get(k)) {
+        double upNumberTokens = 0;
+        double upUnigramPerplexity = 0.0;
+        double upBigramPerplexity = 0.0;
+        double upTrigramPerplexity = 0.0;
 
-                unigram_tokens += sentence.size();
-                bigram_tokens += Math.max(sentence.size() - 1, 0);
-                trigram_tokens += Math.max(sentence.size() - 2, 0);
+        double tmpU = 0.0;
+        double tmpB = 0.0;
+        double tmpT = 0.0;
 
-                for (int idx = 0; idx < sentence.size(); idx++) {
-                    unigram = sentence.get(idx);
-                    unigram.count = (unigram_models.get(key).containsKey(unigram.key) ? (unigram_models.get(key).get(unigram.key).count + 1) : 1);
-                    unigram_models.get(key).put(unigram.key, unigram);
+        //Up Validation
 
-                    if (idx + 1 < sentence.size()) {
-                        // Update bigrams
-                        bigram = new Bigram(sentence.get(idx), sentence.get(idx + 1));
-                        bigram.count = (bigram_models.get(key).containsKey(bigram.key) ? (bigram_models.get(key).get(bigram.key).count + 1) : 1);
-                        bigram_models.get(key).put(bigram.key, bigram);
-                    }
+        for (ArrayList<Unigram> sentence : DataProcessor.data_set.get("up_validation")) {
+            upNumberTokens += sentence.size() - 1;
+            /* Start at index one because index 0 always contains <s>, which we are given to assume has probability = 1 */
+            for (int idx = 1; idx < sentence.size(); idx++) {
+                /* Compute Unigram perplexity */
+                tmpU = Math.log(getUnigramProbabilityWithLaplace(sentence.get(idx).key, trainingModel.upUnigramModel, trainingModel.upUnigramTokens));
+                upUnigramPerplexity -= tmpU;
 
-                    if (idx + 2 < sentence.size()) {
-                        // Update trigrams
-                        trigram = new Trigram(sentence.get(idx), sentence.get(idx + 1), sentence.get(idx + 2));
-                        trigram.count = (trigram_models.get(key).containsKey(trigram.key) ? (trigram_models.get(key).get(trigram.key).count + 1) : 1);
-                        trigram_models.get(key).put(trigram.key, trigram);
-                    }
+                /* Compute bigram perplexity (idx starts at one)*/
+                tmpB = Math.log(getBigramProbabilityWithLaplace(sentence.get(idx - 1).key, sentence.get(idx).key, trainingModel.upBigramModel, trainingModel.upBigramTokens));
+                upBigramPerplexity -= (tmpU + tmpB);
+
+                /* Compute trigram perplexity */
+                if (idx >= 2 ) {
+                    tmpT = Math.log(getTrigramProbabilityWithLaplace(sentence.get(idx - 2).key, sentence.get(idx - 1).key, sentence.get(idx).key, trainingModel.upTrigramModel, trainingModel.upTrigramTokens));
+                    upTrigramPerplexity -= (tmpU + tmpB + tmpT);
                 }
             }
         }
-    }
 
-    private double getUnigramProbability(String token, String speak_type) {
-        String key = token;
-        return
-                (
-                        (unigram_models.get(speak_type).containsKey(key) ? (double)unigram_models.get(speak_type).get(key).count : 0) + 1.0
-                ) /
-                (
-                        (double)unigram_tokens + (double)unigram_models.get(speak_type).size()
-                );
-    }
+        System.out.println("Upspeak Unigram Perplexity: " + upUnigramPerplexity / upNumberTokens);
+        System.out.println("Upspeak Bigram Perplexity: " + upBigramPerplexity / upNumberTokens);
+        System.out.println("Upspeak Trigram Perplexity: " + upTrigramPerplexity / upNumberTokens);
 
-    private double getBigramProbability(String token1, String token2, String speak_type) {
-        String key = token1 + " " + token2;
-        return getUnigramProbability(token1, speak_type) *
-                (
-                        (bigram_models.get(speak_type).containsKey(key) ? (double)bigram_models.get(speak_type).get(key).count : 0) + 1.0
-                )
-                /
-                (
-                        (double)bigram_tokens + (double)bigram_models.get(speak_type).size()
-                );
-    }
+        // Down validation
 
-    private double getTrigramProbability(String token1, String token2, String token3, String speak_type) {
-        String key = token1 + " " + token2 + " " + token3;
-        return getBigramProbability(token1, token2, speak_type) *
-                (
-                        (trigram_models.get(speak_type).containsKey(key) ? (double)trigram_models.get(speak_type).get(token1 + " " + token2 + " " + token3).count : 0) + 1.0
-                )
-                /
-                (
-                        (double)trigram_tokens + (double)unigram_models.get(speak_type).size()
-                );
-    }
+        double downNumberTokens = 0;
+        double downUnigramPerplexity = 0.0;
+        double downBigramPerplexity = 0.0;
+        double downTrigramPerplexity = 0.0;
 
-    private void computePerplexities() {
+        for (ArrayList<Unigram> sentence : DataProcessor.data_set.get("down_validation")) {
+            downNumberTokens += sentence.size() - 1;
+            /* Start at index one because index 0 always contains <s>, which we are given to assume has probability = 1 */
+            for (int idx = 1; idx < sentence.size(); idx++) {
+                /* Compute Unigram perplexity */
+                tmpU = Math.log(getUnigramProbabilityWithLaplace(sentence.get(idx).key, trainingModel.downUnigramModel, trainingModel.downUnigramTokens));
+                downUnigramPerplexity -= tmpU;
 
-        Unigram token;
-        String speakType;
-        double tmpUnigramPerplexity;
-        double tmpBigramPerplexity;
-        double tmpTrigramPerplexity;
+                /* Compute bigram perplexity (idx starts at one)*/
+                tmpB = Math.log(getBigramProbabilityWithLaplace(sentence.get(idx - 1).key, sentence.get(idx).key, trainingModel.downBigramModel, trainingModel.downBigramTokens));
+                downBigramPerplexity -= (tmpU + tmpB);
 
-        for (String k : validationSets) {
-
-            speakType = k.charAt(0) == 'd' ? DOWN : UP;
-            tmpUnigramPerplexity = 1;
-            tmpBigramPerplexity = 1;
-            tmpTrigramPerplexity = 1;
-
-            for (ArrayList<Unigram> sentence : DataProcessor.data_set.get(k)) {
-                /* Start at index one because index 0 always contains <s>, which we are given to assume has probability = 1 */
-                for (int idx = 1; idx < sentence.size(); idx++) {
-                    /* Compute Unigram perplexity */
-                    tmpUnigramPerplexity *= (1.0 / getUnigramProbability(sentence.get(idx).key, speakType));
-
-                    /* Compute bigram perplexity (idx starts at one)*/
-                    tmpBigramPerplexity *= (1.0 / getBigramProbability(sentence.get(idx - 1).key, sentence.get(idx).key, speakType));
-
-                    /* Compute trigram perplexity */
-                    if (idx >= 2 ) {
-                        tmpBigramPerplexity *= (1.0 / getTrigramProbability(sentence.get(idx - 2).key, sentence.get(idx - 1).key, sentence.get(idx).key, speakType));
-                    }
+                /* Compute trigram perplexity */
+                if (idx >= 2 ) {
+                    tmpT = Math.log(getTrigramProbabilityWithLaplace(sentence.get(idx - 2).key, sentence.get(idx - 1).key, sentence.get(idx).key, trainingModel.downTrigramModel, trainingModel.downTrigramTokens));
+                    downTrigramPerplexity -= (tmpU + tmpB + tmpT);
                 }
             }
-
-            if (speakType.equals(DOWN)) {
-                down_unigram_perplexity *= tmpUnigramPerplexity;
-                down_bigram_perplexity *= tmpBigramPerplexity;
-                down_trigram_perplexity *= tmpTrigramPerplexity;
-            } else {
-                up_unigram_perplexity *= tmpUnigramPerplexity;
-                up_bigram_perplexity *= tmpBigramPerplexity;
-                up_trigram_perplexity *= tmpTrigramPerplexity;
-            }
-
         }
+
+        System.out.println("Downspeak Unigram Perplexity: " + downUnigramPerplexity/ downNumberTokens);
+        System.out.println("Downspeak Bigram Perplexity: " + downBigramPerplexity/ downNumberTokens);
+        System.out.println("Downspeak Trigram Perplexity: " + downTrigramPerplexity / downNumberTokens);
     }
 }

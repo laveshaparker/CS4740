@@ -27,10 +27,9 @@ public class TrainingModel {
     public static String DIRECTORY = "models";
 
     /**
-     * Creates all new models from the emails by DataProcessor
+     * Creates all new models from the emails by DataProcessor. It requires DataProcessor to have been initialized beforehand
      */
     public TrainingModel() throws FileNotFoundException{
-        new DataProcessor();
         createNewNGramModels();
     }
 
@@ -109,7 +108,6 @@ public class TrainingModel {
         writeStringToFile(directory + "/downTrigram.json", getTrigramJsonString(downTrigramModel));
     }
 
-
     public void writeStringToFile(String fileName, String str) throws java.io.FileNotFoundException {
         PrintWriter writer = new PrintWriter(fileName);
         writer.write(str);
@@ -156,8 +154,8 @@ public class TrainingModel {
         Bigram bigram;
         Trigram trigram;
 
-        // Upspeak Training Model
-        for (ArrayList<Unigram> sentence : DataProcessor.data_set.get("up_train")) {
+        // Upspeak Training Models
+        for (ArrayList<Unigram> sentence : DataProcessor.data_set.get("down_train")) {
 
             upUnigramTokens += sentence.size();
             upBigramTokens += Math.max(sentence.size() - 1, 0);
@@ -184,8 +182,8 @@ public class TrainingModel {
             }
         }
 
-        // Downspeak Training Model
-        for (ArrayList<Unigram> sentence : DataProcessor.data_set.get("down_train")) {
+        // Downspeak Training Models
+        for (ArrayList<Unigram> sentence : DataProcessor.data_set.get("up_train")) {
 
             downUnigramTokens += sentence.size();
             downBigramTokens += Math.max(sentence.size() - 1, 0);

@@ -14,14 +14,10 @@ import edu.stanford.nlp.util.CoreMap;
  * @todo Ignore all hyphens in emails.
  */
 public class DataProcessor {
-
-    public static final Unigram start_tag = new Unigram("<s>", "<s>", "", "<s>");
-    public static final Unigram end_tag = new Unigram("</s>", "</s>", "", "</s>");
     public static String model = "lib/stanford-postagger-2015-01-30/models/english-left3words-distsim.tagger";
     public static String test = "data/test.txt";
-    public static String train = "data/training.txt";
-    public static String validate = "data/validation.txt";
-
+    public static String train = "data/training_small.txt";
+    public static String validate = "data/validation_small.txt";
 
     public static TreeMap<String, ArrayList<ArrayList<Unigram>>> data_set = new TreeMap<>();
 
@@ -30,25 +26,68 @@ public class DataProcessor {
     private static StanfordCoreNLP pipeline;
 
     DataProcessor() throws FileNotFoundException {
-        // creates a StanfordCoreNLP object, with POS tagging, tokenization, named entity recognition and parsing
-        Properties props = new Properties();
-        props.setProperty("annotators", "tokenize, ssplit, pos, lemma, ner, parse");
-        // Splits along newlines
-        props.put("ssplit.newlineIsSentenceBreak", "always");
+        if (pipeline == null) {
+            // creates a StanfordCoreNLP object, with POS tagging, tokenization, named entity recognition and parsing
+            Properties props = new Properties();
+            props.setProperty("annotators", "tokenize, ssplit, pos, lemma, ner, parse");
+            // Splits along newlines
+            props.put("ssplit.newlineIsSentenceBreak", "always");
 
-        pipeline = new StanfordCoreNLP(props);
+            pipeline = new StanfordCoreNLP(props);
+        }
 
-        data_set.put("up_train", new ArrayList<>());
-        data_set.put("down_train", new ArrayList<>());
-        data_set.put("up_validation", new ArrayList<>());
-        data_set.put("down_validation", new ArrayList<>());
+        if (!data_set.containsKey("up_train")) data_set.put("up_train", new ArrayList<>());
+        if (!data_set.containsKey("down_train")) data_set.put("down_train", new ArrayList<>());
+        if (!data_set.containsKey("up_validation")) data_set.put("up_validation", new ArrayList<>());
+        if (!data_set.containsKey("down_validation")) data_set.put("down_validation", new ArrayList<>());
 
         // What I'm using to test my code as I go. Comment this out and uncomment the next two lines to run this properly.
-//        process("data/smalltest.txt", "train", true);
+        // process("data/smalltest.txt", "train", true);
 
         process(train, "train", false);
         process(validate, "validation", false);
         process(test, "test", true);
+    }
+
+    /**
+     * Initlizies DataProduces but
+     * @param processTrain
+     * @param processValidation
+     * @param processTest
+     * @throws FileNotFoundException
+     */
+    DataProcessor(boolean processTrain, boolean processValidation, boolean processTest) throws FileNotFoundException {
+        if (pipeline == null) {
+            // creates a StanfordCoreNLP object, with POS tagging, tokenization, named entity recognition and parsing
+            Properties props = new Properties();
+            props.setProperty("annotators", "tokenize, ssplit, pos, lemma, ner, parse");
+            // Splits along newlines
+            props.put("ssplit.newlineIsSentenceBreak", "always");
+
+            pipeline = new StanfordCoreNLP(props);
+        }
+
+        if (processTrain) {
+            if (!data_set.containsKey("up_train")) data_set.put("up_train", new ArrayList<>());
+            if (!data_set.containsKey("down_train")) data_set.put("down_train", new ArrayList<>());
+
+            process(train, "train", false);
+        }
+
+        if (processValidation) {
+            if (!data_set.containsKey("up_validation")) data_set.put("up_validation", new ArrayList<>());
+            if (!data_set.containsKey("down_validation")) data_set.put("down_validation", new ArrayList<>());
+
+            process(validate, "validation", false);
+        }
+
+        if (processValidation) {
+            if (!data_set.containsKey("up_validation")) data_set.put("up_validation", new ArrayList<>());
+            if (!data_set.containsKey("down_validation")) data_set.put("down_validation", new ArrayList<>());
+
+            process(validate, "validation", false);
+        }
+
     }
 
     /**
@@ -118,7 +157,7 @@ public class DataProcessor {
             // Add sentence to appropriate data set, including start and end tags.
             to_add_to.add(new ArrayList<>());
             idx = to_add_to.size() - 1;
-            to_add_to.get(idx).add(start_tag);
+            to_add_to.get(idx).add(new Unigram("<s>", "<s>", "", "<s>"));
 
             for (CoreLabel token: sentence.get(CoreAnnotations.TokensAnnotation.class)) {
                 // this is the text of the token
@@ -132,7 +171,7 @@ public class DataProcessor {
 
                 to_add_to.get(idx).add(new Unigram(word, pos, ne, lemma));
             }
-            to_add_to.get(idx).add(end_tag);
+            to_add_to.get(idx).add(new Unigram("</s>", "</s>", "", "</s>"));
 
             // Uncomment if you want to see how the sentence is constructed.
             // System.out.println(to_add_to.get(idx).toString());

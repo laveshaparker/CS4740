@@ -231,7 +231,7 @@ public class Classifier {
      * and the corresponding value is the number of times any n-gram
      * occurred that many times throughout the corpus
      */
-    private ArrayList<HashMap<Integer, Integer>> getGoodTuringData(SortedMap<String, Unigram>  up_down_u, SortedMap<String, Bigram>  up_down_b, SortedMap<String, Trigram>  up_down_t) {
+    public static ArrayList<HashMap<Integer, Integer>> getGoodTuringData(SortedMap<String, Unigram>  up_down_u, SortedMap<String, Bigram>  up_down_b, SortedMap<String, Trigram>  up_down_t) {
         ArrayList<HashMap<Integer, Integer>> goodTuringCompilation = new ArrayList<HashMap<Integer, Integer>>();
 
         //Analyze the unigram data
