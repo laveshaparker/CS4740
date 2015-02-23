@@ -8,45 +8,47 @@ public class RSG {
   
   public static void main(String[] args){
     
-    System.out.println("***************UNIGRAM DOWNSPEAK***************");
-    for (int i = 1; i <= 15; i++){
+    System.out.println("\n***************UNIGRAM DOWNSPEAK***************");
+    for (int i = 1; i <= 50; i++){
       System.out.print(i);
       RSG.genUnigram("out/unigram_down.txt");
     }
     
-    System.out.println("***************UNIGRAM UPSPEAK***************");
-    for (int i = 1; i <= 15; i++){
+    System.out.println("\n***************UNIGRAM UPSPEAK***************");
+    for (int i = 1; i <= 50; i++){
       System.out.print(i);
       RSG.genUnigram("out/unigram_up.txt");
     }
     
-    System.out.println("***************BIGRAM DOWNSPEAK***************");
-    for (int i = 1; i <= 15; i++){
+    System.out.println("\n***************BIGRAM DOWNSPEAK***************");
+    for (int i = 1; i <= 50; i++){
       System.out.print(i);
       RSG.genBigram("out/bigram_down.txt");
     }
     
-    System.out.println("***************BIGRAM UPSPEAK***************");
-    for (int i = 1; i <= 15; i++){
+    System.out.println("\n***************BIGRAM UPSPEAK***************");
+    for (int i = 1; i <= 50; i++){
       System.out.print(i);
       RSG.genBigram("out/bigram_up.txt");
     }
     
-    System.out.println("***************TRIGRAMS DOWNSPEAK***************");
-    for (int i = 1; i <= 15; i++){
+    System.out.println("\n***************TRIGRAMS DOWNSPEAK***************");
+    for (int i = 1; i <= 50; i++){
       System.out.print(i);
       RSG.genTrigram("out/bigram_down.txt", "out/trigram_down.txt");
     }
     
-    System.out.println("***************TRIGRAMS UPSPEAK***************");
-    for (int i = 1; i <= 15; i++){
+    System.out.println("\n***************TRIGRAMS UPSPEAK***************");
+    for (int i = 1; i <= 50; i++){
       System.out.print(i);
       RSG.genTrigram("out/bigram_up.txt", "out/trigram_up.txt");
     }
   }
   
-  /*Get initial ArrayList containing Ngrams and their counts.
-   * Works for any N.*/
+  public static int SENTENCE_MAX = 100;
+  public static Random random = new Random();
+  
+  /*Get initial ArrayList containing n-grams and their counts.*/
   public static ArrayList<String> getInitialArrayList(String filename){
     
     ArrayList<String> arrayList = new ArrayList<String>();
@@ -88,16 +90,14 @@ public class RSG {
     ArrayList<String> arrayList = getInitialArrayList(textFile); //arrayList filled with unigrams
     
     String randomSentence = "<s>";
-    Random random = new Random();
     String randomWord = "";
-    int sentenceMax = 50;
     int loopCounter = 0;
     
-    //the loop: select new random word until we get </s> (or until sentenceMax is reached)
-    while(!(randomSentence.contains("</s>")) && loopCounter <= sentenceMax){
-      int randomIndex = random.nextInt(arrayList.size()); //get random index
-      randomWord = arrayList.get(randomIndex); //get random element
-      randomSentence += " " + randomWord; //append
+    //the loop: select new random word, append, and repeat until end of sentence
+    while(!(randomSentence.contains("</s>")) && loopCounter <= SENTENCE_MAX){
+      int randomIndex = random.nextInt(arrayList.size());
+      randomWord = arrayList.get(randomIndex);
+      randomSentence += " " + randomWord;
       loopCounter++;
     }
     System.out.println(randomSentence);
@@ -109,17 +109,15 @@ public class RSG {
     ArrayList<String> arrayListBi = getInitialArrayList(textFileBigram);
     
     String randomSentence = "<s>";
-    Random random = new Random();
     String previousWord = "<s>";
     String randomWord = ""; 
-    int sentenceMax = 50;
     int loopCounter = 0;
     
-    //generate sentence and assign it to "randomSentence"
-    while(!(randomSentence.contains("</s>")) && loopCounter <= sentenceMax){
+    //the loop: select new random bigram, append the last word, and repeat until end of sentence
+    while(!(randomSentence.contains("</s>")) && loopCounter <= SENTENCE_MAX){
       ArrayList<String> arrayListCurrent = new ArrayList<String>(); //inside loop: ArrayList for next possible bigram
       
-      //put possible bigrams (that start with "previousWord") into arrayListCurrent, then pick randomWord from there.
+      //put possible bigrams (that start with "previousWord") into arrayListCurrent, then pick randomWord from these.
       //distributed probability already taken care of in arrayListBi
       for (int i = 0; i < arrayListBi.size(); i++){
         
@@ -131,11 +129,11 @@ public class RSG {
         randomSentence += " </s>";
       } else {
         
-        int randomIndex = random.nextInt(arrayListCurrent.size()); //get random index
+        int randomIndex = random.nextInt(arrayListCurrent.size());
         randomWord = arrayListCurrent.get(randomIndex); //get random element (bigram)
-        randomWord = randomWord.substring(randomWord.lastIndexOf(" ") + 1);
+        randomWord = randomWord.substring(randomWord.lastIndexOf(" ") + 1); //get last word only
         previousWord = randomWord;
-        randomSentence += " " + randomWord; //append the word
+        randomSentence += " " + randomWord;
         loopCounter++;
       }
     }
@@ -149,10 +147,8 @@ public class RSG {
     ArrayList<String> arrayListTri = getInitialArrayList(textFileTrigram);
     
     String randomSentence = "<s>";
-    Random random = new Random();
     String previousWord = "<s>";
     String randomWord = "";
-    int sentenceMax = 50;
     int loopCounter = 0;
     
     //NOTE: first iteration here is identical to the loop in genBigram since it's only for the first word after <s>
@@ -171,18 +167,18 @@ public class RSG {
       randomSentence += " </s>";
     } else {
       
-      int randomIndex = random.nextInt(arrayListCurrent.size()); //get random index
+      int randomIndex = random.nextInt(arrayListCurrent.size());
       randomWord = arrayListCurrent.get(randomIndex); //get random element (bigram)
-      randomWord = randomWord.substring(randomWord.lastIndexOf(" ") + 1);
+      randomWord = randomWord.substring(randomWord.lastIndexOf(" ") + 1); //get last word only
       previousWord = randomWord;
-      randomSentence += " " + randomWord; //append the word
+      randomSentence += " " + randomWord;
     }
     
     String previousBigram = "";
     
     
     //NOTE: loop for trigrams starts here
-    while(!(randomSentence.contains("</s>")) && loopCounter <= sentenceMax){
+    while(!(randomSentence.contains("</s>")) && loopCounter <= SENTENCE_MAX){
       ArrayList<String> arrayListCurrentTri = new ArrayList<String>(); //ArrayList for next possible bigram
       
       //next 3 lines get the last bigram, which will be the first two words of the next trigram selected
@@ -202,10 +198,10 @@ public class RSG {
         randomSentence += " </s>";
       } else {
         
-        int randomIndex = random.nextInt(arrayListCurrentTri.size()); //get random index
+        int randomIndex = random.nextInt(arrayListCurrentTri.size());
         randomWord = arrayListCurrentTri.get(randomIndex); //get random element (trigram)
-        randomWord = randomWord.substring(randomWord.lastIndexOf(" ") + 1);
-        randomSentence += " " + randomWord; //append the word
+        randomWord = randomWord.substring(randomWord.lastIndexOf(" ") + 1); //get last word only
+        randomSentence += " " + randomWord;
         loopCounter++;
       }
     }

@@ -8230,7 +8230,6 @@ $ for line 1
 <s> UK SteamCoal 1
 <s> UK Steamcoal 1
 <s> UK Weather 4
-<s> UPSPEAK </s> 210
 <s> US . 1
 <s> US : 1
 <s> US </s> 1
@@ -9079,7 +9078,6 @@ $ for line 1
 <s> download attachment 1
 <s> download the 1
 <s> download to 1
-<s> downspeak </s> 434
 <s> downstream of 1
 <s> drill down 1
 <s> drive and 1

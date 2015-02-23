@@ -5913,7 +5913,6 @@ $ for 2
 <s> U.S. 1
 <s> UBSWenergy.com 1
 <s> UK 11
-<s> UPSPEAK 210
 <s> US 45
 <s> United 1
 <s> University 2
@@ -6268,7 +6267,6 @@ $ for 2
 <s> documents/databases 1
 <s> domestic 1
 <s> download 3
-<s> downspeak 434
 <s> downstream 1
 <s> drill 1
 <s> drive 1

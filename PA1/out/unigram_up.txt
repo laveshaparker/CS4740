@@ -4100,7 +4100,6 @@ UBSWenergy.com 2
 UBSWenergy/Enron 8
 UK 18
 UPS 3
-UPSPEAK 210
 US 74
 USA 3
 USGT 1
@@ -5301,7 +5300,6 @@ down95 5
 downgrade 1
 download 8
 downside 1
-downspeak 434
 downstream 4
 downtime 1
 downtown 1
