@@ -39,13 +39,6 @@ We have structured every token in the emails as a custom Unigram object. Our uni
 \includegraphics[width=1.0\textwidth]{images/unigram.png}
 \textit{An excerpt from the Unigram class.}
 \end{center}
-We used the Stanford NLP parser to tokenize the emails. Our tokenizing can be broken into separate sections:\\
-\begin{itemize}
-\item POS Tagging and Lemmatizing:\\
-The part-of-speech tags for each of the tokens in our dataset is used very heavily in our classification. In addition to storing the token as it appears in the email, part-of-speech tag, appearance count, and lemma of a given token instantiated as a Unigram, we always reference that Unigram using a key that is formed as "<lemma> <part-of-speech tag>". Therefore, whenever we try to compare a new token against our training models, we are really comparing the lemmatized version of the token along with its part-of-speech tag to the training models. This better maintains the intended use of the tokens in the original emails. and leads to a higher prediction accuracy.
-\item Removing case:\\
-Simply casting all email content to lower case drastically decreased the number of tokens in our models and increased our social-relationship prediction accuracy on the validation set by 2\%. We found that proper nouns were still classified as such, even with the case removed (i.e. "Natalie" and "natalie" are both parsed as \texttt{NNP}). That was our main concern when we decided to test our predictions in a case-insensitive environment, so that was positive reinforcement on our decision to use a single case throughout our classification process.
-\end{itemize}
 
 In terms of text that we "threw away," a major simplification we used was that of numbers. We achieved a 3\% increase in accuracy of our predictions when we simplified the way we used numbers. Upon reviewing the numeric tokens found in the training and validation sets, we derived five useful classifications of numbers. The classes are as follows:\\
 \begin{itemize}
@@ -76,7 +69,13 @@ Each of the cases above for numeric tokens were then used to represent the token
 
 % Our answer
 
-\lipsum[2] % Dummy text
+We used the Stanford NLP parser to tokenize the emails. Our tokenizing can be broken into separate sections:\\
+\begin{itemize}
+\item POS Tagging and Lemmatizing:\\
+The part-of-speech tags for each of the tokens in our dataset is used very heavily in our classification. In addition to storing the token as it appears in the email, part-of-speech tag, appearance count, and lemma of a given token instantiated as a Unigram, we always reference that Unigram using a key that is formed as "<lemma> <part-of-speech tag>". Therefore, whenever we try to compare a new token against our training models, we are really comparing the lemmatized version of the token along with its part-of-speech tag to the training models. This better maintains the intended use of the tokens in the original emails. and leads to a higher prediction accuracy.
+\item Removing case:\\
+Simply casting all email content to lower case drastically decreased the number of tokens in our models and increased our social-relationship prediction accuracy on the validation set by 2\%. We found that proper nouns were still classified as such, even with the case removed (i.e. "Natalie" and "natalie" are both parsed as \texttt{NNP}). That was our main concern when we decided to test our predictions in a case-insensitive environment, so that was positive reinforcement on our decision to use a single case throughout our classification process.
+\end{itemize}
 
 \subsection*{Question 3}
 
