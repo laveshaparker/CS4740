@@ -27,6 +27,15 @@ Alec Sokol (azs8), Nicolas Vera (nmv29)}
 
 \maketitle % Print the title
 
+\textit{Note about running this:\\
+We developed our project using the IntelliJ IDE. To run the project  add the following .jar files before running:}\\
+\texttt{lib/commons-math3-3.4.1.jar}\\
+\texttt{lib/javax.json.jar}\\
+\texttt{lib/stanford-corenlp-full-2015-01-30/stanford-corenlp-3.5.1-models.jar}\\
+\texttt{lib/stanford-corenlp-full-2015-01-30/stanford-corenlp-3.5.1.jar}\\
+
+\textit{Run TrainingModel first. Then run BetterClassifier for classification, Perplexity for perplexity calculations, and UnsmoothedNGram to see the unsmoothed N-Grams.}
+
 \section{Preprocessing}
 \subsection*{Question 1}
 
@@ -34,7 +43,7 @@ Alec Sokol (azs8), Nicolas Vera (nmv29)}
 \\
 
 % Our answer
-We have structured every token in the emails as a custom Unigram object. Our unigram object stores all of the important data that we derive from a token in an email.\\
+We have structured every token in the emails as a custom Unigram object. Our unigram object stores all of the important data that we derive from a token in an email. A token is considered anything that is either a punctuation mark, or next to a punctuation mark and/or whitespace. We chose this method of determining tokens because it was an intuitive and simple way to do so.\\
 \begin{center}
 \includegraphics[width=1.0\textwidth]{images/unigram.png}
 \textit{An excerpt from the Unigram class.}
@@ -76,6 +85,8 @@ The part-of-speech tags for each of the tokens in our dataset is used very heavi
 \item Removing case:\\
 Simply casting all email content to lower case drastically decreased the number of tokens in our models and increased our social-relationship prediction accuracy on the validation set by 2\%. We found that proper nouns were still classified as such, even with the case removed (i.e. "Natalie" and "natalie" are both parsed as \texttt{NNP}). That was our main concern when we decided to test our predictions in a case-insensitive environment, so that was positive reinforcement on our decision to use a single case throughout our classification process.
 \end{itemize}
+
+We kept all punctuation marks.
 
 \subsection*{Question 3}
 
@@ -341,7 +352,7 @@ For n-gram sets, the size of a set's potential vocabulary grows exponentially wi
 
 Training happens independently for our six models: upspeak unigram, downspeak unigram, upspeak bigram, downspeak bigram, upspeak trigram, downspeak trigram. Each model contains a set of all of the word lemmas encountered in its corresponding training set, and extra information such as part of speech, frequency in the training set, and word type itself. Word lemmas are used here instead of the actual tokens to better counter sparsity and simplify the vocabulary we are working with.
 
-We preprocess our training data by ......
+We preprocess our training data using the same methods described in the answers to questions 1 and 2. All considerations made for preprocessing are discussed in those sections.
 
 All six models use Good-Turing smoothing.
 
