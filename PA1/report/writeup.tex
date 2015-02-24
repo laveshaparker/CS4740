@@ -224,15 +224,36 @@ Unknown words are handled using the add-one method so that they had a nonzero pr
 \\
 
 % Our answer
+Our perplexity values were computed using Laplace smoothing, and a log transformation to prevent overflow. The final formula used for the computation was:
+$$
+- \frac{1}{N} \sum\limits_{i = 0}^N log(P(W_i|W_{i - (n-1)},...,W_{i-1})
+$$
+Using Laplace smoothing, our calculated log perplexities are as follows: \\
 
-\lipsum[2] % Dummy text
+\begin{center}
+\begin{tabular}{ l | r}
+	\hline
+		Validation Set & Log Perplexity \\
+	\hline
+		Upspeak Unigram & 6.47740934048416 \\
+		Downspeak Unigram & 6.597998169837239 \\
+		Upspeak Bigram & 7.331584597485108 \\
+		Downspeak Bigram & 7.43914010534209 \\
+		Upspeak Trigram & 7.543225576737731 \\
+		Downspeak Trigram & 7.7767272961338145 \\
+	\hline
+\end{tabular}
+\end{center}
 
 \subsection*{Question 10}
 
 \textbf{Compare the perplexities. Are they consistent with your expectations? Why or why not?}
 \\
 
-\lipsum[2]
+The perplexity values (relative to each other) as we expected them to be. In both upspeak and downspeak, the perplexity of the trigram set > perplexity of the bigram set > perplexity of the unigram set.
+
+For n-gram sets, the size of a set's potential vocabulary grows exponentially with n. Therefore, we can definitely expect more sparsity in higher n-gram models. This difference should be visible in the perplexities of independent validation sets. Indeed, the table above is consistent with this differences in perplexities.
+
 
 \section{Social Power Relationship Prediction}
 
