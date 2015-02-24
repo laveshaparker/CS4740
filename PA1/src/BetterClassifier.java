@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 /**
@@ -13,19 +14,35 @@ public class BetterClassifier {
 
         TrainingModel t = new TrainingModel(TrainingModel.DIRECTORY);
         GoodTuring gt = new GoodTuring(t);
-        classifyValidationSets(t, gt);
+        classifyTestSets(t, gt);
     }
 
     private static void classifyTestSets(TrainingModel t, GoodTuring gt) throws IOException {
         new DataProcessor(false, false, true);
 
-        for (ArrayList<Unigram> sentence : DataProcessor.data_set.get("up_validation")) {
-            int prediction1 = classifyWithUnigrams(t, gt, sentence); // Prediction using unigrams only
-            int prediction2 = classifyWithBigrams(t, gt, sentence); // Prediction using bigrams only
-            int prediction3 = classifyWithTrigrams(t, gt, sentence); // Prediction using trigrams only
-            //if (prediction1 + prediction2 + prediction3 > 1) correct++; // upspeak
+        //create output file
+        PrintWriter writer = new PrintWriter("out/test_classified.txt", "UTF-8");
+        writer.println("Id,Prediction");
 
+        for (String emailNumber : DataProcessor.test_set.keySet()) {
+
+            int upSpeakCount = 0;
+            int downSpeakCount = 0;
+
+            for (ArrayList<Unigram> sentence : DataProcessor.test_set.get(emailNumber)) {
+                int prediction1 = classifyWithUnigrams(t, gt, sentence); // Prediction using unigrams only
+                int prediction2 = classifyWithBigrams(t, gt, sentence); // Prediction using bigrams only
+                int prediction3 = classifyWithTrigrams(t, gt, sentence); // Prediction using trigrams only
+                if (prediction1 + prediction2 + prediction3 > 1) upSpeakCount++;
+                else downSpeakCount++;
+            }
+
+            int classification = upSpeakCount > downSpeakCount ? UPSPEAK : DOWNSPEAK;
+
+            writer.println(emailNumber + "," + classification);
         }
+
+        writer.close();
     }
 
     private static void classifyValidationSets(TrainingModel t, GoodTuring gt) throws IOException {
