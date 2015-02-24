@@ -251,18 +251,24 @@ For n-gram sets, the size of a set's potential vocabulary grows exponentially wi
 \textbf{Explain how you train your the language models. (Which smoothing method? Are you doing any special preprocessing?)}
 \\
 
+Training happens independently for our six models: upspeak unigram, downspeak unigram, upspeak bigram, downspeak bigram, upspeak trigram, downspeak trigram. Each model contains a set of all of the word lemmas encountered in its corresponding training set, and extra information such as part of speech, frequency in the training set, and word type itself. Word lemmas are used here instead of the actual tokens to better counter sparsity and simplify the vocabulary we are working with.
 
+We preprocess our training data by ......
+
+All six models use Good-Turing smoothing.
 
 \subsection*{Question 12}
 
 \textbf{Explain how you classify each email as UPSPEAK or DOWNSPEAK, given the probabilities computed by using the language models.}
 
+For both the test set and validation sets, classification happens once at the sentence level, and then again at the email level. Each sentence is classified independently using three different trained models: unigram model, bigram model, trigram model. 
 
+Each sentence is classified with the most common speak type from three models. Each email is classified with the most common speak type from all of its sentences.
 
 \subsection*{Question 13}
 
 \textbf{How well does your classifier perform?}
 
-
+Our classifier achieves an accuracy of 40$\%$ on the provided test set.
 
 \end{document}
