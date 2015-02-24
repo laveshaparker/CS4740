@@ -12,37 +12,37 @@ public class RSG {
       TrainingModel t = new TrainingModel(TrainingModel.DIRECTORY);
 
     System.out.println("\n***************UNIGRAM DOWNSPEAK***************");
-    for (int i = 1; i <= 50; i++){
+    for (int i = 1; i <= 20; i++){
       System.out.print(i);
       RSG.genUnigram(t.downUnigramModel);
     }
     
     System.out.println("\n***************UNIGRAM UPSPEAK***************");
-    for (int i = 1; i <= 50; i++){
+    for (int i = 1; i <= 20; i++){
       System.out.print(i);
       RSG.genUnigram(t.upUnigramModel);
     }
     
     System.out.println("\n***************BIGRAM DOWNSPEAK***************");
-    for (int i = 1; i <= 50; i++){
+    for (int i = 1; i <= 20; i++){
       System.out.print(i);
       RSG.genBigram(t.downBigramModel);
     }
     
     System.out.println("\n***************BIGRAM UPSPEAK***************");
-    for (int i = 1; i <= 50; i++){
+    for (int i = 1; i <= 20; i++){
       System.out.print(i);
       RSG.genBigram(t.upBigramModel);
     }
     
     System.out.println("\n***************TRIGRAMS DOWNSPEAK***************");
-    for (int i = 1; i <= 50; i++){
+    for (int i = 1; i <= 20; i++){
       System.out.print(i);
       RSG.genTrigram(t.downBigramModel, t.downTrigramModel);
     }
     
     System.out.println("\n***************TRIGRAMS UPSPEAK***************");
-    for (int i = 1; i <= 50; i++){
+    for (int i = 1; i <= 20; i++){
       System.out.print(i);
       RSG.genTrigram(t.upBigramModel, t.upTrigramModel);
     }
