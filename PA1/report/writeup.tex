@@ -3,7 +3,9 @@
 
 \usepackage{amsmath,amsfonts,amsthm} % Math packages
 \usepackage{lipsum}
-\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+\usepackage{graphicx}
+
+\setlength\parindent{0pt} 
 
 %----------------------------------------------------------------------------------------
 %	TITLE SECTION
@@ -28,12 +30,43 @@ Alec Sokol (azs8), Nicolas Vera (nmv29)}
 \section{Preprocessing}
 \subsection*{Question 1}
 
-\textbf{Give an overview of what you did, explaining any decisions you?ve made. (E.g. Did you throw away any part of the text? What was considered a word token? Why?)}
+\textbf{Give an overview of what you did, explaining any decisions you've made. (E.g. Did you throw away any part of the text? What was considered a word token? Why?)}
 \\
 
 % Our answer
+We have structured every token in the emails as a custom Unigram object. Our unigram object stores all of the important data that we derive from a token in an email.\\
+\begin{center}
+\includegraphics[width=1.0\textwidth]{images/unigram.png}
+\textit{An excerpt from the Unigram class.}
+\end{center}
+We used the Stanford NLP parser to tokenize the emails. Our tokenizing can be broken into separate sections:\\
+\begin{itemize}
+\item POS Tagging and Lemmatizing:\\
+The part-of-speech tags for each of the tokens in our dataset is used very heavily in our classification. In addition to storing the token as it appears in the email, part-of-speech tag, appearance count, and lemma of a given token instantiated as a Unigram, we always reference that Unigram using a key that is formed as "<lemma> <part-of-speech tag>". Therefore, whenever we try to compare a new token against our training models, we are really comparing the lemmatized version of the token along with its part-of-speech tag to the training models. This better maintains the intended use of the tokens in the original emails. and leads to a higher prediction accuracy.
+\item Removing case:\\
+Simply casting all email content to lower case drastically decreased the number of tokens in our models and increased our social-relationship prediction accuracy on the validation set by 2\%. We found that proper nouns were still classified as such, even with the case removed (i.e. "Natalie" and "natalie" are both parsed as \texttt{NNP}). That was our main concern when we decided to test our predictions in a case-insensitive environment, so that was positive reinforcement on our decision to use a single case throughout our classification process.
+\end{itemize}
 
-\lipsum[2] % Dummy text
+In terms of text that we "threw away," a major simplification we used was that of numbers. We achieved a 3\% increase in accuracy of our predictions when we simplified the way we used numbers. Upon reviewing the numeric tokens found in the training and validation sets, we derived five useful classifications of numbers. The classes are as follows:\\
+\begin{itemize}
+\item Phone Numbers:\\
+We accept the three most popular formats for phone numbers: 
+	\begin{itemize}
+	\item Phone numbers separated by hyphens (-), periods (.), or spaces: XXX-XXX-XXXX, XXX.XXX.XXXX, XXX XXX XXXX
+	\item Phone numbers with no separators: XXXXXXXXXX
+	\item Phone numbers with the area code emphasized: (XXX) XXX-XXXX
+	\end{itemize}
+\item Time:\\
+The majority of times in the data set followed the pattern "HH:MM," where "H" is an hour and "M" is a minute. We allow for single-digit specification of hours and minutes as well.
+\item Date:\\
+We process dates of the form MM/DD/YYYY, as is the format for the majority of dates.
+\item Zipcode:\\
+Either 5 or 9 numeric characters together, in proper zipcode format
+\item General Number:
+Anything that is numeric, but does not fit the above categories. i.e. "1,234,567,910", "1111111", "+11111", etc.
+\end{itemize}
+
+Each of the cases above for numeric tokens were then used to represent the token itself. In that way, a number like "1,234,567,910" is recognized by our system as a "generic\_number", instead of as "1,234,567,910". This allowed us to better group similar numeric tokens, instead of depending heavily on the actual values of the numeric tokens. 
 
 \section{Unsmoothed n-grams}
 \subsection*{Question 2}
@@ -228,35 +261,5 @@ Unknown words are handled using the add-one method so that they had a nonzero pr
 % Our answer
 
 \lipsum[2]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 \end{document}
