@@ -44,9 +44,7 @@ public class Classifier {
         bigram_tokens_up = t.upBigramTokens;
         trigram_tokens_up = t.upTrigramTokens;
 
-        System.out.println("Starting classify");
         classify(DataProcessor.test_set);
-        System.out.println("Hurray this worked");
 
     }
 
