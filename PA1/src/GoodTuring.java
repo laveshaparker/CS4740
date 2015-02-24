@@ -1,5 +1,7 @@
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.SortedMap;
+
 import org.apache.commons.math3.stat.regression.SimpleRegression;
 
 /**
@@ -10,15 +12,6 @@ public class GoodTuring {
     public static void main(String[] args) throws IOException {
         TrainingModel t = new TrainingModel(TrainingModel.DIRECTORY);
         GoodTuring gt = new GoodTuring(t);
-
-        System.out.println(gt.getFrequency(gt.downBigramRegression, 0));
-        System.out.println(gt.getFrequency(gt.upUnigramRegression, 1));
-        System.out.println(gt.getFrequency(gt.upUnigramRegression, 2));
-        System.out.println(gt.getFrequency(gt.upUnigramRegression, 3));
-        System.out.println(gt.getFrequency(gt.upUnigramRegression, 4));
-        System.out.println(gt.getFrequency(gt.upUnigramRegression, 5));
-        System.out.println(gt.getFrequency(gt.upUnigramRegression, 10000));
-
     }
 
     public SimpleRegression upUnigramRegression;
@@ -120,15 +113,24 @@ public class GoodTuring {
         }
     }
 
-    public double getFrequency(SimpleRegression r, double count) {
+    private double getFrequency(SimpleRegression r, double count) {
         if (count == 0) return 1;
         return Math.exp(r.predict(Math.log(count)));
     }
 
-    public double getSmoothedCount(SimpleRegression r, double count) {
+    private double getSmoothedCount(SimpleRegression r, double count) {
         return (count + 1) * getFrequency(r, count + 1) / getFrequency(r, count);
     }
 
+    public double getSmoothedUnigramProbability(int tokenCount, SimpleRegression r, int count) {
+        return getSmoothedCount(r, count) / (double)tokenCount;
+    }
 
+    public double getSmoothedBigramProbability(SimpleRegression bigramRegression, int bigramCount, SimpleRegression unigramRegression, int unigramCount) {
+        return getSmoothedCount(bigramRegression, bigramCount) / getSmoothedCount(unigramRegression, unigramCount);
+    }
 
+    public double getSmoothedTrigramProbability(SimpleRegression trigramRegression, int trigramCount, SimpleRegression bigramRegression, int bigramCount) {
+        return getSmoothedCount(trigramRegression, trigramCount) / getSmoothedCount(bigramRegression, bigramCount);
+    }
 }
