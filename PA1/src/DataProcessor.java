@@ -14,9 +14,6 @@ import edu.stanford.nlp.util.CoreMap;
 /**
  * Created with IntelliJ IDEA.
  * User: vesha
- * @todo Try to interpret numbers as type, order of magnitude, percentage, numerical value
- * @todo Add all numbers as a number tag
- * @todo Ignore all hyphens in emails.
  */
 public class DataProcessor {
     // For lack of a better place: constants for unique POS tags.
@@ -155,8 +152,6 @@ public class DataProcessor {
     }
 
     /**
-     * @todo Process all proper nouns as <PRN>
-     * @todo Save part of speech for each <UNK>
      * @param key, the key used to index into the data_set map. Corresponds to the set that needs to be updated
      * @param email_content, The content of a given email
      * @param is_test_file, true if run with test file, false otherwise.

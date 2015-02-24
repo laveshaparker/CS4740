@@ -83,9 +83,92 @@ Each of the cases above for numeric tokens were then used to represent the token
 \textbf{List 10 most frequent n-grams for each of the 6 models.}
 \\
 
-% Our answer
+Written as $<$N-gram$> <$count$>$:\\
 
-\lipsum[2] % Dummy text
+\textsc{Up-speak Unigram Model}\\
+\begin{enumerate}
+\item $<$s$>$ 10940
+\item $<$/s$>$ 10940
+\item . 4222
+\item the 3838
+\item , 3224
+\item to 2727
+\item be 2662
+\item \texttt{general\_number} 2432
+\item and 1630
+\item of 1506
+\end{enumerate}
+
+\textsc{Down-speak Unigram Model}\\
+\begin{enumerate}
+\item $<$s$>$ 10936
+\item $<$/s$>$ 10936
+\item . 4045
+\item the 3845
+\item , 3202
+\item be 2892
+\item to 2375
+\item \texttt{general\_number} 1722
+\item you 1520
+\item I 1504
+\end{enumerate}
+
+\textsc{Up-speak Bigram Model}\\
+\begin{enumerate}
+\item . $<$/s$>$ 4191
+\item , $<$/s$>$ 613
+\item $<$s$>$  I 571
+\item \texttt{general\_number} $<$/s$>$ 509
+\item $<$s$>$  the 413
+\item $<$s$>$  please 403
+\item of the 380
+\item $<$s$>$ \texttt{general\_number} 316
+\item in the 300
+\item will be 297
+\end{enumerate}
+
+\textsc{Down-speak Bigram Model}\\
+\begin{enumerate}
+\item . $<$/s$>$ 4027
+\item , $<$/s$>$ 586
+\item $<$s$>$ I 528
+\item $<$s$>$ the 484
+\item $<$s$>$ please 446
+\item of the 384
+\item if you 384
+\item \texttt{phonenumber} $<$/s$>$ 370
+\item will be 366
+\item $<$s$>$  thanks 351
+\end{enumerate}
+
+\textsc{Up-speak Trigram Model}\\
+\begin{enumerate}
+\item $<$s$>$  Vince $<$/s$>$ 208
+\item \texttt{general\_number} . $<$/s$>$ 204
+\item $<$s$>$  Shirley , 199
+\item Shirley , $<$/s$>$ 196
+\item $<$s$>$  \texttt{general\_number} . 157
+\item $<$s$>$  \texttt{date} \texttt{time} 129
+\item \texttt{general\_number} \% $<$/s$>$ 117
+\item $<$s$>$  please , 111
+\item today \texttt{general\_number} $<$/s$>$ 109
+\item $<$s$>$  if you 105
+\end{enumerate}
+
+\textsc{Down-speak Trigram Model}\\
+\begin{enumerate}
+\item $<$s$>$  Vince $<$/s$>$ 208
+\item \texttt{general\_number} . $<$/s$>$ 204
+\item $<$s$>$  Shirley , 199
+\item Shirley , $<$/s$>$ 196
+\item $<$s$>$  \texttt{general\_number} . 157
+\item ) . $<$/s$>$ 141
+\item $<$s$>$  \texttt{date} \texttt{time} 129
+\item \texttt{general\_number} \% $<$/s$>$ 117
+\item $<$s$>$  please , 111
+\item today \texttt{general\_number} $<$/s$>$109
+\end{enumerate}
+
 
 \subsection*{Question 4}
 
@@ -93,9 +176,15 @@ Each of the cases above for numeric tokens were then used to represent the token
 models?}
 \\
 
-% Our answer
+The start and end tags are prominent in each model.
 
-\lipsum[2] % Dummy text
+There is an interesting similarity in the unigram models, as they pretty much match expectations in terms of most frequently occurring words and punctuation marks. After the start and end tags, very common punctuation marks like the period and comma are highly ranked (ranked 3 and 5 in both models, respectively). As expected, "the" is the most frequently occurring word as well. The other four words are all generally considered stop words, and the last type of  token in the top 10 is a \texttt{general\_number}, which is to be expected seeing as the email correspondents "talk numbers" frequently.\\
+
+The slight change between the unigram and bigram models is interesting, because the bigram models start to incorporate common ways of starting an email or sentence, such as a salutation or term of respect. It also contains commonly used phrases such as partial-prepositional phrases like "of the" and "in the". Again, phrases containing the word "the" are highly ranked, no doubt a byproduct of "the"'s rank in the unigram models. A more interesting number type, \texttt{phone number}, also makes an appearance in the down-speak bigram model.
+
+Between the bigram and trigram models, number types make even more of an appearance, with more combinations of \texttt{general\_number}s with various popular punctuation marks. It is also interesting to note that all of the top 10 phrases for both the up-speak and down-speak trigram models contain either the start tag ($<$s$>$), end tag ( $<$/s$>$), or both.
+
+The form of changes between up and down-speak for the same N-Gram model were not as clear as the differences for different values of $N$. If we were to expand the selection to the top 30 or so N-Grams, we would more likely see a greater difference in speak type, especially in the trigram model.
 
 \section{Random sentence generation}
 \subsection*{Question 5}

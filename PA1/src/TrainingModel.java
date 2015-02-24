@@ -27,8 +27,9 @@ public class TrainingModel {
     public static String DIRECTORY = "models";
 
     public static void main(String[] args) throws IOException {
-        TrainingModel t = new TrainingModel();
+        TrainingModel t = new TrainingModel(DIRECTORY);
         t.serialize(DIRECTORY);
+        t.displayTopTenFromEachModel();
     }
 
     /**
@@ -87,6 +88,101 @@ public class TrainingModel {
             downTrigramTokens += t.count;
             downTrigramModel.put(t.key, t);
         }
+    }
+
+    public void displayTopTenFromEachModel() {
+        UnigramComparator uc =  new UnigramComparator(upUnigramModel);
+        TreeMap<String, Unigram> sorted_map = new TreeMap<>(uc);
+        sorted_map.putAll(upUnigramModel);
+
+        int count = 0;
+        System.out.println("----------------------------\n");
+        System.out.println("upUnigramModel");
+        System.out.println("----------------------------\n");
+        for (Unigram u : sorted_map.values()) {
+            if (count < 20) {
+                System.out.println(u);
+                count++;
+            }
+        }
+
+        uc =  new UnigramComparator(downUnigramModel);
+        sorted_map = new TreeMap<>(uc);
+        sorted_map.putAll(downUnigramModel);
+
+        count = 0;
+        System.out.println("----------------------------\n");
+        System.out.println("downUnigramModel");
+        System.out.println("----------------------------\n");
+        for (Unigram u : sorted_map.values()) {
+            if (count < 20) {
+                System.out.println(u);
+                count++;
+            }
+        }
+
+        BigramComparator bc =  new BigramComparator(upBigramModel);
+        TreeMap<String, Bigram> sorted_mapb = new TreeMap<>(bc);
+        sorted_mapb.putAll(upBigramModel);
+
+        count = 0;
+        System.out.println("----------------------------\n");
+        System.out.println("upBigramModel");
+        System.out.println("----------------------------\n");
+        for (Bigram u : sorted_mapb.values()) {
+            if (count < 20) {
+                System.out.println(u);
+                count++;
+            }
+        }
+
+         bc =  new BigramComparator(downBigramModel);
+        sorted_mapb = new TreeMap<>(bc);
+        sorted_mapb.putAll(downBigramModel);
+
+        count = 0;
+        System.out.println("----------------------------\n");
+        System.out.println("downBigramModel");
+        System.out.println("----------------------------\n");
+        for (Bigram u : sorted_mapb.values()) {
+            if (count < 20) {
+                System.out.println(u);
+                count++;
+            }
+        }
+
+        TrigramComparator tc =  new TrigramComparator(upTrigramModel);
+        TreeMap<String, Trigram> sorted_mapt = new TreeMap<>(tc);
+        sorted_mapt.putAll(upTrigramModel);
+
+        count = 0;
+        System.out.println("----------------------------\n");
+        System.out.println("upTrigramModel");
+        System.out.println("----------------------------\n");
+        for (Trigram u : sorted_mapt.values()) {
+            if (count < 20) {
+                System.out.println(u);
+                count++;
+            }
+        }
+
+        tc =  new TrigramComparator(upTrigramModel);
+        sorted_mapt = new TreeMap<>(tc);
+        sorted_mapt.putAll(upTrigramModel);
+
+        count = 0;
+        System.out.println("----------------------------\n");
+        System.out.println("downBigramModel");
+        System.out.println("----------------------------\n");
+        for (Trigram u : sorted_mapt.values()) {
+            if (count < 20) {
+                System.out.println(u);
+                count++;
+            }
+        }
+
+
+
     }
 
     public String readStringFromFile(String fileName) throws FileNotFoundException {
