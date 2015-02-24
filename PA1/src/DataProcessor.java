@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import edu.stanford.nlp.ling.*;
+import edu.stanford.nlp.parser.lexparser.LexicalizedParser;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.util.CoreMap;
@@ -39,6 +40,7 @@ public class DataProcessor {
 
     private static StanfordCoreNLP pipeline;
 
+
     /**
      * Initalizes and loads all datasets
      * @throws IOException
@@ -67,7 +69,7 @@ public class DataProcessor {
     }
 
     /**
-     * Initlizies and loads only the specified data sets
+     * Initializes and loads only the specified data sets
      * @param processTrain
      * @param processValidation
      * @param processTest
@@ -80,6 +82,7 @@ public class DataProcessor {
             props.setProperty("annotators", "tokenize, ssplit, pos, lemma, ner, parse");
             // Splits along newlines
             props.put("ssplit.newlineIsSentenceBreak", "always");
+            props.put("ptb3Escaping", false);
 
             pipeline = new StanfordCoreNLP(props);
         }
@@ -140,7 +143,7 @@ public class DataProcessor {
         while (matcher.find()) {
             String str = matcher.group(1).replaceAll("\\s+", "");
 
-            email_content = matcher.group(2);
+            email_content = matcher.group(2).toLowerCase();
 
             if (is_test_file) {
                 processEmailContent(str, email_content, is_test_file);
@@ -184,11 +187,6 @@ public class DataProcessor {
                 // this is the text of the token
                 word = token.get(CoreAnnotations.TextAnnotation.class).toLowerCase();
 
-                if (ignorableToken(word)) {
-                    // ignore the garbage tokens
-                    continue;
-                }
-
                 String uniquePOS = uniquePOS(word);
 
                 if (uniquePOS.isEmpty()) {
@@ -208,8 +206,6 @@ public class DataProcessor {
             }
             to_add_to.get(idx).add(new Unigram(ENDTAG, ENDTAG, "", ENDTAG));
 
-            // Uncomment if you want to see how the sentence is constructed.
-            // System.out.println(to_add_to.get(idx).toString());
         }
     }
 
@@ -242,11 +238,6 @@ public class DataProcessor {
         }
 
         return "";
-    }
-
-    private Boolean ignorableToken(String word) {
-        // stub, for now.
-        return false;
     }
 
 }

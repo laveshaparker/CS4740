@@ -5,7 +5,7 @@ import javax.json.*;
 
 /**
  * Created by Sofonias on 2/22/2015.
- * This class contains full models for all upspeak/downpeak n-grams
+ * This class contains full models for all upspeak/downspeak n-grams
  * These models contain all n-gram data (lemma, pos,...) and can be fully serialized and parsed from files
  */
 public class TrainingModel {
