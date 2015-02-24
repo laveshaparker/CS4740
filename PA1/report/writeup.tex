@@ -64,7 +64,7 @@ Each of the cases above for numeric tokens were then used to represent the token
 \section{Unsmoothed n-grams}
 \subsection*{Question 2}
 
-\textbf{Give an overview of what you did, explaining any decisions you?ve made. (E.g. Did you keep the capitalization? Which punctuation marks did you keep, if any?)}
+\textbf{Give an overview of what you did, explaining any decisions you've made. (E.g. Did you keep the capitalization? Which punctuation marks did you keep, if any?)}
 \\
 
 % Our answer
@@ -72,7 +72,7 @@ Each of the cases above for numeric tokens were then used to represent the token
 We used the Stanford NLP parser to tokenize the emails. Our tokenizing can be broken into separate sections:\\
 \begin{itemize}
 \item POS Tagging and Lemmatizing:\\
-The part-of-speech tags for each of the tokens in our dataset is used very heavily in our classification. In addition to storing the token as it appears in the email, part-of-speech tag, appearance count, and lemma of a given token instantiated as a Unigram, we always reference that Unigram using a key that is formed as "<lemma> <part-of-speech tag>". Therefore, whenever we try to compare a new token against our training models, we are really comparing the lemmatized version of the token along with its part-of-speech tag to the training models. This better maintains the intended use of the tokens in the original emails. and leads to a higher prediction accuracy.
+The part-of-speech tags for each of the tokens in our dataset is used very heavily in our classification. In addition to storing the token as it appears in the email, part-of-speech tag, appearance count, and lemma of a given token instantiated as a Unigram, we always reference that Unigram using a key that is formed as "$<$lemma$>$ $<$part-of-speech tag$>$". Therefore, whenever we try to compare a new token against our training models, we are really comparing the lemmatized version of the token along with its part-of-speech tag to the training models. This better maintains the intended use of the tokens in the original emails. and leads to a higher prediction accuracy.
 \item Removing case:\\
 Simply casting all email content to lower case drastically decreased the number of tokens in our models and increased our social-relationship prediction accuracy on the validation set by 2\%. We found that proper nouns were still classified as such, even with the case removed (i.e. "Natalie" and "natalie" are both parsed as \texttt{NNP}). That was our main concern when we decided to test our predictions in a case-insensitive environment, so that was positive reinforcement on our decision to use a single case throughout our classification process.
 \end{itemize}
@@ -326,7 +326,7 @@ Using Laplace smoothing, our calculated log perplexities are as follows: \\
 \textbf{Compare the perplexities. Are they consistent with your expectations? Why or why not?}
 \\
 
-The perplexity values (relative to each other) as we expected them to be. In both upspeak and downspeak, the perplexity of the trigram set > perplexity of the bigram set > perplexity of the unigram set.
+The perplexity values (relative to each other) are as we expected them to be. In both upspeak and downspeak, the perplexity of the trigram set $>$ perplexity of the bigram set $>$ perplexity of the unigram set.
 
 For n-gram sets, the size of a set's potential vocabulary grows exponentially with n. Therefore, we can definitely expect more sparsity in higher n-gram models. This difference should be visible in the perplexities of independent validation sets. Indeed, the table above is consistent with this differences in perplexities.
 
