@@ -126,10 +126,6 @@ Generating sentences with the bigram models requires the consideration of the pr
 
 For the trigram models, the previous two words of the sentence being generated need to be considered. The first iteration is done exactly the same as with the bigram models because at the beginning of the sentence, there is only one previous word (the start-of-sentence tag  \texttt{$<$s$>$}). After that, new random words are picked just as they were using the bigram models but instead, we look at the previous two words. That is to say, each new word selected is the third word in the randomly selected trigram whose first two words are the previous bigram.\\
 
-% Our answer
-
-\lipsum[2] % Dummy text
-
 \subsection*{Question 6}
 
 \textbf{Provide 5 example sentences each of the 6 models.}
@@ -182,9 +178,6 @@ $<$s$>$ I be not correct in TMS do not focus on achieve the objective of Enron .
 $<$s$>$ sorry for the extra time for the last transaction that John have execute be Enron 's message and purpose . $<$/s$>$\\
 $<$s$>$ Honey Baked ham $<$/s$>$}
 
-% Our answer
-
-\lipsum[2] % Dummy text
 
 \subsection*{Question 7}
 
@@ -197,7 +190,6 @@ The bigram models provided more intelligible sentences. Sentences came to natura
 
 The trigram models produced more syntactically as well as semantically correct sentences than the other models. Longer phrases with discernible meaning appeared, such as "Rick will hold a conference call," "sorry for the extra time," and "I want to make payment directly." Overall, there was a direct relationship between N and the quality of the sentences in terms of syntax and comprehensibility.
 
-\lipsum[2] % Dummy text		
 
 \section{Unknown Word Handling and Laplace Smoothing}
 
@@ -211,10 +203,6 @@ We initially implemented add-one smoothing (mostly due to the fact that it was a
 We initially tried to use a combination of the various implemented smoothing methods (unigram, bigram, trigram add-on and unigram, bigram, and trigram Good-Turing) when classifying an email as up or down. This approach, however, led to largely inaccurate results. The add-one smoothing methods and the less complex N-gram models using Good-Turing Smoothing were just too unpredictable and ineffective at classifying emails, which was decreasing the overall effectiveness of the classifier. In the end, we opted with using the trigram Good-Turing model on it's own, and this drastically increased our classification ability.\\
 
 Unknown words are handled using the add-one method so that they had a nonzero probability. This was used in conjunction with Good-Turing smoothing as listed above. Depending on the type of unknown string, we used more complex classification methods. More specifically, times, dates, zip-codes, and phone numbers all had their own unique classification. These were kept separate and handled differently from the more general group of all unknown words.
-
-% Our answer
-
-\lipsum[2] % Dummy text		
 
 \section{Perplexity}
 
@@ -263,24 +251,18 @@ For n-gram sets, the size of a set's potential vocabulary grows exponentially wi
 \textbf{Explain how you train your the language models. (Which smoothing method? Are you doing any special preprocessing?)}
 \\
 
-% Our answer
 
-\lipsum[2] % Dummy text
 
 \subsection*{Question 12}
 
 \textbf{Explain how you classify each email as UPSPEAK or DOWNSPEAK, given the probabilities computed by using the language models.}
 
-% Our answer
 
-\lipsum[2]
 
 \subsection*{Question 13}
 
 \textbf{How well does your classifier perform?}
 
-% Our answer
 
-\lipsum[2]
 
 \end{document}
