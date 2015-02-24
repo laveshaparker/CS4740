@@ -36,7 +36,7 @@ public class UnsmoothedNGram {
      * @return conditional probability of NGram
      */
     public static double findConditionalProbability(TrainingModel trainingModel, String NGram, String N, String up_down) throws Exception {
-        int count = 0;
+        int count;
         int nMinus1Count;
 
         Bigram bigram;

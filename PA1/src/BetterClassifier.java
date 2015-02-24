@@ -6,8 +6,8 @@ import java.util.ArrayList;
  */
 public class BetterClassifier {
 
-    private static int DOWNSPEAK = 0;
-    private static int UPSPEAK = 1;
+    private static final int DOWNSPEAK = 0;
+    private static final int UPSPEAK = 1;
 
     public static void main(String[] args) throws IOException {
 

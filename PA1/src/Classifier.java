@@ -151,8 +151,8 @@ public class Classifier {
 
                 for (Bigram word : email) {
                     //calculate add-one
-                    addb_email_down *= addOne(word.token1.token, word.token2.token, "").get(2);
-                    addb_email_up   *= addOne(word.token1.token, word.token2.token, "").get(3);
+                    addb_email_down *= addOne(word.token1.lemma, word.token2.lemma, "").get(2);
+                    addb_email_up   *= addOne(word.token1.lemma, word.token2.lemma, "").get(3);
 
                     //calculate good-turing
                     double count_down  = (bigram_models.get(DOWN).containsKey(word.key) ? (bigram_models.get(DOWN).get(word.key).count + 1) : 1);
@@ -179,8 +179,8 @@ public class Classifier {
 
                 for (Trigram word : email) {
                     //calculate add-one
-                    addt_email_down *= addOne(word.token1.token, word.token2.token, word.token3.token).get(4);
-                    addt_email_up   *= addOne(word.token1.token, word.token2.token, word.token3.token).get(5);
+                    addt_email_down *= addOne(word.token1.lemma, word.token2.lemma, word.token3.lemma).get(4);
+                    addt_email_up   *= addOne(word.token1.lemma, word.token2.lemma, word.token3.lemma).get(5);
 
                     //calculate good-turing
                     double count_down  = (trigram_models.get(DOWN).containsKey(word.key) ? (trigram_models.get(DOWN).get(word.key).count + 1) : 1);

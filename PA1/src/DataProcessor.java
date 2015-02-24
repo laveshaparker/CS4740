@@ -18,6 +18,16 @@ import edu.stanford.nlp.util.CoreMap;
  * @todo Ignore all hyphens in emails.
  */
 public class DataProcessor {
+    // For lack of a better place: constants for unique POS tags.
+    public static final String STARTTAG = "<s>";
+    public static final String ENDTAG = "</s>";
+
+    public static final String PHONENUMBER = "phonenumber";
+    public static final String TIMETAG = "time";
+    public static final String DATETAG = "date";
+    public static final String ZIPCODE = "zipcode";
+    public static final String GENERALNUMBER = "general_number";
+
     public static String model = "lib/stanford-postagger-2015-01-30/models/english-left3words-distsim.tagger";
     public static String test = "data/test.txt";
     public static String train = "data/training.txt";
@@ -153,37 +163,90 @@ public class DataProcessor {
         Annotation document = new Annotation(email_content);
         pipeline.annotate(document);
 
-        if (is_test_file) {test_set.put(key, new ArrayList<>());}
+        if (is_test_file) {
+            test_set.put(key, new ArrayList<>());
+        }
 
         ArrayList<ArrayList<Unigram>> to_add_to = is_test_file ? test_set.get(key) : data_set.get(key);
 
         List<CoreMap> sentences = document.get(CoreAnnotations.SentencesAnnotation.class);
-        String word, pos, ne;
+        String word, pos, ner, lemma;
         int idx;
 
-        for(CoreMap sentence: sentences) {
+        for (CoreMap sentence : sentences) {
             // Add sentence to appropriate data set, including start and end tags.
             to_add_to.add(new ArrayList<>());
             idx = to_add_to.size() - 1;
-            to_add_to.get(idx).add(new Unigram("<s>", "<s>", "", "<s>"));
+            to_add_to.get(idx).add(new Unigram(STARTTAG, STARTTAG, "", STARTTAG));
 
-            for (CoreLabel token: sentence.get(CoreAnnotations.TokensAnnotation.class)) {
+            for (CoreLabel token : sentence.get(CoreAnnotations.TokensAnnotation.class)) {
+
                 // this is the text of the token
                 word = token.get(CoreAnnotations.TextAnnotation.class).toLowerCase();
-                // this is the POS tag of the token
-                pos = token.get(CoreAnnotations.PartOfSpeechAnnotation.class);
-                // this is the NER label of the token
-                ne = token.get(CoreAnnotations.NamedEntityTagAnnotation.class);
 
-                String lemma = token.get(CoreAnnotations.LemmaAnnotation.class); //ne.equals("0") ||
+                if (ignorableToken(word)) {
+                    // ignore the garbage tokens
+                    continue;
+                }
 
-                to_add_to.get(idx).add(new Unigram(word, pos, ne, lemma));
+                String uniquePOS = uniquePOS(word);
+
+                if (uniquePOS.isEmpty()) {
+                    // this is the POS tag of the token
+                    pos = token.get(CoreAnnotations.PartOfSpeechAnnotation.class);
+                    // this is the NER label of the token
+                    ner = token.get(CoreAnnotations.NamedEntityTagAnnotation.class);
+
+                    lemma = token.get(CoreAnnotations.LemmaAnnotation.class);
+                } else {
+                    pos = uniquePOS;
+                    lemma = uniquePOS;
+                    ner = "";
+                }
+
+                to_add_to.get(idx).add(new Unigram(word, pos, ner, lemma));
             }
-            to_add_to.get(idx).add(new Unigram("</s>", "</s>", "", "</s>"));
+            to_add_to.get(idx).add(new Unigram(ENDTAG, ENDTAG, "", ENDTAG));
 
             // Uncomment if you want to see how the sentence is constructed.
             // System.out.println(to_add_to.get(idx).toString());
         }
+    }
+
+    private String uniquePOS(String word) {
+        // HH:MM
+        String time = "([01]?[0-9]|2[0-3]):[0-5][0-9]";
+        // MM/DD/YYYY
+        String date = "(0?[1-9]|1[012])/(0?[1-9]|[12][0-9]|3[01])/((19|20)\\d\\d)";
+        // 5 or 9 digit zipcode
+        String zipcode = "^\\d{5}(-\\d{4})?$";
+        // XXX-XXX-XXXX
+        String phonenumber1 = "\\d{3}[-\\.\\s]\\d{3}[-\\.\\s]\\d{4}";
+        //XXXXXXXXXX (phone number with no separation)
+        String phonenumber2 = "\\d{10}";
+        // (XXX) XXX-XXX
+        String phonenumber3 = "\\(\\d{3}\\)\\s\\d{3}-\\d{4}";
+        // Any general number. Sort of a catchall.
+        String general_number = "(?!$)[\\+-]?([1-9]\\d{0,2}|0)?(\\,\\d{3})*(\\.\\d+)?";
+
+        if (word.matches(time)) {
+            return TIMETAG;
+        } else if (word.matches(date)) {
+            return DATETAG;
+        } else if (word.matches(zipcode)) {
+            return ZIPCODE;
+        } else if (word.matches(phonenumber1) || word.matches(phonenumber2) || word.matches(phonenumber3)) {
+            return PHONENUMBER;
+        } else if (word.matches(general_number)) {
+            return GENERALNUMBER;
+        }
+
+        return "";
+    }
+
+    private Boolean ignorableToken(String word) {
+        // stub, for now.
+        return false;
     }
 
 }
