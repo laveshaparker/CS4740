@@ -27,3 +27,7 @@ PA1/models/upTrigram.json
 PA1/models/upBigram.json
 PA1/models/downUnigram.json
 PA1/models/downTrigram.json
+
+# Ignore all previously unadded changes to PA1/
+PA1/*
+PA1.zip
