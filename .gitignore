@@ -31,3 +31,9 @@ PA1/models/downTrigram.json
 # Ignore all previously unadded changes to PA1/
 PA1/*
 PA1.zip
+
+# Setup tools unimportant
+PA2/setuptools-15.1.zip
+
+# Temporary python compilation stuff
+PA2/__pycache__

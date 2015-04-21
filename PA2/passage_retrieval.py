@@ -1,3 +1,6 @@
+import nltk
+from question_formatter import *
+
 class PassageRetrieval:
     '''
     Manages the passage retrieval step of our QA system. Given a qid,
@@ -32,44 +35,12 @@ class PassageRetrieval:
     def getMostSimilarPassages(self):
         pass
 
-class Question:
-    '''
-    Represents a single question in one of the questions.txt files.
-
-    self.qid      : Int, the question's unique identifier.
-    self.question : String, the text containing the question.
-    self.description  : String[], descriptive terms for this question, if any can be found.
-    '''
-    def __init__(self, qid, dev_or_test):
-        self.qid = qid
-        self.dev_or_test = dev_or_test
-        self.getQuestion()
-        self.getQuestionDescription()
-
-    # Retrieves the question text given a question id (qid) from
-    # <qadata/<self.dev_or_test>/questions.txt.
-    def getQuestion(self):
-        filepath = 'qadata/' + self.dev_or_test + '/questions.txt'
-
-        with open(filepath, 'r') as questions:
-            content = questions.read()
-
-        qid_string = 'Number: ' + str(self.qid) + '\n'
-        end = '\n'
-
-        self.question = content.split(qid_string)[1].split(end)[0]
-
-    # Attempts to infer descriptive terms for this question.
-    # May or may not be completed.
-    def getQuestionDescription(self):
-        pass
-
 class Document:
     '''
     Representation of a single document, including 10-grams and tf-idf
     similarity score.
 
-    self.qid         : Int, the unique id of this document.
+    self.question    : Question, the question
     self.docno       : String, the unique document identifier
     self.rank        : Int, the rank of this document for the question denoted by qid.
     self.score       : Float, the score of this document for the question denoted by qid.
@@ -106,9 +77,9 @@ class Document:
     def getMaxTfIdfScore(self):
         pass
 
-
 def main():
-    question1 = PassageRetrieval(0, PassageRetrieval.DEV)
+    questions = loadQuestions(PassageRetrieval.DEV)
+    question1 = PassageRetrieval(questions[0].number, PassageRetrieval.DEV)
 
 
 if __name__ == "__main__": main()
