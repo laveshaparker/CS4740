@@ -1,8 +1,5 @@
 import nltk
 
-
-
-
 # Represents a representation of a question with some minor processing (I'll improve this over the next few days)
 # 
 # You won't need to instantiate this class. Just call the "loadQuestions(str)" function below
@@ -35,10 +32,6 @@ class Question:
 		self.requiredEntity = [self.REQUIREDENTITIES[key] for key in self.REQUIREDENTITIES if key in self.tokensCaseInsensitive]
 		if (self.requiredEntity == []):
 			self.requiredEntity = ["NOUN PHRASE"]
-
-
-
-
 
 # Returns an array of Question instances
 # The input 'dataSet' must be a string can take two values: "dev", "test"

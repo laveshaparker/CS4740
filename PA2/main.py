@@ -9,12 +9,12 @@ questions = question_formatter.loadQuestions(dataSet)
 
 # This is just an example of the fields you can accessssss
 def printQuestion(i):
-	print questions[i].number
-	print questions[i].questionCaseSensitive
-	print questions[i].questionCaseInsensitive
-	print questions[i].contentWordsCaseSensitive
-	print questions[i].contentWordsCaseInsensitive
-	print questions[i].requiredEntity
+	print(questions[i].number)
+	print(questions[i].questionCaseSensitive)
+	print(questions[i].questionCaseInsensitive)
+	print(questions[i].contentWordsCaseSensitive)
+	print(questions[i].contentWordsCaseInsensitive)
+	print(questions[i].requiredEntity)
 
 printQuestion(questionNumber)
 printQuestion(questionNumber + 1)
