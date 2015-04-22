@@ -184,7 +184,7 @@ def return10Answers(question):
 			potentialEntities = extractEntities(tree, ENTITYMAPPINGS[question.descriptor.entityType])
 			potentialNouns = [[token[0]] for token in taggedPassage if token[1].startswith("N")]
 
-			if (len(potentialEntities) == 0 && len(potentialNouns) == 0):
+			if (len(potentialEntities) == 0 and len(potentialNouns) == 0):
 				continue;
 
 			relevantTokenIndices = []
