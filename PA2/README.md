@@ -11,4 +11,4 @@ Enter the following into the command window:
 
 	This will output a file name output.txt which contains our responses.
 
-Please note that our code requires Python 3.4. We have modified our 'evaluation.py' script to be compatible with pythong 3.4.
+Please note that our code requires Python 3.4. We have modified our 'evaluation.py' script to be compatible with Python 3.4.
