@@ -49,12 +49,29 @@ def return10Answers(question):
 			if (len(potentialEntities) == 0):
 				continue;
 
+			relevantTokenIndices = []
+			potentialAnswers = []
+
+			for token in question.descriptor.relevantTokens:
+				relevantTokenIndices.extend(subfinder(passage, [token]))
+
 			for entity in potentialEntities:
 				indices = subfinder(passage, entity)
-				answers.append(' '.join(entity))
-				# print(entity)
-				# print(indices)
-				# print("")
+
+				sum = 0
+
+				for eI in indices:
+					for tI in relevantTokenIndices:
+						sum += abs(eI - tI)
+
+				if (sum <= 0):
+					potentialAnswers.append((' '.join(entity), 1))
+				else:
+					weight = float(sum) / float(len(passage) * len(indices) * len(relevantTokenIndices))
+					potentialAnswers.append((' '.join(entity), weight))
+
+			potentialAnswers = sorted(potentialAnswers,key=lambda x: x[1])
+			answers.extend([token[0] for token in potentialAnswers])
 
 		# NUMBER
 		if (question.descriptor.entityType == "NUMBER"):
@@ -67,12 +84,29 @@ def return10Answers(question):
 			if (len(potentialEntities) == 0):
 				continue;
 
+			relevantTokenIndices = []
+			potentialAnswers = []
+
+			for token in question.descriptor.relevantTokens:
+				relevantTokenIndices.extend(subfinder(passage, [token]))
+
 			for entity in potentialEntities:
 				indices = subfinder(passage, entity)
-				answers.append(' '.join(entity))
-				# print(entity)
-				# print(indices)
-				# print("")
+
+				sum = 0
+
+				for eI in indices:
+					for tI in relevantTokenIndices:
+						sum += abs(eI - tI)
+
+				if (sum <= 0):
+					potentialAnswers.append((' '.join(entity), 1))
+				else:
+					weight = float(sum) / float(len(passage) * len(indices) * len(relevantTokenIndices))
+					potentialAnswers.append((' '.join(entity), weight))
+
+			potentialAnswers = sorted(potentialAnswers,key=lambda x: x[1])
+			answers.extend([token[0] for token in potentialAnswers])
 
 		# TIME
 		if (question.descriptor.entityType == "TIME"):
@@ -85,12 +119,29 @@ def return10Answers(question):
 			if (len(potentialEntities) == 0):
 				continue;
 
+			relevantTokenIndices = []
+			potentialAnswers = []
+
+			for token in question.descriptor.relevantTokens:
+				relevantTokenIndices.extend(subfinder(passage, [token]))
+
 			for entity in potentialEntities:
 				indices = subfinder(passage, entity)
-				answers.append(' '.join(entity))
-				# print(entity)
-				# print(indices)
-				# print("")
+
+				sum = 0
+
+				for eI in indices:
+					for tI in relevantTokenIndices:
+						sum += abs(eI - tI)
+
+				if (sum <= 0):
+					potentialAnswers.append((' '.join(entity), 1))
+				else:
+					weight = float(sum) / float(len(passage) * len(indices) * len(relevantTokenIndices))
+					potentialAnswers.append((' '.join(entity), weight))
+
+			potentialAnswers = sorted(potentialAnswers,key=lambda x: x[1])
+			answers.extend([token[0] for token in potentialAnswers])
 
 		# PLACE
 		if (question.descriptor.entityType == "PLACE"):
@@ -101,28 +152,84 @@ def return10Answers(question):
 			if (len(potentialEntities) == 0):
 				continue;
 
+			relevantTokenIndices = []
+			potentialAnswers = []
+
+			for token in question.descriptor.relevantTokens:
+				relevantTokenIndices.extend(subfinder(passage, [token]))
+
 			for entity in potentialEntities:
 				indices = subfinder(passage, entity)
-				answers.append(' '.join(entity))
-				# print(entity)
-				# print(indices)
-				# print("")
+
+				sum = 0
+
+				for eI in indices:
+					for tI in relevantTokenIndices:
+						sum += abs(eI - tI)
+
+				if (sum <= 0):
+					potentialAnswers.append((' '.join(entity), 1))
+				else:
+					weight = float(sum) / float(len(passage) * len(indices) * len(relevantTokenIndices))
+					potentialAnswers.append((' '.join(entity), weight))
+
+			potentialAnswers = sorted(potentialAnswers,key=lambda x: x[1])
+			answers.extend([token[0] for token in potentialAnswers])
 
 		# NOUN
 		if (question.descriptor.entityType == "NOUN"):
 			taggedPassage = nltk.pos_tag(passage) 
+
 			tree = nltk.ne_chunk(taggedPassage)
 			potentialEntities = extractEntities(tree, ENTITYMAPPINGS[question.descriptor.entityType])
+			potentialNouns = [[token[0]] for token in taggedPassage if token[1].startswith("N")]
 
-			if (len(potentialEntities) == 0):
+			if (len(potentialEntities) == 0 && len(potentialNouns) == 0):
 				continue;
+
+			relevantTokenIndices = []
+			potentialEntityAnswers = []
+			potentialNounAnswers = []
+
+			for token in question.descriptor.relevantTokens:
+				relevantTokenIndices.extend(subfinder(passage, [token]))
 
 			for entity in potentialEntities:
 				indices = subfinder(passage, entity)
-				answers.append(' '.join(entity))
-				# print(entity)
-				# print(indices)
-				# print("")
+
+				sum = 0
+
+				for eI in indices:
+					for tI in relevantTokenIndices:
+						sum += abs(eI - tI)
+
+				if (sum <= 0):
+					potentialEntityAnswers.append((' '.join(entity), 1))
+				else:
+					weight = float(sum) / float(len(passage) * len(indices) * len(relevantTokenIndices))
+					potentialEntityAnswers.append((' '.join(entity), weight))
+
+			for entity in potentialNouns:
+				indices = subfinder(passage, entity)
+
+				sum = 0
+
+				for eI in indices:
+					for tI in relevantTokenIndices:
+						sum += abs(eI - tI)
+
+				if (sum <= 0):
+					potentialNounAnswers.append((' '.join(entity), 1))
+				else:
+					weight = float(sum) / float(len(passage) * len(indices) * len(relevantTokenIndices))
+					potentialNounAnswers.append((' '.join(entity), weight))
+
+
+			potentialEntityAnswers = sorted(potentialEntityAnswers,key=lambda x: x[1])
+			potentialNounAnswers = sorted(potentialNounAnswers,key=lambda x: x[1])
+			answers.extend([token[0] for token in potentialEntityAnswers])
+			answers.extend([token[0] for token in potentialNounAnswers])
+
 	return answers[0:10]
 
 questions = loadQuestions(PassageRetrieval.DEV)
