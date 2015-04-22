@@ -1,6 +1,5 @@
 from nltk import *
 from question_formatter import *
-from sklearn.feature_extraction.text import *
 from collections import Counter
 from math import log, sqrt
 
@@ -41,7 +40,7 @@ class PassageRetrieval:
 
 # TODO: fix this split to include the top document
         for document_text in split_docs[2:]:
-            self.documents.append(Document(self.question, document_text.lower().strip()))
+            self.documents.append(Document(self.question, document_text.strip()))
 
     # Searches the top 10 documents and stores the passages with the highest
     # tf-idf scores.
@@ -60,14 +59,15 @@ class Document:
     Representation of a single document, including 10-grams and tf-idf
     similarity score.
 
-    instance.question    : Question, the question.
-    instance.docno       : String, the document number (in between the <DOCNO></DOCNO> tags).
-    instance.rank        : Int, the rank of this document for the question denoted by qid.
-    instance.score       : Float, the score of this document for the question denoted by qid.
-    instance.text        : String, the text of the document, lower-case and with 'p' tags removed.
-    instance.description : Token[], descriptive terms for this document.
-    instance.max_tfidf   : (Float, Token[]), a tuple of the maximum tf-idf score given to a passage in this document, along with the passage itself.
-    instance.sentences   : Token[][] An array of sentences (represented as an array of tokens hence an array of arrays)
+    instance.question         : Question, the question.
+    instance.docno            : String, the document number (in between the <DOCNO></DOCNO> tags).
+    instance.rank             : Int, the rank of this document for the question denoted by qid.
+    instance.score            : Float, the score of this document for the question denoted by qid.
+    instance.text             : String, the text of the document, with original case and with 'p' tags removed.
+    instance.description      : Token[], descriptive terms for this document.
+    instance.max_tfidf        : (Float, Token[]), a tuple of the maximum tf-idf score given to a passage in this document, along with the passage itself.
+    instance.sentences        : Token[][] An array of sentences (lower-case) (represented as an array of tokens hence an array of arrays)
+    instance.sentences_w_case : Token[][] An array of sentences (represented as an array of tokens hence an array of arrays)
     '''
     def __init__(self, question, document_text):
         self.question = question
@@ -87,12 +87,12 @@ class Document:
     # self.score
     # self.text (well, this is set in self.removeTags())
     def process_basic_info(self, document_text):
-        self.docno = document_text.split('<docno>')[1].split('</docno>')[0].strip()
-        self.rank = int(document_text.split('rank:')[1].split('score:')[0])
-        self.score = float(document_text.split('score:')[1].split('\n')[0])
+        self.docno = document_text.split('<DOCNO>')[1].split('</DOCNO>')[0].strip()
+        self.rank = int(document_text.split('Rank:')[1].split('Score:')[0])
+        self.score = float(document_text.split('Score:')[1].split('\n')[0])
 
-        text = document_text.split('<text>')[1].split('</text>')[0].lower().strip()
-        self.text = text.replace('<p>', '').replace('</p>', '')
+        text = document_text.split('<TEXT>')[1].split('</TEXT>')[0].strip()
+        self.text = text.replace('<P>', '').replace('</P>', '')
 
     def getSentences(self):
         # From http://www.nltk.org/book/ch07.html
@@ -100,7 +100,13 @@ class Document:
 
         # From top answer at http://stackoverflow.com/questions/23317458/how-to-remove-punctuation
         tokenizer_sans_punctuation = RegexpTokenizer(r'((?<=[^\w\s])\w(?=[^\w\s])|(\W))+', gaps=True)
+        self.sentences_w_case = [tokenizer_sans_punctuation.tokenize(sentence) for sentence in sentences]
+
+        # From http://www.nltk.org/book/ch07.html
+        sentences = nltk.sent_tokenize(self.text.lower())
         self.sentences = [tokenizer_sans_punctuation.tokenize(sentence) for sentence in sentences]
+
+        self.text = self.text.lower()
 
 
 class TFIDF:
@@ -156,14 +162,17 @@ class TFIDF:
     # the closest passage information.
     def getDocTfidfs(self):
         for i in range(0, len(self.passage_retrieval.documents)):
-            # document = self.passage_retrieval.documents[i]
-            for passage in self.passage_retrieval.documents[i].sentences:
+            document = self.passage_retrieval.documents[i]
+            for j in range(0, len(document.sentences)):
+                passage = document.sentences[j]
+                passage_w_case = document.sentences_w_case[j]
                 passage_tfidf_vector = self.tfidf(passage)
                 cosine_similarity = self.cosineSimilarity(passage_tfidf_vector)
-                if cosine_similarity > self.passage_retrieval.documents[i].max_tfidf[0]:
+
+                if cosine_similarity > document.max_tfidf[0]:
                     # if this passage has a higher cosine similarity to the
                     # question than the previous "max"
-                    self.passage_retrieval.documents[i].max_tfidf = (cosine_similarity, passage)
+                    document.max_tfidf = (cosine_similarity, passage_w_case)
 
 
     # @param passage : Token[]
