@@ -45,7 +45,7 @@ class Question:
         
         requiredEntity = [self.REQUIREDENTITIES[key] for key in self.REQUIREDENTITIES if key in self.questionCaseInsensitive]
         if (requiredEntity == []):
-            requiredEntity = ["OTHER"]
+            requiredEntity = ["NOUN"]
 
         if ("TIME" in requiredEntity):
             self.getTimeDescriptor()
@@ -56,7 +56,7 @@ class Question:
         if ("NUMBER" in requiredEntity):
             self.getNumberDescriptor()
         if ("NOUN" in requiredEntity):
-            self.getPlaceDescriptor()
+            self.getNounDescriptor()
 
     # Attempts to infer descriptive terms for the time/date required by this question
     def getTimeDescriptor(self):

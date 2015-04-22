@@ -59,7 +59,7 @@ f_r = open(response_file, 'r+')
 for line in f_r : 
     if "qid" in line : 
         qid = int(line.split(" ")[1].strip())
-        print qid
+        print(qid)
         matched = 0
     elif matched == 0 : 
         res_no = int(line.split(" ")[0])
@@ -74,11 +74,11 @@ for line in f_r :
                 if res_no > 10 : 
                     break
                 score += (1.0/res_no)
-                print res_no
-                print "Response matched\t"+str(res)+"\t at position\t"+str(res_no)
+                print(res_no)
+                print("Response matched\t"+str(res)+"\t at position\t"+str(res_no))
                 matched = 1
                 break
 
-print score
-print score/total_number
+print(score)
+print(score/total_number)
 

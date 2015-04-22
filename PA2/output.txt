@@ -1,0 +1,818 @@
+qid 0
+1 Kings
+2 Kings
+3 Gretzky
+4 Brantford Ontario
+5 Canadian
+6 NHL
+7 Los Angeles Kings
+8 National Hockey League
+qid 1
+1 Post
+2 Gauguin
+3 Christie
+4 Metropolitan
+5 Gogh
+6 Arles
+7 Metropolitan Museum
+8 Rijksmuseum Vincent
+9 Amsterdam
+10 Vincent
+qid 2
+1 Sanaa
+2 Yemeni
+3 Yemeni
+4 Republic
+5 Yemen
+6 UN
+7 Security Council
+8 Republic
+9 Yemen
+10 UN
+qid 3
+1 LANGUAGE
+2 Christmas
+3 Pentagon
+4 Saudi
+5 Blackwell
+6 Poisonous
+7 Medicinal Plants
+qid 5
+1 Badgers
+2 Armstrong
+3 Michigan
+4 Wisconsin
+qid 7
+1 Hispanic
+2 Asian
+3 Alvarado
+4 Asian
+5 Law Alliance Jacquelyn Maruhashi
+6 Asians
+7 San
+8 Rose Garden
+9 Interstate
+10 Sausedo
+qid 8
+1 Tass
+2 Chernobyl
+3 Soviets
+4 Chernobyl
+5 Tass
+6 Chernobyl
+qid 9
+1 Mancinelli
+2 Michelangelo
+3 Michelangelo
+4 Sistine
+5 Michelangelo
+6 Vatican
+qid 10
+qid 11
+1 National Zoo
+2 Madagascar
+3 Pale
+4 Brunei
+5 Sarawak
+6 Malaysia
+7 Rural
+qid 12
+1 SNC
+2 Turner
+3 Miami Herald
+4 Associated
+5 WPLG
+6 Miami Gannett Co Inc
+7 USA
+8 Gannett
+9 Bienstock
+10 CNN
+qid 13
+1 Coordinated Universal
+2 New
+3 Cambridge
+4 Terence
+5 St
+qid 14
+1 Nonpedigree
+2 Yersinia
+qid 15
+1 Hemoglobin
+2 DNA
+3 Down
+4 Nobel Assembly
+5 Nobel Prize
+6 English
+qid 17
+1 37
+2 37
+3 493
+4 100
+5 13
+6 340
+7 2
+8 130
+9 1
+10 1925
+qid 18
+1 Woodstock
+2 Swan Lake
+qid 19
+1 Sotheby
+2 Tate
+3 Pollock
+4 Humana Inc
+5 Louisville Ky
+6 Professor Claudo Cernuschi Duke University
+7 Koshalek
+8 MOCA
+qid 20
+1 East
+2 California
+3 Hollywood Park
+4 Triple Crown
+5 Breeders
+qid 21
+1 Joel
+2 Spinal Tap
+qid 22
+1 Ohio
+2 Northern
+3 Pennsylvania
+4 Commerce
+5 House
+6 California
+7 House
+8 New York
+9 Indiana Michigan
+10 Ohio
+qid 24
+1 Bolivia
+2 Paraguay Parana
+3 Mississippi
+4 Latin
+5 Lozada
+6 Bolivia
+7 Pacific
+8 Atlantic
+9 Ilo
+10 Peru
+qid 26
+1 Cincinnati
+2 Ft
+qid 28
+1 Malignant
+2 Squamous
+3 United States
+4 National Institute
+5 National Institutes
+6 Department
+7 Health
+8 Human Services
+9 Skin
+10 United States
+qid 29
+1 13
+2 28
+3 3
+4 25
+5 1930
+qid 30
+1 Sci Fi
+2 William Gibson
+3 Neuromancer
+4 William Gibson
+5 Rheingold
+6 Cyberspace
+7 Cyberspace
+8 Intel
+9 WWW
+10 British
+qid 31
+1 CPR
+2 CPR
+3 CPR
+qid 34
+1 Dow
+2 Disdain
+3 Superfund
+qid 35
+1 CNN
+2 CNN
+3 CNN
+4 CNN
+5 CNN
+6 CNN
+qid 36
+1 Samuel Richardson
+2 James Boswell
+3 Samuel Johnson
+4 Franklin Roosevelt
+5 Johnson
+6 Holmes
+7 Boswellians
+8 Johnson
+9 Coke
+10 Stevenson
+qid 37
+1 COUNTY
+2 CALL
+3 Orange County
+4 California
+5 SAFE Service
+6 Freeway Emergencies
+7 Orange County
+8 Romanian
+9 Farsi
+10 Spanish
+qid 39
+1 Sunburst Been
+2 Rolls Royce
+3 London
+4 Woodstock
+5 Fenders
+6 Earth
+7 Sun
+8 Star Spangled Banner
+qid 40
+1 Circuit
+2 Court
+3 Appeals
+4 Michael Butler
+5 Johann
+6 Joann Carlo
+7 Lady Macbeth
+8 Henry Stram
+9 Williams
+10 KSDS
+qid 41
+1 Sam
+2 Walton
+3 Wal Mart
+4 Helen
+5 Crafts
+6 Wal Mart
+7 Sam Walton
+8 University
+9 Arkansas
+10 Sam
+qid 43
+1 Golden
+2 Parents Just Don
+3 D
+4 Boy Next Door
+5 Meet
+6 St
+7 Broadway
+8 Dutch
+9 Sinter Claes
+10 Century
+qid 45
+1 Ford
+qid 46
+1 Babylon
+2 Seven Wonders
+3 Greeks
+4 Century
+5 Babylon
+6 Seven Wonders
+7 Iraq
+8 Euphrates River
+9 Jewish
+qid 47
+1 Pittsburgh Pirates
+2 Pittsburgh
+3 Seattle
+4 Houston Astros
+5 Milwaukee Brewers
+6 Pirates
+7 Lind
+8 RBIs
+9 Miami
+10 Pittsburgh
+qid 48
+1 Parkinson
+2 Merck
+3 Parkinson
+4 Parkinson
+5 Vaseretic
+6 Parkinson
+7 IV Persantine
+8 Senior
+9 Swiss
+10 Merck
+qid 49
+1 Wicca
+2 Wicca
+3 American
+4 Canada
+5 Satan
+6 Providence
+7 Eastern
+qid 50
+1 University
+2 NBC
+3 Football
+4 University
+5 USC Notre Dame
+6 Irish
+7 Tree
+qid 51
+1 Conscious Party
+2 Melody Makers
+3 Billboard
+4 Melody
+qid 52
+1 Soviets
+2 Cuckoo
+3 Egg
+4 West German
+5 America
+6 Pentagon
+7 Clifford Stoll
+8 Cuckoo
+9 Egg
+10 Harvard
+qid 53
+1 Hartman
+2 Good Morning America
+3 Lunden
+4 Good Morning America
+5 Christian
+6 ABC
+7 Good
+8 America
+9 NBC
+10 Jane Pauley
+qid 54
+1 Greek
+2 Korean
+3 Sinji
+4 Koreans
+5 Greek
+6 English
+qid 55
+1 Co
+2 Delaware Water Gap National Recreational Area
+3 ABC
+4 England Scotland
+5 Ireland
+6 CBS
+7 Europe
+8 Florence Italy
+9 Poconos
+10 Poconos
+qid 56
+1 Talk
+2 ABC
+3 ABC
+4 Hollywood
+5 Mistress
+6 Cody Newton
+7 Philbin
+8 White House
+9 First Family
+10 Normal
+qid 57
+1 Australian
+2 Zimbabwe
+3 Australia
+4 Northern
+5 Venetia
+6 Ashton
+7 Canada
+8 Northwest Territories
+9 Ontario
+10 Argyle
+qid 58
+qid 62
+1 Henson
+2 Sesame Street
+3 Disney
+4 Henson
+5 Henson
+6 Muppets
+7 Okun
+8 Walt Disney
+9 Frog Miss Piggy
+10 Henson
+qid 63
+1 HAZMAT
+2 Northwest
+3 HAZMAT
+4 HAZMAT
+5 JANUARY
+6 HAZMAT
+7 HAZMAT
+8 HAZMAT
+9 HAZMAT
+qid 65
+1 24
+2 11
+3 15
+qid 66
+1 Mediterranean Basin
+2 Legislation
+3 Italy
+4 Yugoslavia
+5 Weird
+6 Nation
+7 Most Offbeat
+8 Beaten Path Tourist Attractions
+9 Bergheim
+10 Jordan
+qid 68
+1 Kellogg
+2 Pop
+3 New York
+4 Nabisco
+5 Springfield
+6 Michigan
+7 Crackle
+qid 69
+1 New York
+2 Tin Pan Alley
+3 Broadway
+4 Hollywood Fain
+5 America
+6 Fain
+7 Hilliard
+8 Walt Disney
+9 Academy
+10 Award
+qid 70
+1 Europe
+2 West
+3 Nazi
+4 American
+5 Yale
+6 Hitler
+7 Princeton University
+8 German
+9 United States
+qid 72
+1 Gabriel
+2 James Earl Jones
+3 Darth Vader
+4 George
+5 Darth Vader
+6 Darth Vader
+7 Mickey Mouse
+8 Wicket
+9 Darth Vader
+10 Imperial Shuttle
+qid 73
+1 Jake
+2 Fatman
+3 William Conrad
+4 Van
+5 Dyke
+6 CBS
+7 Jake
+8 Fatman
+9 Hawaiian
+10 CBS
+qid 74
+1 Amsterdam
+2 Netherlands
+3 New York
+4 Manhattan
+5 Manhattan
+6 New York
+qid 75
+1 House
+2 Senate
+3 Virginia
+4 Manassas National Battlefield Park
+5 Virginia
+6 Washington
+qid 76
+1 Black Hills
+2 Sioux
+3 South
+4 Sioux
+5 Black
+6 South
+7 Supreme Court
+8 South
+9 Black Hills
+10 Black Hills
+qid 77
+1 5
+2 30
+3 30
+4 600
+5 2
+6 1989
+7 1976
+8 351
+9 000
+10 3
+qid 78
+1 Exmoor
+2 Lynmouth
+3 Long Island
+4 National Weather Service
+5 United States
+6 Rockies
+7 India
+8 Mississippi
+9 Gulf Coast
+10 Ohio
+qid 79
+1 ZIP
+2 ZIP
+3 ZIP
+4 ZIP
+5 Oceanside
+6 Escondido
+7 ZIP
+8 ZIP
+qid 80
+1 Gaelic
+2 Bord
+3 Irish
+4 Bilingual
+5 Gaelic
+6 Irish
+7 Gaelic
+8 Los
+9 British
+10 Irish
+qid 81
+1 Terrence Malick
+2 Badlands
+3 Arthur Penn
+4 Bonnie
+5 Clyde
+6 Malick
+7 Hays
+8 Hays
+9 Cleveland
+10 Joan Didion
+qid 82
+1 Hurricane Hugo
+2 Myrtle Beach
+3 Myrtle Beach
+4 Wild Dunes
+5 Isle
+6 Palms
+7 Harbour Town
+8 Beach
+9 North
+10 Winnsboro
+qid 83
+1 1922
+2 58
+3 58
+4 29
+qid 84
+1 Silence
+2 Silence
+3 FBI
+4 Silence
+5 Silence
+6 Silence
+7 Lambs
+8 FBI
+9 FBI
+10 National Board
+qid 86
+1 Boston
+2 NutraSweet
+3 NutraSweet
+4 Holland
+5 EC
+6 United States
+7 Industry
+8 DSM
+9 Heerlen
+10 Europe
+qid 87
+1 Love Canal
+2 American
+3 Commodore Oliver Hazard Perry
+4 Canadian
+5 Canada
+6 Toronto
+7 Americans
+8 Love
+9 Niagra Falls
+10 Reagan
+qid 88
+1 Haitian
+2 Haitian
+3 Venezuela
+4 Antillean
+5 Haitian
+6 Brazil
+7 Venezuela
+8 Indias Colombia
+9 America
+10 Venezuela
+qid 89
+1 Justify My Love
+2 Paris
+3 Justify My Love
+4 Paris
+5 MTV
+6 Paris
+7 Los Angeles
+8 Superior Court
+9 Malibu
+10 MTV
+qid 90
+1 Washington
+2 Soviet
+3 Mediterranean
+4 Malta
+5 America
+6 American Bandstand
+7 Hirsch
+8 Burbank
+9 Brazil
+10 American Bandstand
+qid 91
+1 American
+2 European
+3 Japanese
+4 American
+5 Honda
+6 Honda Accords
+7 Bear
+8 Harley
+9 Europe
+qid 92
+1 Boss
+qid 93
+1 Icetraveganza
+2 Los Angeles
+3 Japan
+4 American
+5 Soviet Union
+6 American
+7 KEY
+8 EVENTS Pair
+9 PST Women
+10 PST Men
+qid 94
+1 Chicken
+2 Chicken
+3 Public
+qid 95
+1 Disney
+2 Lion
+3 Turn
+4 Lion
+5 Lion
+6 Lion
+7 Disney
+8 Lion
+9 Lion
+10 Lion
+qid 99
+1 1989
+2 1989
+3 1965
+4 49
+5 40
+qid 100
+1 Jane
+2 Jane Goodall
+3 Tucson Board
+4 Adjustment
+5 Fossey
+6 National Geographic
+7 Jane Goodall
+8 Belgian
+9 Goodall
+10 Antarctica
+qid 101
+1 Princeton University
+2 MEMOIR OF
+3 WOODROW
+4 Europe
+5 U
+6 Wilson
+7 Discipline
+8 Czech
+9 United States
+10 Britain
+qid 102
+1 Canada
+2 Canada
+3 Associated
+4 Edmonton
+5 Alberta
+6 Gretzky
+7 Edmonton Oilers
+8 Kings
+9 Gretzky
+10 NHL
+qid 103
+1 Beverage
+qid 104
+1 1987
+2 1991
+3 1985
+4 75
+5 6
+6 49
+7 6
+8 53
+qid 105
+1 Mexican
+2 Pennsylvania
+3 Fruit
+qid 106
+1 Liberal
+2 John Smith
+3 Liberal
+4 John Smith
+5 Buckingham
+6 Palace
+7 Queen
+8 Russia
+9 British
+10 Civil List
+qid 108
+1 Priestley
+2 Good Side
+3 Kid
+4 Sheriff Pat Garrett
+5 Sheriff Pat Garrett
+6 Billy
+7 Kid
+8 Fort Sumner
+9 Cagney
+10 Oklahoma Kid
+qid 109
+1 Wonder
+2 Lloyd Chiate
+3 Wonder
+4 Woman
+5 Red
+6 Called
+7 Dodell
+8 Garrett
+9 Wonder
+10 Called
+qid 111
+1 Wales
+2 Australian
+3 Australian
+4 Wallabies
+5 Netherlands
+qid 112
+1 1976
+2 1938
+3 1945
+4 1980
+5 1980
+qid 113
+1 Wrath
+2 Wrath
+3 Sinise
+4 American
+5 ABC
+6 Pulitzer
+7 Steppenwolf
+8 Royal George
+qid 114
+1 Grinch That Stole
+2 Christmas
+3 Zahner
+4 Grinch Stole
+5 Grinch Stole Christmas
+6 Cat
+7 Grinch
+8 Campbell
+9 Campbell
+10 Butter Battle Book
+qid 115
+1 Boulder
+2 New Baby Collection
+3 American International Toy Fair
+4 Barbie Summit
+5 Japanese
+6 American
+qid 116
+1 1992
+2 1991
+3 1992
+4 1
+5 349
+6 211
+7 1990
+8 1991
+qid 117
+1 Los Angeles
+2 Los Angeles International Airport
+3 Leland
+4 Los Angeles
+5 International Airport
+6 International Air
+7 British
+8 Los Angeles
+9 International Airport
+10 London
