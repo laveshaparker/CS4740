@@ -1,8 +1,6 @@
 import nltk
 
 class Descriptor:
-
-
     def __init__(self, e, r):
         self.entityType = e
         self.relevantTokens = r
@@ -29,6 +27,8 @@ class Question:
         "who": "PERSON",
         "where" : "PLACE",
         "when" : "TIME",
+        "how many" : "NUMBER",
+        "how much" : "NUMBER",
         "what" : "NOUN PHRASE"
     }
 
@@ -43,18 +43,24 @@ class Question:
         self.contentWordsCaseSensitive = [word for word in self.tokensCaseInsensitive if word not in self.STOPWORDS]
         self.contentWordsCaseInsensitive = [word.lower() for word in self.contentWordsCaseSensitive]
         
-        requiredEntity = [self.REQUIREDENTITIES[key] for key in self.REQUIREDENTITIES if key in self.tokensCaseInsensitive]
+        requiredEntity = [self.REQUIREDENTITIES[key] for key in self.REQUIREDENTITIES if key in self.questionCaseInsensitive]
         if (requiredEntity == []):
-            requiredEntity = ["NOUN PHRASE"]
+            requiredEntity = ["OTHER"]
 
-        if (requiredEntity == ["TIME"]):
+        if ("TIME" in requiredEntity):
             self.getTimeDescriptor()
-        if (requiredEntity == ["PERSON"]):
+        if ("PERSON" in requiredEntity):
             self.getPersonDescriptor()
+        if ("PLACE" in requiredEntity):
+            self.getPlaceDescriptor()
+        if ("NUMBER" in requiredEntity):
+            self.getNumberDescriptor()
+        if ("NOUN PHRASE" in requiredEntity):
+            self.getPlaceDescriptor()
 
     # Attempts to infer descriptive terms for the time/date required by this question
     def getTimeDescriptor(self):
-        i = 0
+        i = 1
         relevantTokens = []
         while (i < len(self.tokensWithPOS)):
             if (self.tokensWithPOS[i][1].startswith("J") or self.tokensWithPOS[i][1].startswith("N")):
@@ -79,7 +85,7 @@ class Question:
 
     # Attempts to infer descriptive terms for the person required by this question
     def getPersonDescriptor(self):
-        i = 0
+        i = 1
         relevantTokens = []
         while (i < len(self.tokensWithPOS)):
             if (self.tokensWithPOS[i][1].startswith("V")):
@@ -101,6 +107,99 @@ class Question:
             i += 1
         self.descriptor = Descriptor("PERSON", relevantTokens) 
 
+    # Attempts to infer descriptive terms for the person required by this question
+    def getPlaceDescriptor(self):
+        i = 1
+        relevantTokens = []
+        # noun block
+        while (i < len(self.tokensWithPOS)):
+            if (self.tokensWithPOS[i][1].startswith("J") or self.tokensWithPOS[i][1].startswith("N")):
+                break;
+            i += 1
+        while (i < len(self.tokensWithPOS)):
+            if (not (self.tokensWithPOS[i][1].startswith("J") or self.tokensWithPOS[i][1].startswith("N"))):
+                break;
+            relevantTokens.append(self.tokensWithPOS[i][0])
+            i += 1
+
+        # verb block
+        while (i < len(self.tokensWithPOS)):
+            if (self.tokensWithPOS[i][1].startswith("V")):
+                break;
+            i += 1
+        while (i < len(self.tokensWithPOS)):
+            if (not (self.tokensWithPOS[i][1].startswith("V"))):
+                break;
+            relevantTokens.append(self.tokensWithPOS[i][0])
+            i += 1
+        self.descriptor = Descriptor("PLACE", relevantTokens) 
+
+    # Attempts to infer descriptive terms for the person required by this question
+    def getNumberDescriptor(self):
+        i = 2
+        relevantTokens = []
+        # noun
+        while (i < len(self.tokensWithPOS)):
+            if (self.tokensWithPOS[i][1].startswith("J") or self.tokensWithPOS[i][1].startswith("N")):
+                break;
+            i += 1
+        while (i < len(self.tokensWithPOS)):
+            if (not (self.tokensWithPOS[i][1].startswith("J") or self.tokensWithPOS[i][1].startswith("N"))):
+                break;
+            relevantTokens.append(self.tokensWithPOS[i][0])
+            i += 1
+
+        # noun
+        while (i < len(self.tokensWithPOS)):
+            if (self.tokensWithPOS[i][1].startswith("N")):
+                break;
+            i += 1
+        while (i < len(self.tokensWithPOS)):
+            if (not (self.tokensWithPOS[i][1].startswith("N"))):
+                break;
+            relevantTokens.append(self.tokensWithPOS[i][0])
+            i += 1
+
+        self.descriptor = Descriptor("NUMBER", relevantTokens) 
+
+    # Attempts to infer descriptive terms for the person required by this question
+    def getNounDescriptor(self):
+        i = 1
+        relevantTokens = []
+        # noun
+        while (i < len(self.tokensWithPOS)):
+            if (self.tokensWithPOS[i][1].startswith("J") or self.tokensWithPOS[i][1].startswith("N")):
+                break;
+            i += 1
+        while (i < len(self.tokensWithPOS)):
+            if (not (self.tokensWithPOS[i][1].startswith("J") or self.tokensWithPOS[i][1].startswith("N"))):
+                break;
+            relevantTokens.append(self.tokensWithPOS[i][0])
+            i += 1
+
+        # noun
+        while (i < len(self.tokensWithPOS)):
+            if (self.tokensWithPOS[i][1].startswith("J") or self.tokensWithPOS[i][1].startswith("N")):
+                break;
+            i += 1
+        while (i < len(self.tokensWithPOS)):
+            if (not (self.tokensWithPOS[i][1].startswith("J") or self.tokensWithPOS[i][1].startswith("N"))):
+                break;
+            relevantTokens.append(self.tokensWithPOS[i][0])
+            i += 1
+
+        # verb
+        while (i < len(self.tokensWithPOS)):
+            if (self.tokensWithPOS[i][1].startswith("V")):
+                break;
+            i += 1
+        while (i < len(self.tokensWithPOS)):
+            if (not (self.tokensWithPOS[i][1].startswith("V"))):
+                break;
+            relevantTokens.append(self.tokensWithPOS[i][0])
+            i += 1
+
+        self.descriptor = Descriptor("NOUN", relevantTokens) 
 
 # Returns an array of Question instances
 # The input 'dataSet' must be a string can take two values: "dev", "test"
