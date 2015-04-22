@@ -13,7 +13,7 @@ class PassageRetrieval:
 
     instance.question     : Question, the question .
     instance.documents    : Document[], all documents relevant to this question.
-    instance.most_similar : Token[][], The most similar passages from the top 10 documents.
+    instance.passages_top_10_docs : Token[][], The most similar passages from the top 10 documents.
     instance.top_passage  : Token[], the most similar passage (according to tf-idf similarity measure).
     '''
 
@@ -46,10 +46,12 @@ class PassageRetrieval:
     # Searches the top 10 documents and stores the passages with the highest
     # tf-idf scores.
     def getMostSimilarPassages(self):
-        self.most_similar = [] # may or may not update/use
+        self.passages_top_10_docs = [] # may or may not update/use
         top_tfidf = 0
         self.top_passage = []
         for document in self.documents:
+            if document.rank < 10:
+                self.passages_top_10_docs.append(document.max_tfidf[1])
             if document.max_tfidf[0] > top_tfidf:
                 top_tfidf = document.max_tfidf[0]
                 self.top_passage = document.max_tfidf[1]
