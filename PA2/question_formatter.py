@@ -8,7 +8,6 @@ class Descriptor:
 class Question:
     '''
     Represents a single question in one of the questions.txt files. 
-    (I'll improve this over the next few days)
 
     You won't need to instantiate this class. Just call the "loadQuestions(str)" function below
     instance.number = the the question number

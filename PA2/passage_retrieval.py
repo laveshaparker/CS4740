@@ -128,7 +128,7 @@ class TFIDF:
     document frequency of its question and document passages. It is left to the
     PassageRetrieval instance to then use this information to select a most-similar passage.
 
-    It is worth noting that in this implementation of tf-idf calculation, we do
+    It is worth noting that in this implementation of tf-idf calculation, we do not
     use vectors the length of the number of unique terms in the document. Instead,
     for each text fragment (i.e. question text or document passage), we only
     include the terms involved in that particular text fragment to avoid having
