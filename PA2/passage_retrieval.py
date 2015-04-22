@@ -25,8 +25,6 @@ class PassageRetrieval:
         self.question = question
         self.documents = []
         self.getDocs()
-        # self.getMostSimilarPassages()
-        # TFIDF(self)
 
     # Retrieves all relevant documents for this question.
     def getDocs(self):
@@ -38,9 +36,12 @@ class PassageRetrieval:
         qid_str = 'Qid: ' + str(self.question.number)
         split_docs = docs.split(qid_str)
 
-# TODO: fix this split to include the top document
-        for document_text in split_docs[2:]:
-            self.documents.append(Document(self.question, document_text.strip()))
+        for document_text in split_docs[1:]:
+            try:
+                doc = Document(self.question, document_text.strip())
+                self.documents.append(doc)
+            except Exception as e:
+                print(e)
 
     # Searches the top 10 documents and stores the passages with the highest
     # tf-idf scores.
@@ -87,12 +88,22 @@ class Document:
     # self.score
     # self.text (well, this is set in self.removeTags())
     def process_basic_info(self, document_text):
-        self.docno = document_text.split('<DOCNO>')[1].split('</DOCNO>')[0].strip()
-        self.rank = int(document_text.split('Rank:')[1].split('Score:')[0])
-        self.score = float(document_text.split('Score:')[1].split('\n')[0])
-
-        text = document_text.split('<TEXT>')[1].split('</TEXT>')[0].strip()
+        self.docno = self.extract_info(document_text, '<DOCNO>', '</DOCNO>')
+        self.rank = int(self.extract_info(document_text, 'Rank:', 'Score:'))
+        self.score = float(self.extract_info(document_text, 'Score:', '\n'))
+        text = self.extract_info(document_text, '<TEXT>', '</TEXT>')
         self.text = text.replace('<P>', '').replace('</P>', '')
+
+    def extract_info(self, document_text, start_tag, end_tag):
+        first_step = document_text.split(start_tag)
+        if (len(first_step) < 2):
+            raise Exception("Important data is missing. We won't add this document.")
+
+        second_step = first_step[1].split(end_tag)
+        if (len(second_step) < 1):
+            raise Exception("Important data is missing. We won't add this document.")
+
+        return second_step[0].strip()
 
     def getSentences(self):
         # From http://www.nltk.org/book/ch07.html
@@ -220,7 +231,7 @@ class TFIDF:
 
 def main():
     questions = loadQuestions(PassageRetrieval.DEV)
-    question1 = PassageRetrieval(questions[0], PassageRetrieval.DEV)
+    question1 = PassageRetrieval(questions[49], PassageRetrieval.DEV)
     tfidf = TFIDF(question1)
 
 if __name__ == "__main__": main()
