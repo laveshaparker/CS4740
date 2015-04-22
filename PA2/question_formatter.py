@@ -29,8 +29,8 @@ class Question:
         self.number = n
         self.questionCaseSensitive = s
         self.questionCaseInsensitive = s.lower()
-        self.tokensCaseSensitive = self.questionCaseSensitive.split()
-        self.tokensCaseInsensitive = self.questionCaseInsensitive.split()
+        self.tokensCaseSensitive = nltk.word_tokenize(self.questionCaseSensitive)
+        self.tokensCaseInsensitive = nltk.word_tokenize(self.questionCaseInsensitive)
         self.contentWordsCaseSensitive = [word for word in self.tokensCaseInsensitive if word not in self.STOPWORDS]
         self.contentWordsCaseInsensitive = [word.lower() for word in self.contentWordsCaseSensitive]
         self.requiredEntity = [self.REQUIREDENTITIES[key] for key in self.REQUIREDENTITIES if key in self.tokensCaseInsensitive]
