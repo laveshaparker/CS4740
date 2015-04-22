@@ -39,6 +39,7 @@ class PassageRetrieval:
         qid_str = 'Qid: ' + str(self.question.number)
         split_docs = docs.split(qid_str)
 
+# TODO: fix this split to include the top document
         for document_text in split_docs[2:]:
             self.documents.append(Document(self.question, document_text.lower().strip()))
 
@@ -48,11 +49,10 @@ class PassageRetrieval:
         self.most_similar = [] # may or may not update/use
         top_tfidf = 0
         self.top_passage = []
-        for document in self.documents[0:9]:
+        for document in self.documents:
             if document.max_tfidf[0] > top_tfidf:
                 top_tfidf = document.max_tfidf[0]
                 self.top_passage = document.max_tfidf[1]
-            print(document.max_tfidf)
 
 
 class Document:
@@ -187,31 +187,26 @@ class TFIDF:
     # Computes the cosine similarity between the tf-idf
     # vector of a passage with that of the question.
     def cosineSimilarity(self, passage_tfidf_vector):
-        longer_vector = passage_tfidf_vector
-        shorter_vector = self.question_vector
 
-        if len(longer_vector) < len(shorter_vector):
-            # Switcharoo
-            temp = longer_vector
-            longer_vector = shorter_vector
-            shorter_vector = temp
+        # The sums of the product of each element in the question and passage
+        # vectors, square of question vector, and square of passage vector, respectively.
+        sumqp, sumqq, sumpp = 0, 0, 0
 
-        longer_keys = list(longer_vector.keys())
-        shorter_keys = list(shorter_vector.keys())
+        for term in self.question_vector:
+            sumqp += self.question_vector[term] * passage_tfidf_vector[term]
+            sumqq += self.question_vector[term] * self.question_vector[term]
+            sumpp += passage_tfidf_vector[term] * passage_tfidf_vector[term]
 
-        # The sums of the product of each element in the long and short
-        # vector, square of long vector, and square of short vector, respectively.
-        sumls, sumll, sumss = 0, 0, 0
-        for i in range(0, len(longer_vector) - 1):
-            if i < len(shorter_vector):
-                sumls += longer_vector[longer_keys[i]] * shorter_vector[shorter_keys[i]]
-                sumss += shorter_vector[shorter_keys[i]] * shorter_vector[shorter_keys[i]]
-            sumll += longer_vector[longer_keys[i]] * longer_vector[longer_keys[i]]
+        for term in passage_tfidf_vector:
+            sumqp += self.question_vector[term] * passage_tfidf_vector[term]
+            sumqq += self.question_vector[term] * self.question_vector[term]
+            sumpp += passage_tfidf_vector[term] * passage_tfidf_vector[term]
 
-        if sumll == 0 or sumss == 0 or sumls == 0:
+
+        if sumqq == 0 or sumpp == 0 or sumqp == 0:
             return 0
 
-        return sumls/(sqrt(sumll) * sqrt(sumss))
+        return sumqp/(sqrt(sumqq) * sqrt(sumpp))
 
 
 def main():
