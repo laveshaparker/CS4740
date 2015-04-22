@@ -48,10 +48,11 @@ class PassageRetrieval:
         self.most_similar = [] # may or may not update/use
         top_tfidf = 0
         self.top_passage = []
-        for document in self.documents:
+        for document in self.documents[0:9]:
             if document.max_tfidf[0] > top_tfidf:
                 top_tfidf = document.max_tfidf[0]
                 self.top_passage = document.max_tfidf[1]
+            print(document.max_tfidf)
 
 
 class Document:
