@@ -2,7 +2,7 @@ import sys
 import question_formatter
 
 dataSet = "dev" # sys.argv[1]
-questionNumber = 0 #int(sys.argv[2])
+questionNumber = int(sys.argv[1])
 
 # This gives you an array of the loaded questions
 questions = question_formatter.loadQuestions(dataSet)
@@ -12,10 +12,11 @@ def printQuestion(i):
 	print(questions[i].number)
 	print(questions[i].questionCaseSensitive)
 	print(questions[i].questionCaseInsensitive)
+	print(questions[i].tokensWithPOS)
+	print(questions[i].nerTree)
 	print(questions[i].contentWordsCaseSensitive)
 	print(questions[i].contentWordsCaseInsensitive)
-	print(questions[i].requiredEntity)
+	print(questions[i].descriptor.entityType)
+	print(questions[i].descriptor.relevantTokens)
 
 printQuestion(questionNumber)
-printQuestion(questionNumber + 1)
-printQuestion(questionNumber + 2)

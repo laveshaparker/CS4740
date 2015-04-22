@@ -1,5 +1,12 @@
 import nltk
 
+class Descriptor:
+
+
+    def __init__(self, e, r):
+        self.entityType = e
+        self.relevantTokens = r
+
 class Question:
     '''
     Represents a single question in one of the questions.txt files. 
@@ -31,26 +38,81 @@ class Question:
         self.questionCaseInsensitive = s.lower()
         self.tokensCaseSensitive = nltk.word_tokenize(self.questionCaseSensitive)
         self.tokensCaseInsensitive = nltk.word_tokenize(self.questionCaseInsensitive)
+        self.tokensWithPOS = nltk.pos_tag(self.tokensCaseSensitive)
+        self.nerTree = nltk.ne_chunk(self.tokensWithPOS)
         self.contentWordsCaseSensitive = [word for word in self.tokensCaseInsensitive if word not in self.STOPWORDS]
         self.contentWordsCaseInsensitive = [word.lower() for word in self.contentWordsCaseSensitive]
-        self.requiredEntity = [self.REQUIREDENTITIES[key] for key in self.REQUIREDENTITIES if key in self.tokensCaseInsensitive]
-        if (self.requiredEntity == []):
-            self.requiredEntity = ["NOUN PHRASE"]
-        self.getQuestionDescription()
+        
+        requiredEntity = [self.REQUIREDENTITIES[key] for key in self.REQUIREDENTITIES if key in self.tokensCaseInsensitive]
+        if (requiredEntity == []):
+            requiredEntity = ["NOUN PHRASE"]
 
-    # Attempts to infer descriptive terms for this question.
-    # May or may not be completed.
-    def getQuestionDescription(self):
-        pass
+        if (requiredEntity == ["TIME"]):
+            self.getTimeDescriptor()
+        if (requiredEntity == ["PERSON"]):
+            self.getPersonDescriptor()
+
+    # Attempts to infer descriptive terms for the time/date required by this question
+    def getTimeDescriptor(self):
+        i = 0
+        relevantTokens = []
+        while (i < len(self.tokensWithPOS)):
+            if (self.tokensWithPOS[i][1].startswith("J") or self.tokensWithPOS[i][1].startswith("N")):
+                break;
+            i += 1
+        while (i < len(self.tokensWithPOS)):
+            if (not (self.tokensWithPOS[i][1].startswith("J") or self.tokensWithPOS[i][1].startswith("N"))):
+                break;
+            relevantTokens.append(self.tokensWithPOS[i][0])
+            i += 1
+        while (i < len(self.tokensWithPOS)):
+            if (self.tokensWithPOS[i][1].startswith("V")):
+                break;
+            i += 1
+        while (i < len(self.tokensWithPOS)):
+            if (not (self.tokensWithPOS[i][1].startswith("V"))):
+                break;
+            relevantTokens.append(self.tokensWithPOS[i][0])
+            i += 1
+        self.descriptor = Descriptor("TIME", relevantTokens) 
+
+
+    # Attempts to infer descriptive terms for the person required by this question
+    def getPersonDescriptor(self):
+        i = 0
+        relevantTokens = []
+        while (i < len(self.tokensWithPOS)):
+            if (self.tokensWithPOS[i][1].startswith("V")):
+                break;
+            i += 1
+        while (i < len(self.tokensWithPOS)):
+            if (not (self.tokensWithPOS[i][1].startswith("V"))):
+                break;
+            relevantTokens.append(self.tokensWithPOS[i][0])
+            i += 1
+        while (i < len(self.tokensWithPOS)):
+            if (self.tokensWithPOS[i][1].startswith("J") or self.tokensWithPOS[i][1].startswith("N")):
+                break;
+            i += 1
+        while (i < len(self.tokensWithPOS)):
+            if (not (self.tokensWithPOS[i][1].startswith("J") or self.tokensWithPOS[i][1].startswith("N"))):
+                break;
+            relevantTokens.append(self.tokensWithPOS[i][0])
+            i += 1
+        self.descriptor = Descriptor("PERSON", relevantTokens) 
+
 
 # Returns an array of Question instances
 # The input 'dataSet' must be a string can take two values: "dev", "test"
 def loadQuestions(dataSet):
-    questions = []
+    questions = {}
     with open("qadata/" + dataSet + "/questions.txt") as questionsFile:
         counter = 0
+        questionNumber = 0
         for line in questionsFile:
-            if (counter % 3 == 1):
-                questions.append(Question(int(counter / 3), line.rstrip()))
+            if (counter % 3 == 0):
+                questionNumber = [int(s) for s in line.split() if s.isdigit()][0]
+            elif (counter % 3 == 1):
+                questions[questionNumber] = Question(questionNumber, line.rstrip())
             counter += 1
         return questions
