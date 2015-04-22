@@ -1,53 +1,124 @@
-\documentclass{article} % paper and 12pt font size
+\documentclass{article}
 
-
-\usepackage{amsmath,amsfonts,amsthm} % Math packages
-\usepackage{lipsum}
+\usepackage{amsmath,amsfonts,amsthm}
 \usepackage{graphicx}
 
 \setlength\parindent{0pt} 
-
-%----------------------------------------------------------------------------------------
-%	TITLE SECTION
-%----------------------------------------------------------------------------------------
-
-\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}}
 
 \title{	
 \normalfont \normalsize 
 \textsc{Cornell University, INFO/CS 4740: Introduction to Natural Language Processing, Spring 2015} \\
-\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
-\huge PA 2: Question Answering \\ % The assignment title
-\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+\horrule{0.5pt} \\[0.4cm]
+\huge PA 2: Question Answering \\ 
+\horrule{2pt} \\[0.5cm]
 }
 \author{Sofonias Assefa (saa237), La Vesha Parker (ldp47)}
-\date{\normalsize\today} % Today's date or a custom date
+\date{\normalsize\today}
 \begin{document}
 
-\maketitle % Print the title
+\maketitle
 
-\textit{How to run our code:\\
-% TODO: Describe how to run this
-}\\
 \section{Description of QA System}
 \subsection*{Overview}
 % TODO: Draw diagram
 \textit{An image goes here}
 At the very root of our QA system, we follow the description of the baseline system in the project writeup. We have three separate overall stages in our system, separated into three separate python classes:
 \begin{enumerate}
-\item Question Processing \textit{question\_formatter.py}
-\item Passage Retrieval \textit{passage\_retrieval.py}
-\item Answer Formation \textit{answer\_formation.py}
+\item Question Processing \texttt{question\_formatter.py}
+\item Passage Retrieval \texttt{passage\_retrieval.py}
+\item Answer Formation \texttt{answer\_formation.py}
 \end{enumerate}
 
 \subsection{Question Processing}
-% TODO
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/question.png}
+    \caption{Overview of the \texttt{Question} class.}
+\end{figure}
+
+This class provides our representation of the question that has been asked.
+
 \subsection{Passage Retrieval}
-% TODO
+The overall interface of this step is as follows: we receive a question (of type \texttt{Question}, available in \texttt{question\_formatter.py}) and provide an instance of the \texttt{PassageRetrieval} class, which stores the most-similar passage in the \texttt{top\_passage} property.
+The steps taken during this step can be simplified as follows:
+\begin{enumerate}
+\item \textbf{Documents:} Process all the documents for a given question. In doing so, extract relevant text, identifiers, split into passages, etc.
+\item \textbf{Term Frequency-Inverse Document Frequency:} Calculate the similarity in term frequency-inverse document frequency vectors between all passages and the question.
+\item \textbf{Ranked Passages: }Rank passages in the top 10 documents according to their similarity to the question in terms of tf-idf.
+\item \textbf{Top Passage:} Select a "top passage" from the passages in Step 3
+\end{enumerate}
+
+Examining each of these more closely we have:\\
+\subsubsection{Documents}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/document.png}
+    \caption{Overview of the \texttt{Document} class.}
+\end{figure}
+\textit{Note: Processing the documents proved not to be as simple as we initially planned. The vast majority of the documents follow a similar markup structure, but a handful of them differed from the overall general structure. In those cases, we ignore the documents (don't include them in any of our subsequent system steps), as we found that those documents tend to be ranked low anyway.}
+
+
+We begin processing the documents by pulling all of the text from the appropriate \texttt{top\_docs.$x$} file provided (with respect to dev or test) and separating it into entire documents, \texttt{qids} and all. Then, given the text of a document, we extract:
+\begin{enumerate}
+\item The \textit{rank} of the document.
+\item The \textit{docno} (unique document identifier).
+\item The relevancy \textit{score} of the document, as determined by the generator of the top\_docs documents.
+\item The body (\textit{text}) of the document.
+\item For the purpose of later calculations, we tokenize the document into sentences (\textit{sentences \text{and} sentences\_w\_case}), and then those sentences into an array of tokens, with punctuation removed
+\end{enumerate}
+
+For the last extraction point, we remove punctuation because in a Question Answer system, the structure of the question is often different than the structure of the answer, and we later use a tf-idf similarity measure, so the punctuation has little value, and may even hurt those calculations as certain punctuation doesn't occur frequently enough to be considered a stop word and would therefore have some effect on those final calculations.
+
+
+Instead of defining a passage as a 10-gram, as is described in the baseline system, we define a passage as a sentence. Our justification for this is that a question is more likely to be contained in a sentence, as opposed to a sequence of 10 words, which might be spread over multiple sentences, including sentence fragments. This way, we were also able to simplify our Answer Formation step by knowing more of the general structure of the top-ranked passages that make it to that step.
+
+\subsubsection{Tf-idf}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/tfidf.png}
+    \caption{Overview of the \texttt{TFIDF} class.}
+\end{figure}
+
+\textit{Note: In this implementation of tf-idf calculation, we do use vectors the length of the number of unique terms in the document. Instead, for each text fragment (i.e. question text or document passage), we only include the terms involved in that particular text fragment to avoid having massive arrays with a ton of 0 counts. So in calculating the cosine similarity of two tf-idf vectors, we just infer count 0 for any terms that don't appear in the tf-idf vector.}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.45\textwidth]{images/tf.png}
+    \includegraphics[width=0.45\textwidth]{images/idf.png}
+    \caption{Wikipedia's definitions for tf-idf.}
+\end{figure}
+We decided to create our own tf-idf class instead of using a library so that we could test various definition for term frequency and inverse document frequency (we tried each of the definitions available on the tf-idf Wikipedia article). In this class, we first calculate the total term frequency of each unique term in the corpus (all relevant documents and the question). We do this using Python's Counter class to simplify the number of loops we would normally have to use. After this, we calculate the tf-idf vector of the question. We calculate the tf-idf vector of the question first so that we only have to worry about storing that vector, and can then go on to compute the tf-idf vectors of each passage and immediately find the similarity score with the question, so that we can avoid having to store the tf-idf vectors of every passage as an intermediate step. Doing this sped up our QA system.
+
+\subsubsection{Top Ten Passages}
+As we calculate tf-idf similarity scores between each passage in each document and the question, we keep track of only the top passage and its similarity score for each document for later calculations of what passage we should send to the Answer Formation step in our system.
+
+
+After computing these scores, we examine the most-related passages of the top ten documents in our last stop: the election of the top passage.
+
+\subsubsection{Top Passage}
+% TODO If I get to this
+% This step can be separated into both a general ranking scheme and a fine-tuning scheme. To examine both separately we have:\\
+\textbf{\textit{1. General Ranking}}\\
+This step has the largest impact on the final "top passages". Our rules are as follows:\\
+\begin{itemize}
+\item Initial ranking of each passage is the same of the ranking of its corresponding document in the top 10.
+\item Length of the longest sequence of overlapping terms between passage and question:
+	\begin{enumerate}
+	\item If it is the lowest 5 documents, in terms of the length of the longest sequence of overlapping words between the passage and the question, it is moved to the bottom half (ranks 6-10) of the "top passages"
+	\item Otherwise, it moves to the top half
+	\end{enumerate}
+\item The number of keywords that overlap. We examine the most relevant tokens from the question (as we discuss in Section \textbf{1.1: Question Processing}) and count the number of question keywords that also appear in each of the top passages.
+\item We use a combination of the final two bullets to determine the document's final rank
+\end{itemize}
+
+%TODO If I get to this
+% \textbf{\textit{2. Fine-Tuning}}\\
+
 \subsection{Answer Formation}
-% TODO
+% TODO Sofo
 
 \section{Performance Analysis}
+% TODO Sofo
 
 \section{Citations}
 \subsection{Libraries}
