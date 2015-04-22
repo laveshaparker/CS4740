@@ -184,7 +184,8 @@ def return10Answers(question):
 			potentialEntities = extractEntities(tree, ENTITYMAPPINGS[question.descriptor.entityType])
 			potentialNouns = [[token[0]] for token in taggedPassage if token[1].startswith("N")]
 
-			if (len(potentialEntities) == 0 and len(potentialNouns) == 0):
+			if (len(potentialEntities) == 0):
+				print("Empty")
 				continue;
 
 			relevantTokenIndices = []
@@ -228,7 +229,7 @@ def return10Answers(question):
 			potentialEntityAnswers = sorted(potentialEntityAnswers,key=lambda x: x[1])
 			potentialNounAnswers = sorted(potentialNounAnswers,key=lambda x: x[1])
 			answers.extend([token[0] for token in potentialEntityAnswers])
-			answers.extend([token[0] for token in potentialNounAnswers])
+			answers.extend([token[0] for token in potentialNounAnswers[0:len(potentialEntityAnswers)]])
 
 	return answers[0:10]
 
