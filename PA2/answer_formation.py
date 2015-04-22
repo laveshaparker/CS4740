@@ -19,10 +19,10 @@ TFIDF(question1)
 
 print(questions[i].questionCaseSensitive)
 print(questions[i].descriptor.relevantTokens)
-print(question1.top_passage)
+print(question1.passages_top_10_docs)
 
 
-taggedTokens = nltk.pos_tag(question1.top_passage)
-tree = nltk.ne_chunk(taggedTokens)
+# taggedTokens = nltk.pos_tag(question1.top_passage)
+# tree = nltk.ne_chunk(taggedTokens)
 
-print(tree)
+# print(tree)

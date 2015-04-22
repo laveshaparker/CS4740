@@ -29,7 +29,7 @@ class Question:
         "when" : "TIME",
         "how many" : "NUMBER",
         "how much" : "NUMBER",
-        "what" : "NOUN PHRASE"
+        "what" : "NOUN"
     }
 
     def __init__(self, n, s):
@@ -55,7 +55,7 @@ class Question:
             self.getPlaceDescriptor()
         if ("NUMBER" in requiredEntity):
             self.getNumberDescriptor()
-        if ("NOUN PHRASE" in requiredEntity):
+        if ("NOUN" in requiredEntity):
             self.getPlaceDescriptor()
 
     # Attempts to infer descriptive terms for the time/date required by this question
