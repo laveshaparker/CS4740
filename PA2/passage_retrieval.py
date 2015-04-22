@@ -152,10 +152,6 @@ class TFIDF:
         # scores in the PassageRetrieval instance (ugly, I know)
         self.passage_retrieval.getMostSimilarPassages()
 
-        # Experimental. Attempts to guess a best passage given the tf-idf
-        # similarity measures of the top ten passages.
-        self.passage_retrieval.inferBestPassage()
-
     # Iterates through every document and finds the total count of every
     # term in the corpus relevant to this question.
     def getTermCounts(self):
