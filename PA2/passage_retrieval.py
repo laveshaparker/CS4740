@@ -2,6 +2,7 @@ from nltk import *
 from question_formatter import *
 from collections import Counter
 from math import log, sqrt
+from difflib import SequenceMatcher
 
 class PassageRetrieval:
     '''
@@ -11,10 +12,12 @@ class PassageRetrieval:
     on those documents and their candidate passages, and select the most-similar
     passage of those candidates.
 
-    instance.question     : Question, the question .
+    instance.question     : Question, the question.
     instance.documents    : Document[], all documents relevant to this question.
     instance.passages_top_10_docs : Token[][], The most similar passages from the top 10 documents.
     instance.top_passage  : Token[], the most similar passage (according to tf-idf similarity measure).
+    instance.inferred_top : Token[], the passage we guess is the most similar, given tf-idf similarity scores
+                            of top 10 documents.
     '''
 
     DEV = 'dev'
@@ -25,6 +28,7 @@ class PassageRetrieval:
         self.question = question
         self.documents = []
         self.getDocs()
+
 
     # Retrieves all relevant documents for this question.
     def getDocs(self):
@@ -56,6 +60,91 @@ class PassageRetrieval:
                 top_tfidf = document.max_tfidf[0]
                 self.top_passage = document.max_tfidf[1]
 
+    # From https://gist.github.com/onyxfish/322906
+    # def extract_entity_names(self, t):
+    #     # Loads the serialized NEChunkParser object
+    #     chunker = nltk.data.load('chunkers/maxent_ne_chunker/english_ace_binary.pickle')
+
+    #     # The MaxEnt classifier
+    #     maxEnt = chunker._tagger.classifier()
+    #     self.inferred_top = ''
+
+    #     # pos_tagged = nltk.pos_tag(passage)
+
+    #     entity_names = []
+
+    #     if hasattr(t, 'label') and t.label():
+    #         if t.label() == 'NE':
+    #             entity_names.append(' '.join([child[0] for child in t]))
+    #         else:
+    #             for child in t:
+    #                 entity_names.extend(self.extract_entity_names(child))
+    #             print('for a given passage')
+    #             print(entity_names)
+    #     return entity_names
+
+    # def getNER(self, passages):
+    #     batch_ner = [nltk.ne_chunk(doc, binary=True) for doc in passages]
+
+    #     entity_names = []
+    #     for tree in batch_ner:
+    #         # Print results per sentence
+    #         entity_names.extend(self.extract_entity_names(tree))
+    #         return entity_names
+
+    # Finds the number of important tokens in the questions that
+    # overlap with the tokens in this passage.
+    def findKeywordOverlap(self, question_tokens, passage_tokens):
+        q_set = Counter(question_tokens)
+        p_set = Counter(passage_tokens)
+
+        overlap = list((q_set & p_set).elements())
+
+        return len(overlap)
+
+    def longestSequenceOfOverlap(self, question_tokens, passage_tokens):
+        question_string = " ".join(str(x) for x in question_tokens)
+        passage_string = " ".join(str(x) for x in passage_tokens)
+        d = SequenceMatcher(None, question_string, passage_string)
+        match = max(d.get_matching_blocks(),key=lambda x:x[2])
+
+        return match.size
+
+    # Uses NER and tokens we deem most relevant to attempt to return the best passage
+    def inferBestPassage(self):
+        question_entity = self.question.descriptor.entityType
+        passages_pos = [nltk.pos_tag(doc) for doc in self.passages_top_10_docs]
+        question_pos = [nltk.pos_tag(self.question.tokensCaseSensitive)]
+        for passage in self.passages_top_10_docs:
+            keyword_len = self.findKeywordOverlap(self.question.descriptor.relevantTokens, passage)
+            sequence_len = self.longestSequenceOfOverlap(self.question.tokensCaseSensitive, passage)
+            # print('keyword_len: ' + str(keyword_len) + ' sequence_len: ' + str(sequence_len))
+
+        # Try to find a best passage based on the question's entity type
+        # Do this by looking for close matches between different POSs
+        # for different question types.
+        if (question_entity == 'PERSON'):
+            # See if any of the proper nouns are the same
+            # for passages in passages_pos:
+                # look at each term and pos
+            pass
+        if (question_entity == 'PLACE'):
+            # See if any of the proper nouns are the same
+            pass
+        if (question_entity == 'TIME'):
+            pass
+        if (question_entity == 'NUMBER'):
+            # Follows conventions:
+            # How many X <verb> Y <verb> Z
+            # How much X <verb> Y <verb> Z
+            # So we look for matching noun phrases
+            pass
+        if (question_entity == 'NOUN'):
+            # Follows conventions:
+            # What (X <noun>) <verb> (Y <NP>)
+            # What (X <noun>) <verb> (Y <VP>)
+            pass
+
 
 class Document:
     '''
@@ -67,7 +156,6 @@ class Document:
     instance.rank             : Int, the rank of this document for the question denoted by qid.
     instance.score            : Float, the score of this document for the question denoted by qid.
     instance.text             : String, the text of the document, with original case and with 'p' tags removed.
-    instance.description      : Token[], descriptive terms for this document.
     instance.max_tfidf        : (Float, Token[]), a tuple of the maximum tf-idf score given to a passage in this document, along with the passage itself.
     instance.sentences        : Token[][] An array of sentences (lower-case) (represented as an array of tokens hence an array of arrays)
     instance.sentences_w_case : Token[][] An array of sentences (represented as an array of tokens hence an array of arrays)
@@ -75,13 +163,8 @@ class Document:
     def __init__(self, question, document_text):
         self.question = question
         self.process_basic_info(document_text)
-        self.getDescription()
         self.getSentences()
         self.max_tfidf = (0.0, []) # Will be updated by TFIDF class
-
-    # May or may not ever be implemented
-    def getDescription(self):
-        pass
 
     # Reads the document text and sets the following properties:
     # self.docno
@@ -150,7 +233,14 @@ class TFIDF:
         self.getTermCounts()
         self.question_vector = self.tfidf(self.passage_retrieval.question.tokensCaseInsensitive)
         self.getDocTfidfs()
+
+        # Selects the most similar passages given these tf-idf similarity
+        # scores in the PassageRetrieval instance (ugly, I know)
         self.passage_retrieval.getMostSimilarPassages()
+
+        # Experimental. Attempts to guess a best passage given the tf-idf
+        # similarity measures of the top ten passages.
+        self.passage_retrieval.inferBestPassage()
 
     # Iterates through every document and finds the total count of every
     # term in the corpus relevant to this question.
@@ -233,7 +323,11 @@ class TFIDF:
 
 def main():
     questions = loadQuestions(PassageRetrieval.DEV)
-    question1 = PassageRetrieval(questions[49], PassageRetrieval.DEV)
+    question1 = PassageRetrieval(questions[57], PassageRetrieval.DEV)
     tfidf = TFIDF(question1)
+    # question1.inferred_top
+    # print("question: ")
+    # print(question1.question.tokensCaseInsensitive)
+    # print(question1.passages_top_10_docs)
 
 if __name__ == "__main__": main()
