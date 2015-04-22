@@ -87,6 +87,7 @@ class Question:
     def getPersonDescriptor(self):
         i = 1
         relevantTokens = []
+        # verb block
         while (i < len(self.tokensWithPOS)):
             if (self.tokensWithPOS[i][1].startswith("V")):
                 break;
@@ -96,6 +97,19 @@ class Question:
                 break;
             relevantTokens.append(self.tokensWithPOS[i][0])
             i += 1
+
+        # noun block
+        while (i < len(self.tokensWithPOS)):
+            if (self.tokensWithPOS[i][1].startswith("J") or self.tokensWithPOS[i][1].startswith("N")):
+                break;
+            i += 1
+        while (i < len(self.tokensWithPOS)):
+            if (not (self.tokensWithPOS[i][1].startswith("J") or self.tokensWithPOS[i][1].startswith("N"))):
+                break;
+            relevantTokens.append(self.tokensWithPOS[i][0])
+            i += 1
+
+        # noun block
         while (i < len(self.tokensWithPOS)):
             if (self.tokensWithPOS[i][1].startswith("J") or self.tokensWithPOS[i][1].startswith("N")):
                 break;
