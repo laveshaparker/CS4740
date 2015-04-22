@@ -10,8 +10,7 @@ i = int(sys.argv[1])
 
 questions = loadQuestions(PassageRetrieval.DEV)
 question1 = PassageRetrieval(questions[i], PassageRetrieval.DEV)
-
-tfidf = TFIDF(question1)
+TFIDF(question1)
 
 print(questions[i].questionCaseSensitive)
 print(questions[i].descriptor.relevantTokens)
