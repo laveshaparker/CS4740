@@ -33,8 +33,8 @@ def extractEntities(tree, targetMatches):
 				entityNames.extend(extractEntities(child, targetMatches))
 	return entityNames
 
-def return10Answers(question):
-	retrieval = PassageRetrieval(question, PassageRetrieval.DEV)
+def return10Answers(question, dataSet):
+	retrieval = PassageRetrieval(question, dataSet)
 	TFIDF(retrieval)
 
 	answers = []
@@ -185,7 +185,6 @@ def return10Answers(question):
 			potentialNouns = [[token[0]] for token in taggedPassage if token[1].startswith("N")]
 
 			if (len(potentialEntities) == 0):
-				print("Empty")
 				continue;
 
 			relevantTokenIndices = []
@@ -233,12 +232,13 @@ def return10Answers(question):
 
 	return answers[0:10]
 
-questions = loadQuestions(PassageRetrieval.DEV)
+questions = loadQuestions(sys.argv[1])
 
 with open('output.txt', 'w') as outputFile:
 	for key in questions:
 		outputFile.write("qid " + str(key) + "\n")
-		answers = return10Answers(questions[key])
+		answers = return10Answers(questions[key], sys.argv[1])
 		for i in range(len(answers)):
 			outputFile.write(str(i + 1) + " " + answers[i] + "\n")
 		print("Finished " + str(key))
+
