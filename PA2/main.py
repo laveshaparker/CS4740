@@ -1,11 +1,12 @@
 import sys
-import question_formatter
+from question_formatter import *
+from passage_retrieval import *
 
 dataSet = "dev" # sys.argv[1]
 questionNumber = int(sys.argv[1])
 
 # This gives you an array of the loaded questions
-questions = question_formatter.loadQuestions(dataSet)
+questions = loadQuestions(dataSet)
 
 # This is just an example of the fields you can accessssss
 def printQuestion(i):
@@ -19,4 +20,12 @@ def printQuestion(i):
 	print(questions[i].descriptor.entityType)
 	print(questions[i].descriptor.relevantTokens)
 
-printQuestion(questionNumber)
+def main(i):
+    questions = loadQuestions(PassageRetrieval.DEV)
+    question1 = PassageRetrieval(questions[i], PassageRetrieval.DEV)
+    tfidf = TFIDF(question1)
+    print(questions[i].questionCaseSensitive)
+    print(questions[i].descriptor.relevantTokens)
+    print(question1.top_passage)
+
+main(int(sys.argv[1]))
