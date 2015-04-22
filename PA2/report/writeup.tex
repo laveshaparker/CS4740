@@ -21,8 +21,11 @@
 
 \section{Description of QA System}
 \subsection*{Overview}
-% TODO: Draw diagram
-\textit{An image goes here}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/diagram.jpg}
+    \caption{Overview of our Question Answering system}
+\end{figure}
 At the very root of our QA system, we follow the description of the baseline system in the project writeup. We have three separate overall stages in our system, separated into three separate python classes:
 \begin{enumerate}
 \item Question Processing \texttt{question\_formatter.py}
@@ -37,7 +40,23 @@ At the very root of our QA system, we follow the description of the baseline sys
     \caption{Overview of the \texttt{Question} class.}
 \end{figure}
 
-This class provides our representation of the question that has been asked.
+This class provides our representation of the question that has been asked. The work we do in this step can be separated into two parts:
+\begin{enumerate}
+\item Basic question text processing
+\item Making inferences about the nature of the question
+\end{enumerate}
+
+\subsubsection{Basic Question Text Processing}
+We pull the text of the question from \texttt{questions.txt} and store its unique identifier, part of speech tags, and tokenized (both case-sensitive and case-insensitive) versions of the original text. All of this is done in the constructor of the \texttt{Question} class using the nltk library.
+
+\subsubsection{Infer the Nature of the Question}
+The work done in inferring the nature of the question is performed in the \texttt{Question} class, and the result is stored in the \texttt{descriptor} property. The \texttt{descriptor} property on a \texttt{Question} instance is of type \texttt{Descriptor}, and stores the type of entity that we are looking for (), along with some tokens in the tokenized question string that we believe are relevant.\\
+
+In the \texttt{Question} class, we infer the nature of the question and its most relevant tokens by pattern matching. For example, upon inspecting the question files, we found that when the word \textit{"who"} appears in a question, then we are most likely looking for a person in the answer. We found similar patterns for the words \textit{"where"},  \textit{"when"},  \textit{"how many"},  \textit{"how much"}, and  \textit{"what"}.\\
+
+Given the appearance of those terms, we define the type of entity that is required in the answer (see the \texttt{REQUIREDENTITIES} map in the \texttt{Question} class).\\
+
+Once we know the required type of entity, we attempt to infer descriptive terms in the question for its required entity. Those inferences made are in the \texttt{get\textless Entity \textgreater Descriptor} functions in the \texttt{Question} class, by pattern matching on the part-of-speech tags of the question.\\
 
 \subsection{Passage Retrieval}
 The overall interface of this step is as follows: we receive a question (of type \texttt{Question}, available in \texttt{question\_formatter.py}) and provide an instance of the \texttt{PassageRetrieval} class, which stores the most-similar passage in the \texttt{top\_passage} property.
@@ -46,7 +65,6 @@ The steps taken during this step can be simplified as follows:
 \item \textbf{Documents:} Process all the documents for a given question. In doing so, extract relevant text, identifiers, split into passages, etc.
 \item \textbf{Term Frequency-Inverse Document Frequency:} Calculate the similarity in term frequency-inverse document frequency vectors between all passages and the question.
 \item \textbf{Ranked Passages: }Rank passages in the top 10 documents according to their similarity to the question in terms of tf-idf.
-\item \textbf{Top Passage:} Select a "top passage" from the passages in Step 3
 \end{enumerate}
 
 Examining each of these more closely we have:\\
@@ -80,25 +98,18 @@ Instead of defining a passage as a 10-gram, as is described in the baseline syst
     \caption{Overview of the \texttt{TFIDF} class.}
 \end{figure}
 
-\textit{Note: In this implementation of tf-idf calculation, we do use vectors the length of the number of unique terms in the document. Instead, for each text fragment (i.e. question text or document passage), we only include the terms involved in that particular text fragment to avoid having massive arrays with a ton of 0 counts. So in calculating the cosine similarity of two tf-idf vectors, we just infer count 0 for any terms that don't appear in the tf-idf vector.}
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.45\textwidth]{images/tf.png}
-    \includegraphics[width=0.45\textwidth]{images/idf.png}
-    \caption{Wikipedia's definitions for tf-idf.}
-\end{figure}
-We decided to create our own tf-idf class instead of using a library so that we could test various definition for term frequency and inverse document frequency (we tried each of the definitions available on the tf-idf Wikipedia article). In this class, we first calculate the total term frequency of each unique term in the corpus (all relevant documents and the question). We do this using Python's Counter class to simplify the number of loops we would normally have to use. After this, we calculate the tf-idf vector of the question. We calculate the tf-idf vector of the question first so that we only have to worry about storing that vector, and can then go on to compute the tf-idf vectors of each passage and immediately find the similarity score with the question, so that we can avoid having to store the tf-idf vectors of every passage as an intermediate step. Doing this sped up our QA system.
+\textit{Note: In this implementation of tf-idf calculation, we do use vectors the length of the number of unique terms in the document. Instead, for each text fragment (i.e. question text or document passage), we only include the terms involved in that particular text fragment to avoid having massive arrays with a ton of 0 counts. So in calculating the cosine similarity of two tf-idf vectors, we just infer count 0 for any terms that don't appear in the tf-idf vector.}\\
+
+We decided to create our own tf-idf class instead of using a library so that we had more flexibility in terms of our overall interface. In this class, we first calculate the total term frequency of each unique term in the corpus (all relevant documents and the question). We do this using Python's Counter class to simplify the number of loops we would normally have to use. After this, we calculate the tf-idf vector of the question. We calculate the tf-idf vector of the question first so that we only have to worry about storing that vector, and can then go on to compute the tf-idf vectors of each passage and immediately find the similarity score with the question, so that we can avoid having to store the tf-idf vectors of every passage as an intermediate step. Doing this sped up our QA system.
 
 \subsubsection{Top Ten Passages}
 As we calculate tf-idf similarity scores between each passage in each document and the question, we keep track of only the top passage and its similarity score for each document for later calculations of what passage we should send to the Answer Formation step in our system.
 
+After computing these scores, we examine the most-related passages of the top ten documents in our last major step in the system: the final ranking of the top passages. This is done in \textbf{Answer Formation}
 
-After computing these scores, we examine the most-related passages of the top ten documents in our last stop: the election of the top passage.
-
+\subsection{Answer Formation}
+% TODO Sofo
 \subsubsection{Top Passage}
-% TODO If I get to this
-% This step can be separated into both a general ranking scheme and a fine-tuning scheme. To examine both separately we have:\\
-\textbf{\textit{1. General Ranking}}\\
 This step has the largest impact on the final "top passages". Our rules are as follows:\\
 \begin{itemize}
 \item Initial ranking of each passage is the same of the ranking of its corresponding document in the top 10.
@@ -110,13 +121,6 @@ This step has the largest impact on the final "top passages". Our rules are as f
 \item The number of keywords that overlap. We examine the most relevant tokens from the question (as we discuss in Section \textbf{1.1: Question Processing}) and count the number of question keywords that also appear in each of the top passages.
 \item We use a combination of the final two bullets to determine the document's final rank
 \end{itemize}
-
-%TODO If I get to this
-% \textbf{\textit{2. Fine-Tuning}}\\
-
-\subsection{Answer Formation}
-% TODO Sofo
-
 \section{Performance Analysis}
 % TODO Sofo
 

@@ -20,6 +20,7 @@ class Question:
     instance.contentWordsCaseInsensitive = Self-explanatory
     instance.requiredEntity = My best guess at why type of entity the question is aksing from
                               PERSON, PLACE, TIME, NOUN PHRASE
+    instance.descriptor = Provides an idea of what type of entity we are looking for
     '''
 
     STOPWORDS = nltk.corpus.stopwords.words("english")
