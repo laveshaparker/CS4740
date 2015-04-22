@@ -9,6 +9,11 @@ from nltk.sem import relextract
 i = int(sys.argv[1])
 
 questions = loadQuestions(PassageRetrieval.DEV)
+
+if not i in questions.keys():
+    print('That question does not exist. Exiting.')
+    exit()
+
 question1 = PassageRetrieval(questions[i], PassageRetrieval.DEV)
 TFIDF(question1)
 
