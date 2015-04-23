@@ -1,3 +1,6 @@
+Sofonias Assefa (saa237)
+La Vesha Parker (ldp47)
+
 To run our QA system,
 
 Enter the following into the command window:
@@ -13,4 +16,4 @@ Enter the following into the command window:
 
 Please note that our code requires Python 3.4., nltk, and numpy to run.
 
-We have already modified our 'evaluation.py' script to be compatible with Python 3.4.
+We have also modified and included our 'evaluation.py' script to be compatible with Python 3.4.
