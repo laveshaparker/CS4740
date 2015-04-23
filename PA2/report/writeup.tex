@@ -19,8 +19,7 @@
 
 \maketitle
 
-\section{Description of QA System}
-\subsection*{Overview}
+\section{Overview}
 \begin{figure}[h]
     \centering
     \includegraphics[width=1.0\textwidth]{images/diagram.jpg}
@@ -28,12 +27,12 @@
 \end{figure}
 At the very root of our QA system, we follow the description of the baseline system in the project writeup. We have three separate overall stages in our system, separated into three separate python classes:
 \begin{enumerate}
-\item Question Processing \texttt{question\_formatter.py}
-\item Passage Retrieval \texttt{passage\_retrieval.py}
-\item Answer Formation \texttt{answer\_formation.py}
+\item Question Processing: \texttt{question\_formatter.py}
+\item Passage Retrieval: \texttt{passage\_retrieval.py}
+\item Answer Formation: \texttt{answer\_formation.py}
 \end{enumerate}
 
-\subsection{Question Processing}
+\section{Question Processing}
 \begin{figure}[h]
     \centering
     \includegraphics[width=1.0\textwidth]{images/question.png}
@@ -46,29 +45,29 @@ This class provides our representation of the question that has been asked. The 
 \item Making inferences about the nature of the question
 \end{enumerate}
 
-\subsubsection{Basic Question Text Processing}
+\subsection{Basic Question Text Processing}
 We pull the text of the question from \texttt{questions.txt} and store its unique identifier, part of speech tags, and tokenized (both case-sensitive and case-insensitive) versions of the original text. All of this is done in the constructor of the \texttt{Question} class using the nltk library.
 
-\subsubsection{Infer the Nature of the Question}
-The work done in inferring the nature of the question is performed in the \texttt{Question} class, and the result is stored in the \texttt{descriptor} property of that class. The \texttt{descriptor} property on a \texttt{Question} instance is of type \texttt{Descriptor}, and stores the type of entity that we are looking for, along with some tokens in the tokenized question string that we believe are relevant.\\
+\subsection{Infer the Nature of the Question}
+The work done in inferring the nature of the question is performed in the \texttt{Question} class, and the result is stored in the \texttt{descriptor} property of that class. The \texttt{descriptor} property on a \texttt{Question} instance stores the type of entity that we are looking for, along with some tokens in the tokenized question string that we believe are the most relevant.\\
 
-We infer the nature of the question and its most relevant tokens by pattern matching. For example, upon inspecting the question files, we found that when the word \textit{"who"} appears in a question, we are most likely looking for a person in the answer. We found similar patterns for the words/phrases \textit{"where"},  \textit{"when"},  \textit{"how many"},  \textit{"how much"}, and  \textit{"what"}.\\
+We infer the nature of the question and its most relevant tokens by POS based pattern matching system. For example, upon inspecting the question files, we found that when the word \textit{"who"} appears in a question, we are most likely looking for a person or group in the answer. We found similar patterns for the words/phrases \textit{"where"},  \textit{"when"},  \textit{"how many"},  \textit{"how much"}, and  \textit{"what"}.\\
 
 Given the appearance of those terms, we define the type of entity that is required in the answer (see the \texttt{REQUIREDENTITIES} map in the \texttt{Question} class).\\
 
-Once we know the required type of entity, we attempt to infer relevant and descriptive tokens in the question for its required entity. Those inferences made are in the \texttt{get\textless Entity\textgreater Descriptor} functions in the \texttt{Question} class by pattern matching on the part-of-speech tags of the question.\\
+Once we know the required type of entity, we attempt to infer relevant and descriptive tokens in the question for its required entity. For example, if a question begins with \textit{"who"}, the first noun phrase in the question is the best consistent clue as to answering the question. The list of possible inferences is in the \texttt{get\textless Entity\textgreater Descriptor} functions in the \texttt{Question} class by pattern matching on the part-of-speech tags of the question.\\
 
-\subsection{Passage Retrieval}
-The overall interface of this step is as follows: we receive a question (of type \texttt{Question}, available in \texttt{question\_formatter.py}) and provide an instance of the \texttt{PassageRetrieval} class, which stores the most-similar passages for the top 10 documents in the \texttt{passages\_top\_10\_docs} property.
+\section{Passage Retrieval}
+The overall interface of this step is as follows: we receive a question (of type \texttt{Question}, available in \texttt{question\_formatter.py}) and output an instance of the \texttt{PassageRetrieval} class, which stores the most-similar passages for the top 10 documents in the \texttt{passages\_top\_10\_docs} property.
 The steps taken during this step can be simplified as follows:
 \begin{enumerate}
 \item \textbf{Documents:} Process all the documents for a given question. In doing so, extract relevant text, identifiers, split into passages, etc.
 \item \textbf{Term Frequency-Inverse Document Frequency:} Calculate the similarity between term frequency-inverse document frequency vectors between all passages and the question.
-\item \textbf{Ranked Passages: }Return the top passages of the 
+\item \textbf{Ranked Passages: }Return the top passage (sorted by tfidf) for each of the top 10 ranked documents.
 \end{enumerate}
 
 Examining each of these more closely we have:\\
-\subsubsection{Documents}
+\subsection{Documents}
 \begin{figure}[h]
     \centering
     \includegraphics[width=1.0\textwidth]{images/document.png}
@@ -89,7 +88,7 @@ For the last extraction step, we remove punctuation because in a Question Answer
 
 Instead of defining a passage as a 10-gram, as is described in the baseline system, we define a passage as a sentence. Our justification for this is that the answer to a question is more likely to be contained in a sentence, as opposed to a sequence of 10 words, which might be spread over multiple sentences, including sentence fragments. This way, we were also able to simplify our Answer Formation step by knowing more of the general structure of the top-ranked passages that make it to that step.
 
-\subsubsection{Tf-idf}
+\subsection{Tf-idf}
 \begin{figure}[h]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tfidf.png}
@@ -100,30 +99,50 @@ Instead of defining a passage as a 10-gram, as is described in the baseline syst
 
 We decided to create our own tf-idf class instead of using a library so that we had more flexibility in terms of our overall interface. In this class, we first calculate the total term frequency of each unique term in the corpus (all relevant documents and the question). We do this using Python's Counter class to simplify the number of loops we would normally have to use. After this, we calculate the tf-idf vector of the question. We calculate the tf-idf vector of the question first so that we only have to worry about storing that vector, and can then go on to compute the tf-idf vectors of each passage and immediately find the similarity score with the question, so that we can avoid having to store the tf-idf vectors of every passage as an intermediate step to eventually finding the cosine similarity. Doing this sped up our QA system.
 
-\subsubsection{Top Ten Passages}
-As we calculate tf-idf similarity scores between each passage in each document and the question, we keep track of only the top passage and its similarity score for each document for later calculations of what passage we should send to the Answer Formation step in our system.
+\subsection{Top Ten Passages}
+As we calculate tf-idf similarity scores between each passage in each document and the question, we keep track of only the top passage and its similarity score for each document for later calculations of what passage we should send to the Answer Formation step in our system. This process outputs the top passage from each document that outputs the highest tfidf score with the question.
 
-After computing these scores, we examine the most-related passages of the top ten documents in our last major step in the system: the final ranking of the top passages. This is done in \textbf{Answer Formation}
+\section{Answer Formation}
 
-\subsection{Answer Formation}
-% TODO Sofo
-\subsubsection{Top Passage}
-This step has the largest impact on the final "top passages". Our rules are as follows:
-\begin{itemize}
-\item Initial ranking of each passage is the same of the ranking of its corresponding document in the top 10.
-\item Length of the longest sequence of overlapping terms between passage and question:
-	\begin{enumerate}
-	\item If it is the lowest 5 documents, in terms of the length of the longest sequence of overlapping words between the passage and the question, it is moved to the bottom half (ranks 6-10) of the "top passages"
-	\item Otherwise, it moves to the top half
-	\end{enumerate}
-\item The number of keywords that overlap. We examine the most relevant tokens from the question (as we discuss in Section \textbf{1.1: Question Processing}) and count the number of question keywords that also appear in each of the top passages.
-\item We use a combination of the final two bullets to determine the document's final rank
-\end{itemize}
+The final step of our QA system uses the information inferred from the original question (from \texttt{question\_formatter.py}), and the top ten retrieved passages (from \texttt{passage\_retrieval.py}), to create ten distinct responses. This process three steps:
+
+\begin{enumerate}
+\item Locate all named entities and noun phrases in a given passage
+\item Rank and aggregate the named entities and noun phrases according to relevance to the original question
+\item Remove duplicate entries and return the top ten responses
+\end{enumerate}
+
+\subsection{Named Entitity and Noun Phrase Recognition}
+Our answer formation process has two inputs: a question object (containing the nature of the question, and its most relevant tokens), and a ranked list of the top ten passages from the relevant documents. Here, we use the NLTK Named Entity Recognition library and Part of Speech library to locate all relevant named entities and all other noun phrases in each passage. If a passage does not contain a named entity, we make the assumption that this passage contains little vital information, and extract nothing is extracted from the passage. In many cases a passage that contains little valueable information may receive a high rank simply based on a large overlap of tokens with the question.
+
+The selection of named entities is depenedent on the nature of the question; eg: if the question is asking for a location, all named entities that are not locations or geo-political entities are removed. Note that no pruning of the general noun phrases takes place at this step. This step outputs up to 20 lists of phrases: 10 containing the pruned named entities for each passage, and 10 containing the remaining noun phrases for each passage.
+
+\subsection{Potential Response Ranking}
+The contents of the 20 lists are then ranked and aggregated. Using the extracted relevant tokens from our question, the named entities within each passage are ranked based on distance (number of tokens) between the location of the relevant tokens in the passage and the location of named entitiy in the passage. This sorting process is repeated for the remaining extracted noun phrases. Each list of nouns is then pruned by the following assumption: a passage with more named entities is likely to contain a correct answer, so we reduce the number of extracted noun phrases to from a given passage to, at most, the number of extracted name entities from the same passage. 
+
+The aggregation phase preserves the ranking of passages. We make the assumption that the rank of a passage, derived from the rank of its parent document in \texttt{passage\_retrieval.py}, quanitifies its likelihood of containing a correct answer. As a result, our aggregated list of potential responses has the following structure:
+
+$$
+[<Passage 1 Named Entities>, <Passage 1 Noun Phrases>, 
+$$
+$$
+<Passage 2 Named Entities>, <Passage 2 Noun Phrases>, ... , 
+$$
+$$
+<Passage 10 Named Entities>, <Passage 10 Noun Phrases>]
+$$
+
+\subsection{Duplicate Response Removal and Answer Finalization}
+The ranked and aggregated list of potential responses is trimmed in two steps:
+\begin{enumerate}
+\item Remove all duplicate entries. If the same noun phrase or entity occures multiple times in the list, remove all but the highest ranked occurences
+\item Remove all but the top ten ranked responses
+\end{enumerate}
+
 \section{Performance Analysis}
-% TODO Sofo
+Using the provided \texttt{evaluation.py} script, our QA system achieves a score of .1525. 
 
-\section{Citations}
-\subsection{Libraries}
+\section{Dependencies}
 \begin{itemize}
 \item NumPy
 \item NLTK
