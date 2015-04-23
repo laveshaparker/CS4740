@@ -1,0 +1,732 @@
+qid 128
+1 Fort Worth
+2 McFarland
+3 Little Rascals
+4 RCA
+5 Little
+6 Rascals
+7 Northern
+8 emergency
+9 Purebred Dog Rescue
+10 Purebred
+qid 129
+1 GFIS
+2 scale
+3 Japan
+4 Nanometrics
+qid 130
+1 Tufts
+2 Technology
+3 Cambridge Mass
+4 Palo
+5 Sununu
+6 Urban
+7 Tufts
+8 Technology
+9 Cambridge Mass
+10 Palo
+qid 131
+1 Thumbnail
+2 Morrison
+3 Solomon
+4 National Book Critics Circle Award
+5 Song
+6 Solomon
+7 National Book Critics Circle Award
+8 Solomon
+9 National Book Critics Circle Award
+10 Tar Baby
+qid 132
+1 Sean Connery Roger Moore
+2 James Bond
+3 Fleming
+4 Bond
+5 Mary
+6 Anglo Saxon
+7 James Bond
+8 License Revoked
+9 Santa Clauses
+10 James Bond
+qid 133
+1 Columbia
+2 District
+3 Columbia
+4 percent
+5 United States
+6 United
+7 United States
+8 United
+9 United States
+10 United
+qid 134
+1 Arizona
+2 Sonoran
+3 Chiricahua Mountain
+4 larkspur
+5 rainbow
+6 Arizona
+7 Chiricahua Mountains
+8 Mountains
+9 Croy
+10 Chiricahua Apache Indian
+qid 135
+1 1939
+2 1
+3 1939
+4 50
+5 50
+6 3
+qid 136
+1 Boston
+2 General
+3 General
+4 Massachusetts
+5 McLean Hospital
+6 Harvard Medical School
+7 Alzheimer
+8 Massachusetts
+9 General
+10 facility
+qid 137
+1 Gubkin
+2 gases
+3 New
+4 New
+5 CO
+6 ratio
+7 EPA
+8 Major
+9 EPA
+10 EPA
+qid 138
+1 Israeli
+2 Israeli
+3 D
+4 Normandy
+5 Battle
+6 peace
+7 museum
+8 Monday
+9 American
+10 Merrill
+qid 139
+1 Wankel
+2 Wankel
+3 Felix
+4 Mazda Motor
+5 America
+6 Rod Bymaster
+7 Honda
+8 Miata
+9 Deere
+10 Defense Department
+qid 140
+1 Indian
+2 Indian
+3 Runnymede England
+4 English
+5 England
+6 Magna
+7 Carta
+8 Runnymede
+9 Magna Carta
+10 Australia
+qid 141
+1 Scrooge
+2 Scrooge
+3 Broadway
+4 British
+5 Patrick Stewart
+6 Christmas Carol
+7 Charles Dickens
+8 Historical Review
+9 George Choppelas
+10 Municipal
+qid 142
+1 Japanese
+2 Mr
+3 Japanese
+4 Colorado
+5 Japanese
+6 rice
+7 wine
+8 brewer
+9 Japanese
+10 Colorado
+qid 143
+1 900
+2 1911
+3 5
+4 28
+5 1839
+6 900
+7 1911
+8 678
+9 80
+qid 144
+1 60
+2 1932
+3 1932
+qid 145
+1 Indianapolis
+qid 146
+1 New
+2 Yoga
+3 Southern California
+4 India
+5 Yoga
+6 Yoga
+7 Yoga
+8 Los Angeles
+qid 147
+1 Light
+2 character
+3 Runaways
+4 Jett
+5 s
+6 member
+7 Baez
+8 Baez
+9 Blackhearts
+10 Hate Myself For
+qid 148
+1 230
+2 10
+3 42
+4 32
+5 36
+6 1990
+7 40
+8 32
+9 58
+10 53
+qid 149
+1 User
+2 User
+3 Marietta
+4 Bethesda
+5 Titan
+6 Martin
+7 Marietta
+8 aerospace
+9 Air Force
+10 Titan
+qid 150
+1 Louis City St Louis County Board
+2 Freeholders
+3 Louis City St Louis County Board
+4 Freeholders
+5 American
+6 San
+7 Tokyo Dome
+8 Japan
+9 George Seifert
+10 Rams
+qid 151
+1 Television
+2 Television
+3 Special K
+4 Kellogg
+5 Tiger
+6 Kellogg
+7 character
+8 cereal
+9 Corn Flakes
+10 Frosted Flakes
+qid 152
+1 Pennsylvania Navy
+2 Mrs
+3 Betsy Ross House
+4 Flag
+5 Princeton Junction
+6 Betsy
+7 Ross
+8 House
+9 Known
+10 Betsy
+qid 153
+1 SCI
+2 IBM Seagate Technology
+3 Conner Peripherals
+4 SCI
+5 worldwide
+6 year
+7 Convergent
+8 Success
+9 Original
+10 equipment
+qid 154
+1 Middle East
+2 Russian
+3 Morfologia Skazi
+4 notion
+5 time
+6 Middle
+7 Newton
+8 Aladdin Hotel
+9 Casino
+10 Las
+qid 155
+1 Spain
+2 Northern Ireland
+3 Spain
+4 Madrid
+qid 156
+1 ZIP
+2 ZIP
+3 ZIP
+4 ZIP
+5 ZIP
+6 ZIP
+7 ZIP
+8 Oceanside
+9 Escondido
+10 ZIP
+qid 157
+1 50
+2 1944
+3 1558
+4 200
+5 250
+6 50
+7 000
+qid 158
+1 1981
+2 34
+qid 159
+1 Maria Theresa
+2 Empress
+3 Claudia San Jose
+4 Sanders Karen
+5 Noe Charles San Jose
+6 Andrew San Jose
+7 Urbina Erasmo San Jose
+8 Millward Scott
+9 Tucci Jan
+10 Sima San Jose
+qid 160
+qid 161
+1 New Jersey
+2 Santa
+3 San
+4 San
+5 San
+6 Southwest Expressway
+7 Saratoga
+8 Admission
+9 Located
+10 California Berkeley
+qid 162
+1 301
+2 000
+3 1
+4 800
+5 600
+qid 163
+1 Newton
+2 Las
+3 McCarran
+qid 164
+1 1975
+2 1986
+qid 165
+1 50
+2 26
+3 23
+qid 166
+1 West
+2 Edison
+3 West
+qid 167
+1 Iraqi
+2 Tikrit
+3 Baghdad
+4 American
+5 F
+6 Wednesday
+7 shot
+8 Iraqi
+9 American
+10 International Red Cross
+qid 168
+1 7
+2 1
+3 000
+4 500
+5 2
+6 1
+7 000
+qid 169
+1 Canada
+2 Ministry
+3 Natural Resources
+4 Ontario
+5 place
+6 Harry
+7 Lumsden
+8 years
+9 Canada
+10 Quail Hill
+qid 170
+1 San
+2 Sea
+3 Anheuser Busch
+4 Anheuser
+5 Florida
+6 Silver Springs
+7 Florida
+8 Florida
+9 Leisure
+10 Acquisition
+qid 171
+1 Mississippi
+2 Mississippi
+3 Mississippi
+4 Mississippi
+5 Mississippi
+6 State
+7 Mississippi
+8 Mississippi
+9 No
+10 State
+qid 172
+1 29
+2 28
+3 1986
+4 2
+qid 173
+1 Captain
+2 Captain
+3 Lord
+4 Titanic
+5 passengers
+6 maiden
+7 Titanic
+8 demise
+9 Auctioneers
+10 Titanic
+qid 174
+1 Fort Worth
+2 McFarland
+3 Tempe
+4 William
+5 English
+6 English
+7 Perl
+8 idea
+9 Little Rascals
+10 Rascals
+qid 175
+1 Illinois
+2 Hampshire
+3 Pennsylvania
+4 rate
+5 Delaware
+6 Pennsylvania
+7 income
+8 aren
+9 Pennsylvania
+10 Gov
+qid 176
+1 Buffalo Sabres
+2 Chicago
+3 Sabres
+4 Buffalo
+5 Sabres
+6 exception
+7 Sabres
+8 Sabres
+9 Soviet
+10 Buffalo
+qid 177
+1 Brooks
+2 Madeline
+3 Gene Wilder
+4 See
+5 Channel
+6 evening
+7 Directed
+8 Directed
+9 Royal Romance
+10 TV
+qid 178
+1 Federated Department Stores Inc
+2 Abraham
+3 Federated Department Stores Inc
+4 Abraham
+5 Federated Department Stores Inc
+6 Abraham
+7 Federated Department Stores Inc
+8 R Macy
+9 details
+10 operations
+qid 179
+1 Apart
+2 London
+3 Windsor
+4 Windsor
+qid 180
+1 St Louis
+2 France
+3 Witwatersrand
+4 Johannesburg
+5 Witwatersrand
+6 Witwatersand
+7 Witwatersrand
+8 South Africa
+9 South Africans
+10 Soweto
+qid 181
+1 ABC
+2 WLS
+3 Chicago
+4 Paul
+5 Harvey
+6 commentator
+7 KVOO
+8 Kansas
+9 radio
+10 station
+qid 182
+1 Small
+2 Logan
+3 Boston
+4 Boston
+5 Boston
+qid 183
+1 Witch
+2 Witch
+3 Chinese
+4 witch
+5 Witch
+6 Witch
+7 Oxford
+8 witch
+9 Bernards
+10 Catherines
+qid 184
+1 Brazil Bolivia
+2 Bolivia
+3 Bolivia
+4 Brazil
+5 Lozada
+6 Sanchez
+7 Bolivia
+8 Bolivian
+9 Foreign Ministry
+10 Fourth Ibero American
+qid 185
+1 Boston
+2 Southern
+qid 186
+1 Irish
+2 Night
+3 Cotton
+4 Southern Cal
+5 Southwest Southeastern
+6 Miami
+7 Colorado
+qid 187
+1 Europe
+2 black
+3 Pooh
+4 bear
+5 Pooh Piglet
+6 Forest
+7 Eeyore
+8 Piglet
+9 Pooh
+10 Disney
+qid 188
+1 Pulitzer
+2 NASA
+3 incentive
+4 soul
+5 NASA
+6 boosters
+7 NASA
+8 tension
+9 NASA
+10 NASA
+qid 189
+1 Mann
+2 Hollywood
+3 tourist
+4 Mann
+5 Franks
+6 French
+7 Reims
+8 backdrop
+9 site
+10 baptism
+qid 190
+1 Red Cross
+2 Iraqi
+3 POWs
+4 Red
+5 Cross
+6 Morard
+7 Baghdad
+8 Red Cross
+9 mission
+10 Baghdad
+qid 191
+1 Make
+2 Make
+3 Thickness
+4 Thickness
+5 NAILS Key
+6 INCH
+7 Inch
+8 Nails
+9 Butthole Surfers
+10 Banshees Living Colour Nine Inch Nails
+qid 192
+1 Minnesota
+2 Fire Department
+3 University
+4 Department
+5 Minnesota
+6 Fire
+7 Minnesota
+8 lot
+9 Minnesota
+10 Fire Department
+qid 193
+1 North America
+2 McKinley
+3 mountain
+4 America
+5 Taras
+6 mountain
+7 Antartica
+8 Muir
+9 Brigitte
+10 mountain
+qid 194
+1 Fort Worth
+2 McFarland
+3 Tempe
+4 William
+5 English
+6 English
+7 Perl
+8 idea
+9 Little Rascals
+10 Little
+qid 195
+1 Caliente
+2 Tijuana
+3 Mexicali
+4 Caliente
+5 race
+6 books
+7 Vera Palestina
+8 Tijuana
+9 Greyhound
+10 Los Angeles
+qid 196
+1 Fields
+2 Fields
+3 She
+4 Aretha
+5 Sweet Inspirations
+6 Beautiful
+7 Charles
+8 moment
+9 seem
+10 invention
+qid 197
+1 Paradise Valley
+2 Paradise
+3 Park Service
+4 Barbee
+qid 198
+1 Vasari
+2 Vasari
+3 Giorgio
+4 Artists
+5 Giorgio
+6 Vasari
+7 Piero
+8 Oxford
+9 Forest
+10 Fire
+qid 199
+1 European
+2 Japanese
+3 Mr
+4 Woolard
+5 Aramid
+6 Aramid
+7 Wilmington
+8 Beaumont Texas
+9 Orlon
+10 marketing
+qid 120
+1 Kansas City Mo
+2 Kansas
+3 Sedalia Mo
+4 inches
+5 Ipava
+6 Hail
+7 Great
+8 Great
+9 Interstate
+10 Kansas City
+qid 121
+1 Congressional Gold Medal
+2 Thomas
+3 President
+4 Reagan
+5 Memphis
+6 St
+7 Jude
+8 Jude
+9 California
+10 California
+qid 122
+1 6
+2 30
+3 11
+qid 123
+1 14
+2 1789
+3 5
+4 1789
+qid 124
+1 London
+2 Americans
+3 North American
+4 Glasgow
+5 Glasgow
+6 Scotland
+7 Scotland
+8 GLASGOW
+qid 125
+1 Known
+2 Known
+3 VHS
+4 videocassette
+5 VHS
+6 Japan
+7 VHS
+8 owners
+9 VHS
+10 formats
+qid 126
+1 Epstein Barr
+2 causes
+3 Epstein Barr
+4 form
+qid 127
+1 Chuck
+2 Bell
+3 Glamorous Glennis
+4 Bell
+5 Chuck Yeager
+6 Mojave Desert
+7 Los Angeles
+8 Yeager
+9 Schoeppner
+10 British
