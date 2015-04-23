@@ -2,7 +2,6 @@ from nltk import *
 from question_formatter import *
 from collections import Counter
 from math import log, sqrt
-from difflib import SequenceMatcher
 
 class PassageRetrieval:
     '''

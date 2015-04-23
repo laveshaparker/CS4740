@@ -2,6 +2,7 @@
 
 \usepackage{amsmath,amsfonts,amsthm}
 \usepackage{graphicx}
+\usepackage[margin=1.3in]{geometry}
 
 \setlength\parindent{0pt} 
 \newcommand{\horrule}[1]{\rule{\linewidth}{#1}}
@@ -140,17 +141,21 @@ The ranked and aggregated list of potential responses is trimmed in two steps:
 \end{enumerate}
 
 \section{Performance Analysis}
-Using the provided \texttt{evaluation.py} script, our QA system achieves a score of .1525. 
+Using the provided \texttt{evaluation.py} script, our final QA system achieves a score of 0.1525. We attempted different techniques in our passage retrieval and answer formation steps that led to increased our score and led to the final system described above. The following heuristics gave us noticable improvements in score:
+\begin{itemize}
+\item Defining a relevant passage as an entire sentence vs. a 10-gram
+\item Ranking named entities and noun phrases by their token distance from the relevant tokens extracted from the question (this allowed us to capture the fact that terms listed in close proximity to the relevant tokens are more likely to be a correct answer)
+\item Our assumption that passages that contain no named entities do not contain the correct answer
+\item Pruning each list of extracted noun phrases to, at most, the size of its corresponding named entity list
+\end{itemize}
 
 \section{Dependencies}
-\begin{itemize}
-\item NumPy
-\item NLTK
+Our system heavily uses the NLTK library at all three levels of our QA process. In particular we utilize the following components:
 	\begin{itemize}
 	\item POS-Tagger
 	\item Sentence Tokenizer
 	\item Word Tokenizer
+	\item Named Entity Chunker
+	\item Corpus of Stop Words
 	\end{itemize}
-\item Python collections and difflib
-\end{itemize}
 \end{document}
